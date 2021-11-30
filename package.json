@@ -1,0 +1,27 @@
+{
+  "name": "webshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Holmkvists/webshop-for-school-assignment.git"
+  },
+  "author": "Adam Holmkvist, Alexia Hellsten, Charles Krook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Holmkvists/webshop-for-school-assignment/issues"
+  },
+  "homepage": "https://github.com/Holmkvists/webshop-for-school-assignment#readme",
+  "dependencies": {
+    "sass": "^1.44.0"
+  },
+  "devDependencies": {
+    "cypress": "^9.1.0",
+    "parcel": "^2.0.1",
+    "typescript": "^4.5.2"
+  }
+}
