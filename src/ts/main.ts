@@ -1,5 +1,7 @@
 import { catalog } from "./models/product-catalog";
 
+let cart = [];
+
 window.onload = () => {
   print_products();
 };
@@ -50,11 +52,13 @@ function print_products() {
 }
 
 function productdetail(event) {
-  const artno = event.target.getAttribute("data-value");
+  let artno = event.target.getAttribute("data-value");
   console.log(artno);
 }
 
 function addToCart(event) {
-  const artno = event.target.getAttribute("data-value");
-  console.log(artno);
+  let artno = event.target.getAttribute("data-value");
+  let item = catalog.find((x) => x.artno === artno);
+  cart.push(item);
+  console.log(cart);
 }
