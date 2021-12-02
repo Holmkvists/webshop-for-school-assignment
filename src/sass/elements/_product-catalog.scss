@@ -2,11 +2,9 @@
   position: relative;
   display: inline-block;
 }
-
 .overlay {
   display: none;
 }
-
 .image:hover .overlay {
   cursor: pointer;
   width: 100%;
@@ -21,4 +19,3 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/*# sourceMappingURL=index.612625cb.css.map */

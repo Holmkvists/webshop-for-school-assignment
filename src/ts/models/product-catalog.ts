@@ -33,7 +33,7 @@ export const catalog = [
     sizes: ["5"],
     colors: ["Grey", "Multi color"],
     sex: "Unisex",
-    imgURL: "https://www.sneakersnstuff.com/images/316752/02a2536.jpg",
+    imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
     imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
     instock: true,
