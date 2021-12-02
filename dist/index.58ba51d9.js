@@ -140,7 +140,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"lQKST":[function(require,module,exports) {
+})({"e4k7L":[function(require,module,exports) {
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
@@ -459,10 +459,140 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"7BLcd":[function(require,module,exports) {
+var _productCatalog = require("./models/product-catalog");
+window.onload = ()=>{
+    print_products();
+};
+function print_products() {
+    _productCatalog.catalog.map((item1)=>{
+        let container = document.getElementById("product-container");
+        let product = `
+
+
+        <div class="group relative">
+            
+            <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
+            <img src="${item1.imgURL}" alt="${item1.model + " " + item1.brand}" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
+                <div class="overlay"><button data-value="${item1.artno}" class="view-product">View Product</button></div>
+
+            </div>
+          <div class="mt-4 flex justify-between">
+            <div>
+              <h3 class="text-sm text-gray-700">
+                  ${item1.model}
+              </h3>
+              <p class="mt-1 text-sm text-gray-500">${item1.brand}</p>
+            </div>
+            <div class="flex-col">
+            <p class="text-sm font-medium text-gray-900">$${item1.price}</p>
+            <button class="add-to-cart" data-value="${item1.artno}">Add</button>
+            </div>
+            </div>
+            </div>
+      `;
+        container.innerHTML += product;
+        document.querySelectorAll(".add-to-cart").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                addToCart(event);
+            });
+        });
+        document.querySelectorAll(".view-product").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                productdetail(event);
+            });
+        });
+    });
+}
+function productdetail(event) {
+    const artno = event.target.getAttribute("data-value");
+    console.log(artno);
+}
+function addToCart(event) {
+    const artno = event.target.getAttribute("data-value");
+    console.log(artno);
+}
+
+},{"./models/product-catalog":"eymG3"}],"eymG3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "catalog", ()=>catalog
+);
+const catalog = [
+    {
+        artno: "Dm7582-100",
+        model: "Blazer Low '77 Premium",
+        brand: "Nike",
+        price: 99,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "Coconut milk",
+            "Forest green",
+            "Beige"
+        ],
+        sex: "Men",
+        imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
+        instock: true
+    },
+    {
+        artno: "Da8291-001",
+        model: "Wmns Waffle Trainer 2",
+        brand: "Nike",
+        price: 89,
+        sizes: [
+            "5",
+            "5.5",
+            "6",
+            "6.5",
+            "7",
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10"
+        ],
+        colors: [
+            "Light Bone",
+            "Beige",
+            "Green"
+        ],
+        sex: "Men",
+        imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
+        instock: true
+    },
+    {
+        artno: "M990cp2",
+        model: "990v2",
+        brand: "New Balance",
+        price: 175,
+        sizes: [
+            "5"
+        ],
+        colors: [
+            "Grey",
+            "Multi color"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
+        instock: true
+    }, 
+];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4KxfX"}],"4KxfX":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -492,6 +622,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["lQKST","7BLcd"], "7BLcd", "parcelRequire7390")
+},{}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
 
 //# sourceMappingURL=index.58ba51d9.js.map
