@@ -1,2 +1,30 @@
+#searchbarContainer {
+  top: 13px;
+  right: 70px;
+}
+#searchbarContainer #searchbar {
+  display: none;
+  transform: translate(32px);
+  height: 30px;
+  border-radius: 30px;
+}
+#searchbarContainer #searchbarButton {
+  z-index: 1;
+  border-radius: 30px;
+  border: solid 2px lightgrey;
+  background-color: white;
+}
 
+#hamburgerButton:focus {
+  outline: none;
+}
+
+@media screen and (min-width: 768px) {
+  #searchbarContainer {
+    right: 30%;
+  }
+  #searchbarContainer #searchbar {
+    width: 300px;
+  }
+}
 /*# sourceMappingURL=index.612625cb.css.map */
