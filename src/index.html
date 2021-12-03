@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./sass/main.scss" />
+    <!-- <link rel="stylesheet" href="./sass/main.scss" /> -->
     <title>Webshop</title>
     <link rel="stylesheet" href="sass/elements/_header.scss" />
     <link
@@ -19,41 +19,42 @@
     />
   </head>
   <body>
-    <header
+    <nav
       class="
         navbar navbar-expand-lg navbar-light
-        bg-light
-        d-m-flex
+        bg-white
         justify-content-between
       "
     >
       <!-- Logo -->
-      <span class="navbar-brand m-0 h1">Sneakerseekers</span>
+      <span class="navbar-brand m-0 h1">Webshop</span>
       <!-- Search bar -->
-      <form class="collapse form-inline d-md-block">
+
+      <form
+        class="
+          form-inline
+          ml-auto ml-md-0 ml-lg-0
+          flex-nowrap
+          position-relative
+        "
+        id="searchbarContainer"
+      >
         <input
-          class="form-control mr-sm-2"
+          class="form-control mr-sm-2 d-md-block position-absolute"
           id="searchbar"
           type="search"
           role="button"
           placeholder="Search products"
           aria-label="Search"
         />
-        <button
-          class="navbar-toggler border-0 d-md-inline"
-          type="button"
-          data-toggle="collapse"
-          data-target="#searchbar"
-          aria-controls="searchbar"
-          aria-expanded="false"
-          aria-label="Toggle searchbar"
-        >
+        <button class="position-absolute" type="button" id="searchbarButton">
           <i class="bi bi-search"></i>
         </button>
       </form>
       <!-- Hamburger menu -->
       <button
         class="navbar-toggler border-0"
+        id="hamburgerButton"
         type="button"
         data-toggle="collapse"
         data-target="#toggleHamburger"
@@ -63,11 +64,9 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="toggleHamburger">
-        <ul class="navbar-nav text-right">
-          <li>
-            <a class="nav-link" href="#">Unisex</a>
-          </li>
+      <!-- Menu items -->
+      <div class="collapse navbar-collapse flex-lg-grow-0" id="toggleHamburger">
+        <ul class="navbar-nav text-right mr-3">
           <li>
             <a class="nav-link" href="#">Men</a>
           </li>
@@ -75,29 +74,29 @@
             <a class="nav-link" href="#">Women</a>
           </li>
           <li>
-            <a class="nav-link" href="#">Accessories</a>
+            <a class="nav-link" href="#">Unisex</a>
           </li>
           <li>
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="#">Kids</a>
           </li>
         </ul>
       </div>
-    </header>
-    <script src="./ts/main.ts"></script>
+    </nav>
+
     <script
+      type="module"
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
     ></script>
     <script
+      type="module"
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
       crossorigin="anonymous"
     ></script>
     <script
+      type="module"
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
