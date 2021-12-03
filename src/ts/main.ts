@@ -1,6 +1,5 @@
 import { catalog } from "./models/product-catalog";
 
-<<<<<<< HEAD
 let searchbarButton: HTMLButtonElement = document.getElementById(
   "searchbarButton"
 ) as HTMLButtonElement;
@@ -16,7 +15,6 @@ function expandSearchbar() {
   } else {
     searchbar.style.display = "block";
   }
-=======
 window.onload = () => {
   print_products();
 };
@@ -74,5 +72,4 @@ function productdetail(event) {
 function addToCart(event) {
   const artno = event.target.getAttribute("data-value");
   console.log(artno);
->>>>>>> a3c978da86ec603ba8060a5e52f714210ff98117
 }
