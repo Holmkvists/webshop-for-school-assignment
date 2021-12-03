@@ -506,13 +506,14 @@ function print_products() {
 }
 function productdetail(event) {
     let artno = event.target.getAttribute("data-value");
-    console.log(artno);
+//   console.log(artno);
 }
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
     let item = _productCatalog.catalog.find((x)=>x.artno === artno
     );
     cart.push(item);
+    document.getElementById("cart-amount").innerHTML = cart.length.toString();
     console.log(cart);
 }
 
