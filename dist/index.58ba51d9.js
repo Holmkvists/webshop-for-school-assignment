@@ -460,7 +460,9 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"7BLcd":[function(require,module,exports) {
 var _productCatalog = require("./models/product-catalog");
+var _header = require("./header");
 window.onload = ()=>{
+    console.log("Hello");
     print_products();
 };
 function print_products() {
@@ -512,18 +514,9 @@ function addToCart(event) {
     console.log(artno);
 }
 
-},{"./models/product-catalog":"eymG3"}],"eymG3":[function(require,module,exports) {
+},{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-<<<<<<< HEAD
-let searchbarButton = document.getElementById("searchbarButton");
-searchbarButton.addEventListener("click", expandSearchbar);
-function expandSearchbar() {
-    let searchbar = document.getElementById("searchbar");
-    if (searchbar.style.display === "block") searchbar.style.display = "none";
-    else searchbar.style.display = "block";
-}
-=======
 parcelHelpers.export(exports, "catalog", ()=>catalog
 );
 const catalog = [
@@ -600,7 +593,6 @@ const catalog = [
         instock: true
     }, 
 ];
->>>>>>> a3c978da86ec603ba8060a5e52f714210ff98117
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -632,6 +624,22 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
+},{}],"7gBgG":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
+);
+function headerFunction() {
+    let searchbarButton = document.getElementById("searchbarButton");
+    searchbarButton.addEventListener("click", expandSearchbar);
+    console.log("hello");
+    function expandSearchbar() {
+        let searchbar = document.getElementById("searchbar");
+        if (searchbar.style.display === "block") searchbar.style.display = "none";
+        else searchbar.style.display = "block";
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
 
 //# sourceMappingURL=index.58ba51d9.js.map

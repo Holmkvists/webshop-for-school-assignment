@@ -1,36 +1,24 @@
 import { catalog } from "./models/product-catalog";
+import { headerFunction } from "./header";
 
-let searchbarButton: HTMLButtonElement = document.getElementById(
-  "searchbarButton"
-) as HTMLButtonElement;
-searchbarButton.addEventListener("click", expandSearchbar);
+window.onload = () => {
+  console.log("Hello");
+  print_products();
+  headerFunction;
+};
 
-function expandSearchbar() {
-  let searchbar: HTMLInputElement = document.getElementById(
-    "searchbar"
-  ) as HTMLInputElement;
-
-  if (searchbar.style.display === "block") {
-    searchbar.style.display = "none";
-  } else {
-    searchbar.style.display = "block";
-  }
-  window.onload = () => {
-    print_products();
-  };
-
-  function print_products() {
-    catalog.map((item) => {
-      let container = document.getElementById("product-container");
-      let product = `
+function print_products() {
+  catalog.map((item) => {
+    let container = document.getElementById("product-container");
+    let product = `
 
 
         <div class="group relative">
             
             <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
             <img src="${item.imgURL}" alt="${
-        item.model + " " + item.brand
-      }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
+      item.model + " " + item.brand
+    }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
                 <div class="overlay"><button data-value="${
                   item.artno
                 }" class="view-product">View Product</button></div>
@@ -50,27 +38,26 @@ function expandSearchbar() {
             </div>
             </div>
       `;
-      container.innerHTML += product;
-      document.querySelectorAll(".add-to-cart").forEach((item) => {
-        item.addEventListener("click", (event) => {
-          addToCart(event);
-        });
-      });
-      document.querySelectorAll(".view-product").forEach((item) => {
-        item.addEventListener("click", (event) => {
-          productdetail(event);
-        });
+    container.innerHTML += product;
+    document.querySelectorAll(".add-to-cart").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        addToCart(event);
       });
     });
-  }
+    document.querySelectorAll(".view-product").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        productdetail(event);
+      });
+    });
+  });
+}
 
-  function productdetail(event) {
-    const artno = event.target.getAttribute("data-value");
-    console.log(artno);
-  }
+function productdetail(event) {
+  const artno = event.target.getAttribute("data-value");
+  console.log(artno);
+}
 
-  function addToCart(event) {
-    const artno = event.target.getAttribute("data-value");
-    console.log(artno);
-  }
+function addToCart(event) {
+  const artno = event.target.getAttribute("data-value");
+  console.log(artno);
 }
