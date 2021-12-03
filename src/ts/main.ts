@@ -1,7 +1,10 @@
 import { catalog } from "./models/product-catalog";
+import { headerFunction } from "./header";
 
 window.onload = () => {
+  console.log("Hello");
   print_products();
+  headerFunction;
 };
 
 function print_products() {
