@@ -19,9 +19,9 @@ function print_products() {
             <img src="${item.imgURL}" alt="${
       item.model + " " + item.brand
     }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-                <div class="overlay"><button data-value="${
-                  item.artno
-                }" class="view-product">View Product</button></div>
+                <div class="overlay"><a href="/${item.artno}" data-value="${
+      item.artno
+    }" class="view-product">View Product</a></div>
 
             </div>
           <div class="mt-4 flex justify-between">
@@ -55,7 +55,7 @@ function print_products() {
 function productdetail(event) {
   //Hämtar artikelnumret för den valda produkten
   const artno = event.target.getAttribute("data-value");
-  
+
   //Hämtar elementen container-wrapper och product-container
   let wrapper = document.getElementById("container-wrapper");
   let productContainer = document.getElementById("product-container");
@@ -95,8 +95,7 @@ function productdetail(event) {
   </div>
   </div> 
 
-  `
-  ; 
+  `;
 
   //Ersätter "productContainer" med den nya divven "detailsPage"
   wrapper.replaceChild(detailsPage, productContainer);

@@ -475,7 +475,7 @@ function print_products() {
             
             <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
             <img src="${item1.imgURL}" alt="${item1.model + " " + item1.brand}" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-                <div class="overlay"><button data-value="${item1.artno}" class="view-product">View Product</button></div>
+                <div class="overlay"><a href="/${item1.artno}" data-value="${item1.artno}" class="view-product">View Product</a></div>
 
             </div>
           <div class="mt-4 flex justify-between">
