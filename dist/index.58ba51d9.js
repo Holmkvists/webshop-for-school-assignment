@@ -460,8 +460,10 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"7BLcd":[function(require,module,exports) {
 var _productCatalog = require("./models/product-catalog");
+var _header = require("./header");
 let cart = [];
 window.onload = ()=>{
+    console.log("Hello");
     print_products();
 };
 function print_products() {
@@ -505,8 +507,51 @@ function print_products() {
     });
 }
 function productdetail(event) {
-    let artno = event.target.getAttribute("data-value");
-//   console.log(artno);
+    //Hämtar artikelnumret för den valda produkten
+    const artno = event.target.getAttribute("data-value");
+    //Hämtar elementen container-wrapper och product-container
+    let wrapper = document.getElementById("container-wrapper");
+    let productContainer = document.getElementById("product-container");
+    //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+    let detailsPage = document.createElement("div");
+    detailsPage.innerHTML += `
+
+  <div class="container selected-wrapper"> 
+  <div class="container selected-inner">
+
+  <div class="image-wrapper">
+  <div class="selected-image">
+
+  <h3 class="text-uppercase h3-heading">adidas Originals
+  Stan Smith Vegan</h3>
+  <img src="https://www.sneakersnstuff.com/images/269940/product_large.jpg"/>
+  </div>
+
+  <!--- Här ska produktbeskrivning ligga --->
+
+  <div class="container item-details">
+  <h4 class="item-title">Description</h4>
+  <p class="item-description">
+  Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
+  The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products whatsoever in the creation of the product.</p>
+
+<ul class="list-unstyled detail-list">
+<li class="list-item">- Recycled polyester upper</li>
+<li class="list-item">- Embossed logo</li>
+<li class="list-item">- Rubber outsole</li>
+</ul>
+
+  </div>
+  </div>
+
+  </div>
+  </div> 
+
+  `;
+    //Ersätter "productContainer" med den nya divven "detailsPage"
+    wrapper.replaceChild(detailsPage, productContainer);
+    //Loggar ut artikelnumret - ta bort sen
+    console.log(artno);
 }
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
@@ -517,7 +562,7 @@ function addToCart(event) {
     console.log(cart);
 }
 
-},{"./models/product-catalog":"eymG3"}],"eymG3":[function(require,module,exports) {
+},{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "catalog", ()=>catalog
@@ -627,6 +672,22 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
+},{}],"7gBgG":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
+);
+function headerFunction() {
+    let searchbarButton = document.getElementById("searchbarButton");
+    searchbarButton.addEventListener("click", expandSearchbar);
+    console.log("hello");
+    function expandSearchbar() {
+        let searchbar = document.getElementById("searchbar");
+        if (searchbar.style.display === "block") searchbar.style.display = "none";
+        else searchbar.style.display = "block";
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
 
 //# sourceMappingURL=index.58ba51d9.js.map
