@@ -1,6 +1,8 @@
 import { catalog } from "./models/product-catalog";
 import { headerFunction } from "./header";
 
+let cart = [];
+
 window.onload = () => {
   console.log("Hello");
   print_products();
@@ -56,7 +58,7 @@ function print_products() {
 function productdetail(event) {
   //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
   const artno = event.target.getAttribute("data-value");
-  
+
   //Hämtar elementen container-wrapper och product-container
   let wrapper = document.getElementById("container-wrapper");
   let productContainer = document.getElementById("product-container");
@@ -96,8 +98,7 @@ function productdetail(event) {
   </div>
   </div> 
 
-  `
-  ; 
+  `;
 
   //Ersätter "productContainer" med den nya divven "detailsPage"
   wrapper.replaceChild(detailsPage, productContainer);
@@ -111,6 +112,9 @@ function productdetail(event) {
 }
 
 function addToCart(event) {
-  const artno = event.target.getAttribute("data-value");
-  console.log(artno);
+  let artno = event.target.getAttribute("data-value");
+  let item = catalog.find((x) => x.artno === artno);
+  cart.push(item);
+  document.getElementById("cart-amount").innerHTML = cart.length.toString();
+  console.log(cart);
 }

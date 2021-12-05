@@ -461,6 +461,7 @@ function hmrAcceptRun(bundle, id) {
 },{}],"7BLcd":[function(require,module,exports) {
 var _productCatalog = require("./models/product-catalog");
 var _header = require("./header");
+let cart = [];
 window.onload = ()=>{
     console.log("Hello");
     print_products();
@@ -555,8 +556,12 @@ function productdetail(event) {
 /* Det som händer efter användaren har skickats till rätt sida.
 /Produktdatan hämtas & presenteras på skärmen*/ }
 function addToCart(event) {
-    const artno = event.target.getAttribute("data-value");
-    console.log(artno);
+    let artno = event.target.getAttribute("data-value");
+    let item = _productCatalog.catalog.find((x)=>x.artno === artno
+    );
+    cart.push(item);
+    document.getElementById("cart-amount").innerHTML = cart.length.toString();
+    console.log(cart);
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
