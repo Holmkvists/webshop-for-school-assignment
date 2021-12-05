@@ -46,6 +46,7 @@ function print_products() {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
+        window.location.href = 'productdetails.html';
         productdetail(event);
       });
     });
@@ -53,7 +54,7 @@ function print_products() {
 }
 
 function productdetail(event) {
-  //Hämtar artikelnumret för den valda produkten
+  //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
   const artno = event.target.getAttribute("data-value");
   
   //Hämtar elementen container-wrapper och product-container
@@ -103,6 +104,10 @@ function productdetail(event) {
 
   //Loggar ut artikelnumret - ta bort sen
   console.log(artno);
+
+/* Det som händer efter användaren har skickats till rätt sida.
+/Produktdatan hämtas & presenteras på skärmen*/
+
 }
 
 function addToCart(event) {

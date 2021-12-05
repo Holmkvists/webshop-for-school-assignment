@@ -500,13 +500,18 @@ function print_products() {
         });
         document.querySelectorAll(".view-product").forEach((item)=>{
             item.addEventListener("click", (event)=>{
+                window.location.href = 'productdetails.html';
                 productdetail(event);
             });
         });
     });
 }
 function productdetail(event) {
+<<<<<<< Updated upstream
     //Hämtar artikelnumret för den valda produkten
+=======
+    //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
+>>>>>>> Stashed changes
     const artno = event.target.getAttribute("data-value");
     //Hämtar elementen container-wrapper och product-container
     let wrapper = document.getElementById("container-wrapper");
@@ -551,7 +556,8 @@ function productdetail(event) {
     wrapper.replaceChild(detailsPage, productContainer);
     //Loggar ut artikelnumret - ta bort sen
     console.log(artno);
-}
+/* Det som händer efter användaren har skickats till rätt sida.
+/Produktdatan hämtas & presenteras på skärmen*/ }
 function addToCart(event) {
     const artno = event.target.getAttribute("data-value");
     console.log(artno);
@@ -586,7 +592,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
-        instock: true
+        instock: true,
+        description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
     },
     {
         artno: "Da8291-001",
@@ -615,7 +622,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
-        instock: true
+        instock: true,
+        description: "Nike Waffle Trainer 2 gives you the original look of Nike Running and celebrates the 50th anniversary of Swoosh. With its classic Waffle sole and retro material that flashes to 70s athletics and its original Swoosh design, it celebrates Nike's humble beginnings."
     },
     {
         artno: "M990cp2",
@@ -633,7 +641,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
-        instock: true
+        instock: true,
+        description: "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit."
     }, 
 ];
 
