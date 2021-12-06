@@ -122,8 +122,7 @@ function addToCart(event) {
   calculatePrice();
 }
 
-let totalPrice = document.createElement("p");
-document.body.appendChild(totalPrice);
+let totalPrice = document.getElementById("totalPrice");
 
 function calculatePrice() {
   let total = 0;
@@ -136,9 +135,10 @@ function calculatePrice() {
       console.log(total);
     }
   }
+
   totalPrice.innerHTML = "$" + total.toString();
-  return total;
   printCart();
+  return total;
 }
 
 function printCart() {
@@ -165,6 +165,7 @@ function printCart() {
     document.querySelectorAll(".remove-item").forEach((item) => {
       item.addEventListener("click", (event) => {
         removeitem(event);
+        calculatePrice();
       });
     });
   });
