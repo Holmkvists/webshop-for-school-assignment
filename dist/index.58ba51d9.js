@@ -501,7 +501,7 @@ function print_products() {
         });
         document.querySelectorAll(".view-product").forEach((item)=>{
             item.addEventListener("click", (event)=>{
-                window.location.href = 'productdetails.html';
+                window.location.href = "productdetails.html";
                 productdetail(event);
             });
         });
@@ -562,6 +562,20 @@ function addToCart(event) {
     cart.push(item);
     document.getElementById("cart-amount").innerHTML = cart.length.toString();
     console.log(cart);
+    calculatePrice();
+}
+let totalPrice = document.createElement("p");
+document.body.appendChild(totalPrice);
+function calculatePrice() {
+    let total = 0;
+    if (cart.length > 0) for(let i = 0; i < cart.length; i++){
+        let price = cart[i].price;
+        console.log(price);
+        total = total + price;
+        console.log(total);
+    }
+    totalPrice.innerHTML = "$" + total.toString();
+    return total;
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
