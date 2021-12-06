@@ -1,12 +1,15 @@
 import { catalog } from "./models/product-catalog";
 import { headerFunction } from "./header";
+import { opencart } from "./header";
+import { closecart } from "./header";
 
 let cart = [];
 
 window.onload = () => {
-  console.log("Hello");
   print_products();
   headerFunction;
+  document.getElementById("close").addEventListener("click", closecart);
+  document.getElementById("bag").addEventListener("click", opencart);
 };
 
 function print_products() {
@@ -48,7 +51,7 @@ function print_products() {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-        window.location.href = 'productdetails.html';
+        window.location.href = "productdetails.html";
         productdetail(event);
       });
     });
@@ -106,9 +109,8 @@ function productdetail(event) {
   //Loggar ut artikelnumret - ta bort sen
   console.log(artno);
 
-/* Det som händer efter användaren har skickats till rätt sida.
+  /* Det som händer efter användaren har skickats till rätt sida.
 /Produktdatan hämtas & presenteras på skärmen*/
-
 }
 
 function addToCart(event) {
@@ -116,5 +118,30 @@ function addToCart(event) {
   let item = catalog.find((x) => x.artno === artno);
   cart.push(item);
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
-  console.log(cart);
+  printCart();
+}
+
+function printCart() {
+  let cartWidget = document.getElementById("cart-widget");
+  cartWidget.innerHTML = "";
+  console.log("helo");
+  cart.map((item) => {
+    let cartitem = `
+    <div class="row mb-5">
+    <div class="col-3">
+      <img width="100%" src="${item.imgURL}" alt="">
+    </div>
+    <div class="col-6">
+      <p class="my-0">990v2</p>
+      <p class="my-0">New Balance</p>
+      <p class="my-0">Size: 7</p>
+    </div>
+    <div class="col-3 flex flex-col">
+      <p>Price</p>
+      <p>Remove</p>
+    </div>
+  </div>
+    `;
+    cartWidget.innerHTML += cartitem;
+  });
 }

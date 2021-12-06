@@ -463,8 +463,9 @@ var _productCatalog = require("./models/product-catalog");
 var _header = require("./header");
 let cart = [];
 window.onload = ()=>{
-    console.log("Hello");
     print_products();
+    document.getElementById("close").addEventListener("click", _header.closecart);
+    document.getElementById("bag").addEventListener("click", _header.opencart);
 };
 function print_products() {
     _productCatalog.catalog.map((item1)=>{
@@ -501,7 +502,7 @@ function print_products() {
         });
         document.querySelectorAll(".view-product").forEach((item)=>{
             item.addEventListener("click", (event)=>{
-                window.location.href = 'productdetails.html';
+                window.location.href = "productdetails.html";
                 productdetail(event);
             });
         });
@@ -561,7 +562,31 @@ function addToCart(event) {
     );
     cart.push(item);
     document.getElementById("cart-amount").innerHTML = cart.length.toString();
-    console.log(cart);
+    printCart();
+}
+function printCart() {
+    let cartWidget = document.getElementById("cart-widget");
+    cartWidget.innerHTML = "";
+    console.log("helo");
+    cart.map((item)=>{
+        let cartitem = `
+    <div class="row mb-5">
+    <div class="col-3">
+      <img width="100%" src="${item.imgURL}" alt="">
+    </div>
+    <div class="col-6">
+      <p class="my-0">990v2</p>
+      <p class="my-0">New Balance</p>
+      <p class="my-0">Size: 7</p>
+    </div>
+    <div class="col-3 flex flex-col">
+      <p>Price</p>
+      <p>Remove</p>
+    </div>
+  </div>
+    `;
+        cartWidget.innerHTML += cartitem;
+    });
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -682,6 +707,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
 );
+parcelHelpers.export(exports, "closecart", ()=>closecart
+);
+parcelHelpers.export(exports, "opencart", ()=>opencart
+);
 function headerFunction() {
     let searchbarButton = document.getElementById("searchbarButton");
     searchbarButton.addEventListener("click", expandSearchbar);
@@ -691,6 +720,18 @@ function headerFunction() {
         if (searchbar.style.display === "block") searchbar.style.display = "none";
         else searchbar.style.display = "block";
     }
+}
+function closecart(e) {
+    e.preventDefault();
+    let widget = document.getElementById("cart");
+    widget.style.width = "0px";
+    widget.style.display = "none";
+}
+function opencart(e) {
+    e.preventDefault();
+    let widget = document.getElementById("cart");
+    widget.style.width = "420px";
+    widget.style.display = "block";
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
