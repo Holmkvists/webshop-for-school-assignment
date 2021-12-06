@@ -273,4 +273,8 @@ footer .submit-btn:hover {
 .remove-item {
   cursor: pointer;
 }
+
+.added {
+  color: green;
+}
 /*# sourceMappingURL=index.612625cb.css.map */
