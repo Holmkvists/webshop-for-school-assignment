@@ -37,8 +37,14 @@ function print_products() {
               <p class="mt-1 text-sm text-gray-500">${item.brand}</p>
             </div>
             <div class="flex-col">
-            <p class="text-sm font-medium text-gray-900">$${item.price}</p>
-            <button class="add-to-cart" data-value="${item.artno}">Add</button>
+            <p class="text-sm font-medium text-gray-900 text-right">$${
+              item.price
+            }</p>
+              <div id="${item.artno}" class="add-state">
+                <button class="add-to-cart" data-value="${
+                  item.artno
+                }">Add</button>
+              </div>
             </div>
             </div>
             </div>
@@ -115,6 +121,13 @@ function productdetail(event) {
 
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");
+  let addbtn = event.target;
+  let parent = document.getElementById(artno);
+  let added = document.createElement("p");
+  added.classList.add("added");
+  added.innerHTML = "Added <i class='bi bi-check'></i>";
+  added.setAttribute("id", artno);
+  addbtn.replaceWith(added);
   let item = catalog.find((x) => x.artno === artno);
   cart.push(item);
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
@@ -139,6 +152,22 @@ function calculatePrice() {
   totalPrice.innerHTML = "$" + total.toString();
   printCart();
   return total;
+}
+
+function notAdded(artno) {
+  let parent = document.getElementById(artno);
+  let add = document.createElement("button");
+  let added = parent.firstElementChild;
+  add.classList.add("add-to-cart");
+  add.setAttribute("data-value", artno);
+  add.innerHTML = "Add";
+
+  parent.removeChild(added);
+  parent.appendChild(add);
+
+  add.addEventListener("click", (event) => {
+    addToCart(event);
+  });
 }
 
 function printCart() {
@@ -173,9 +202,10 @@ function printCart() {
 
 function removeitem(event) {
   let artno = event.target.getAttribute("data-value");
-  console.log(artno);
   cart = cart.filter((item) => {
     return item.artno != artno;
   });
+  document.getElementById("cart-amount").innerHTML = cart.length.toString();
   printCart();
+  notAdded(artno);
 }
