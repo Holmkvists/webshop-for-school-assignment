@@ -475,7 +475,7 @@ function print_products() {
             
             <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
             <img src="${item1.imgURL}" alt="${item1.model + " " + item1.brand}" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-                <div class="overlay"><button data-value="${item1.artno}" class="view-product">View Product</button></div>
+              <div class="overlay"><a href="${item1.artno}" data-value="${item1.artno}" class="view-product">View Product</a></button></div>
 
             </div>
           <div class="mt-4 flex justify-between">
@@ -501,12 +501,120 @@ function print_products() {
         document.querySelectorAll(".view-product").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 productdetail(event);
+                event.preventDefault();
             });
         });
     });
 }
 function productdetail(event) {
+    //Hämtar artikelnumret för den valda produkten
     const artno = event.target.getAttribute("data-value");
+    //Hämtar elementen container-wrapper och product-container
+    let wrapper = document.getElementById("container-wrapper");
+    let productContainer = document.getElementById("product-container");
+    //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+    let detailsPage = document.createElement("div");
+    detailsPage.innerHTML += `
+  
+    <div class="container selected-wrapper"> 
+    <div class="container selected-inner">
+  
+    <div class="image-wrapper">
+    <div class="selected-image">
+  
+
+      <section class="container productcard my-3 pt-6">
+        <div class="row my-2 mx-1">
+          <div class="col-lg-5 col-md-12 col-12">
+            <img class="img-fluid w-100" src="https://www.sneakersnstuff.com/images/314976/product_medium.jpg" alt="sneaker"/>
+            
+              <div class="small-img-group mb-4">
+                <div class="small-img-col">
+                  <img class="small-img" width="100%" src="https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg" alt="sneaker"/>
+                </div>
+
+                <div class="small-img-col">
+                  <img class="small-img" width="100%" src="https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg" alt="sneaker"/>
+                </div>
+              </div>
+            </div>
+
+
+          <div class="col-lg-6 col-md-12 col-12">
+          <h6>
+          <ul class="product-nav">
+          <li><a href="#">Shop</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Nike</a></li>
+          <li><a href="#">Wmns Waffle Trainer 2</a></li>
+          </ul>
+          </h6>
+
+          <h4 class="text-uppercase h4-heading">adidas Originals
+            Stan Smith Vegan</h3>
+            <h6 class="price">Price: $175.00</h6>
+            <small id="reviews" class="form-text text-muted">In stock</small>
+          
+
+            <label for="sizes" class="sizing">Size:</label>
+            <select class="my-3" name="sizes" id="sizing">
+              <option value="1">7.5</option>
+              <option value="2">8</option>
+              <option value="3">8.5</option>
+              <option value="4">9</option>
+              <option value="4">9.5</option>
+              <option value="4">19</option>
+              <option value="4">11</option>
+            </select>
+
+            
+
+            <h5 class="item-title mt-4">Description</h5>
+              <p class="item-description">
+              Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
+              The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products
+              whatsoever in the creation of the product.
+              </p>
+
+              <h5 class="item-title">Materials</h5>
+              <p class="materials">
+              Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
+              The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products
+              whatsoever in the creation of the product.
+              </p>
+            
+
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    </div>
+  
+    </div>
+    </div> 
+  
+    `;
+    //Ersätter "productContainer" med den nya divven "detailsPage"
+    wrapper.replaceChild(detailsPage, productContainer);
+    //Loggar ut artikelnumret - ta bort sen
     console.log(artno);
 }
 function addToCart(event) {
@@ -543,7 +651,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
-        instock: true
+        instock: true,
+        description: "After seeing the original colorways of the classic Nike Blazer return it’s time to bring back the low-tops. Constructed with a white leather upper with black and grey suede overlays, these retro kicks are more than just a throwback for old heads, this breaths sneaker culture."
     },
     {
         artno: "Da8291-001",
@@ -572,7 +681,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
-        instock: true
+        instock: true,
+        description: "The Swoosh continues the reign of the ”Waffle” with the Nike Waffle Trainer 2 SP. Dressed in orange and with a timeless track style, the low-top sneaker from Nike features the iconic Waffle outsole with old-school suede accents and a contrasting foam midsole."
     },
     {
         artno: "M990cp2",
@@ -590,7 +700,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
-        instock: true
+        instock: true,
+        description: "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit."
     }, 
 ];
 

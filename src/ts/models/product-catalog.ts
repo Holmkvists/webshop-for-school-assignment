@@ -11,6 +11,7 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
     instock: true,
+    description: "After seeing the original colorways of the classic Nike Blazer return it’s time to bring back the low-tops. Constructed with a white leather upper with black and grey suede overlays, these retro kicks are more than just a throwback for old heads, this breaths sneaker culture."
   },
   {
     artno: "Da8291-001",
@@ -24,6 +25,7 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
     instock: true,
+    description: "The Swoosh continues the reign of the ”Waffle” with the Nike Waffle Trainer 2 SP. Dressed in orange and with a timeless track style, the low-top sneaker from Nike features the iconic Waffle outsole with old-school suede accents and a contrasting foam midsole."
   },
   {
     artno: "M990cp2",
@@ -37,5 +39,6 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
     instock: true,
+    description: "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit."
   },
 ];
