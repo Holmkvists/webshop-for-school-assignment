@@ -488,8 +488,10 @@ function print_products() {
               <p class="mt-1 text-sm text-gray-500">${item1.brand}</p>
             </div>
             <div class="flex-col">
-            <p class="text-sm font-medium text-gray-900">$${item1.price}</p>
-            <button class="add-to-cart" data-value="${item1.artno}">Add</button>
+            <p class="text-sm font-medium text-gray-900 text-right">$${item1.price}</p>
+              <div id="${item1.artno}" class="add-state">
+                <button class="add-to-cart" data-value="${item1.artno}">Add</button>
+              </div>
             </div>
             </div>
             </div>
@@ -558,11 +560,31 @@ function productdetail(event) {
 /Produktdatan hämtas & presenteras på skärmen*/ }
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
+    let addbtn = event.target;
+    let parent = document.getElementById(artno);
+    let added = document.createElement("p");
+    added.classList.add("added");
+    added.innerHTML = "Added <i class='bi bi-check'></i>";
+    added.setAttribute("id", artno);
+    addbtn.replaceWith(added);
     let item = _productCatalog.catalog.find((x)=>x.artno === artno
     );
     cart.push(item);
     document.getElementById("cart-amount").innerHTML = cart.length.toString();
     printCart();
+}
+function notAdded(artno) {
+    let parent = document.getElementById(artno);
+    let add = document.createElement("button");
+    let added = parent.firstElementChild;
+    add.classList.add("add-to-cart");
+    add.setAttribute("data-value", artno);
+    add.innerHTML = "Add";
+    parent.removeChild(added);
+    parent.appendChild(add);
+    add.addEventListener("click", (event)=>{
+        addToCart(event);
+    });
 }
 function printCart() {
     let cartWidget = document.getElementById("cart-widget");
@@ -594,11 +616,12 @@ function printCart() {
 }
 function removeitem(event) {
     let artno = event.target.getAttribute("data-value");
-    console.log(artno);
     cart = cart.filter((item)=>{
         return item.artno != artno;
     });
+    document.getElementById("cart-amount").innerHTML = cart.length.toString();
     printCart();
+    notAdded(artno);
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -733,17 +756,22 @@ function headerFunction() {
         else searchbar.style.display = "block";
     }
 }
-function closecart(e) {
-    e.preventDefault();
+function closecart() {
+    let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    widget.style.width = "0px";
     widget.style.display = "none";
+    widget.style.right = "-420px";
+    overlay.style.display = "none";
 }
-function opencart(e) {
-    e.preventDefault();
+function opencart() {
+    let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    widget.style.width = "420px";
     widget.style.display = "block";
+    overlay.style.display = "block";
+    window.setTimeout(function() {
+        widget.style.transform = "translate(-420px)";
+    }, 0);
+    overlay.addEventListener("click", closecart);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
