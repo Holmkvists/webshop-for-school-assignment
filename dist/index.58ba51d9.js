@@ -598,6 +598,7 @@ function removeitem(event) {
     cart = cart.filter((item)=>{
         return item.artno != artno;
     });
+    document.getElementById("cart-amount").innerHTML = cart.length.toString();
     printCart();
 }
 
