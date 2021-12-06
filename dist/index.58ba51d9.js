@@ -464,8 +464,8 @@ var _header = require("./header");
 let cart = [];
 window.onload = ()=>{
     print_products();
-    document.getElementById("close").addEventListener("click", closecart);
-    document.getElementById("bag").addEventListener("click", opencart);
+    document.getElementById("close").addEventListener("click", _header.closecart);
+    document.getElementById("bag").addEventListener("click", _header.opencart);
 };
 function print_products() {
     _productCatalog.catalog.map((item1)=>{

@@ -1,5 +1,7 @@
 import { catalog } from "./models/product-catalog";
 import { headerFunction } from "./header";
+import { opencart } from "./header";
+import { closecart } from "./header";
 
 let cart = [];
 
