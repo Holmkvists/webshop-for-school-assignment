@@ -567,26 +567,38 @@ function addToCart(event) {
 function printCart() {
     let cartWidget = document.getElementById("cart-widget");
     cartWidget.innerHTML = "";
-    console.log("helo");
-    cart.map((item)=>{
+    cart.map((item2)=>{
         let cartitem = `
-    <div class="row mb-5">
+    <div class="row mb-4">
     <div class="col-3">
-      <img width="100%" src="${item.imgURL}" alt="">
+      <img width="100%" src="${item2.imgURL}" alt="">
     </div>
     <div class="col-6">
-      <p class="my-0">990v2</p>
-      <p class="my-0">New Balance</p>
+      <p class="my-0">${item2.model}</p>
+      <p class="my-0">${item2.brand}</p>
       <p class="my-0">Size: 7</p>
     </div>
     <div class="col-3 flex flex-col">
-      <p>Price</p>
-      <p>Remove</p>
+      <p>$${item2.price}</p>
+      <a class="remove-item" data-value="${item2.artno}">Remove</a>
     </div>
   </div>
     `;
         cartWidget.innerHTML += cartitem;
+        document.querySelectorAll(".remove-item").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                removeitem(event);
+            });
+        });
     });
+}
+function removeitem(event) {
+    let artno = event.target.getAttribute("data-value");
+    console.log(artno);
+    cart = cart.filter((item)=>{
+        return item.artno != artno;
+    });
+    printCart();
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
