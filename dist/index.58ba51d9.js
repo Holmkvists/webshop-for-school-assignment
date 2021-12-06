@@ -463,8 +463,9 @@ var _productCatalog = require("./models/product-catalog");
 var _header = require("./header");
 let cart = [];
 window.onload = ()=>{
-    console.log("Hello");
     print_products();
+    document.getElementById("close").addEventListener("click", _header.closecart);
+    document.getElementById("bag").addEventListener("click", _header.opencart);
 };
 function print_products() {
     _productCatalog.catalog.map((item1)=>{
@@ -561,6 +562,7 @@ function addToCart(event) {
     );
     cart.push(item);
     document.getElementById("cart-amount").innerHTML = cart.length.toString();
+<<<<<<< HEAD
     console.log(cart);
     calculatePrice();
 }
@@ -576,6 +578,45 @@ function calculatePrice() {
     }
     totalPrice.innerHTML = "$" + total.toString();
     return total;
+=======
+    printCart();
+}
+function printCart() {
+    let cartWidget = document.getElementById("cart-widget");
+    cartWidget.innerHTML = "";
+    cart.map((item2)=>{
+        let cartitem = `
+    <div class="row mb-4">
+    <div class="col-3">
+      <img width="100%" src="${item2.imgURL}" alt="">
+    </div>
+    <div class="col-6">
+      <p class="my-0">${item2.model}</p>
+      <p class="my-0">${item2.brand}</p>
+      <p class="my-0">Size: 7</p>
+    </div>
+    <div class="col-3 flex flex-col">
+      <p>$${item2.price}</p>
+      <a class="remove-item" data-value="${item2.artno}">Remove</a>
+    </div>
+  </div>
+    `;
+        cartWidget.innerHTML += cartitem;
+        document.querySelectorAll(".remove-item").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                removeitem(event);
+            });
+        });
+    });
+}
+function removeitem(event) {
+    let artno = event.target.getAttribute("data-value");
+    console.log(artno);
+    cart = cart.filter((item)=>{
+        return item.artno != artno;
+    });
+    printCart();
+>>>>>>> 0a7dc8b8c2821debdf931deb6f5c84e29dd51259
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -696,6 +737,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
 );
+parcelHelpers.export(exports, "closecart", ()=>closecart
+);
+parcelHelpers.export(exports, "opencart", ()=>opencart
+);
 function headerFunction() {
     let searchbarButton = document.getElementById("searchbarButton");
     searchbarButton.addEventListener("click", expandSearchbar);
@@ -705,6 +750,18 @@ function headerFunction() {
         if (searchbar.style.display === "block") searchbar.style.display = "none";
         else searchbar.style.display = "block";
     }
+}
+function closecart(e) {
+    e.preventDefault();
+    let widget = document.getElementById("cart");
+    widget.style.width = "0px";
+    widget.style.display = "none";
+}
+function opencart(e) {
+    e.preventDefault();
+    let widget = document.getElementById("cart");
+    widget.style.width = "420px";
+    widget.style.display = "block";
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")

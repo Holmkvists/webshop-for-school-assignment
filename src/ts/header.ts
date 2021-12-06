@@ -16,3 +16,17 @@ export function headerFunction() {
     }
   }
 }
+
+export function closecart(e) {
+  e.preventDefault();
+  let widget = document.getElementById("cart");
+  widget.style.width = "0px";
+  widget.style.display = "none";
+}
+
+export function opencart(e) {
+  e.preventDefault();
+  let widget = document.getElementById("cart");
+  widget.style.width = "420px";
+  widget.style.display = "block";
+}
