@@ -135,20 +135,19 @@ function addToCart(event) {
 }
 
 function notAdded(artno) {
-  console.log(artno);
   let parent = document.getElementById(artno);
-  let added = document.querySelector(".added");
   let add = document.createElement("button");
+  let added = parent.firstElementChild;
   add.classList.add("add-to-cart");
   add.setAttribute("data-value", artno);
-  console.log(parent);
   add.innerHTML = "Add";
-  parent.removeChild;
+
+  parent.removeChild(added);
+  parent.appendChild(add);
+
   add.addEventListener("click", (event) => {
     addToCart(event);
   });
-  console.log(parent);
-  parent.appendChild(add);
 }
 
 function printCart() {
@@ -181,7 +180,6 @@ function printCart() {
 }
 
 function removeitem(event) {
-  console.log(event.target);
   let artno = event.target.getAttribute("data-value");
   cart = cart.filter((item) => {
     return item.artno != artno;

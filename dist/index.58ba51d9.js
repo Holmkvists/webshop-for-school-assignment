@@ -574,20 +574,17 @@ function addToCart(event) {
     printCart();
 }
 function notAdded(artno) {
-    console.log(artno);
     let parent = document.getElementById(artno);
-    let added = document.querySelector(".added");
     let add = document.createElement("button");
+    let added = parent.firstElementChild;
     add.classList.add("add-to-cart");
     add.setAttribute("data-value", artno);
-    console.log(parent);
     add.innerHTML = "Add";
-    parent.removeChild;
+    parent.removeChild(added);
+    parent.appendChild(add);
     add.addEventListener("click", (event)=>{
         addToCart(event);
     });
-    console.log(parent);
-    parent.appendChild(add);
 }
 function printCart() {
     let cartWidget = document.getElementById("cart-widget");
@@ -618,7 +615,6 @@ function printCart() {
     });
 }
 function removeitem(event) {
-    console.log(event.target);
     let artno = event.target.getAttribute("data-value");
     cart = cart.filter((item)=>{
         return item.artno != artno;
@@ -760,17 +756,22 @@ function headerFunction() {
         else searchbar.style.display = "block";
     }
 }
-function closecart(e) {
-    e.preventDefault();
+function closecart() {
+    let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    widget.style.width = "0px";
     widget.style.display = "none";
+    widget.style.right = "-420px";
+    overlay.style.display = "none";
 }
-function opencart(e) {
-    e.preventDefault();
+function opencart() {
+    let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    widget.style.width = "420px";
     widget.style.display = "block";
+    overlay.style.display = "block";
+    window.setTimeout(function() {
+        widget.style.transform = "translate(-420px)";
+    }, 0);
+    overlay.addEventListener("click", closecart);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
