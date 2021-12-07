@@ -19,7 +19,7 @@ export const catalog = [
     price: 89,
     sizes: ["5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"],
     colors: ["Light Bone", "Beige", "Green"],
-    sex: "Men",
+    sex: "Woman",
     imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
     imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
