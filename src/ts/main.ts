@@ -1,10 +1,15 @@
 import { catalog } from "./models/product-catalog";
 import { headerFunction } from "./header";
+import { opencart } from "./header";
+import { closecart } from "./header";
+
+let cart = [];
 
 window.onload = () => {
-  console.log("Hello");
   print_products();
   headerFunction;
+  document.getElementById("close").addEventListener("click", closecart);
+  document.getElementById("bag").addEventListener("click", opencart);
 };
 
 function print_products() {
@@ -32,8 +37,14 @@ function print_products() {
               <p class="mt-1 text-sm text-gray-500">${item.brand}</p>
             </div>
             <div class="flex-col">
-            <p class="text-sm font-medium text-gray-900">$${item.price}</p>
-            <button class="add-to-cart" data-value="${item.artno}">Add</button>
+            <p class="text-sm font-medium text-gray-900 text-right">$${
+              item.price
+            }</p>
+              <div id="${item.artno}" class="add-state">
+                <button class="add-to-cart" data-value="${
+                  item.artno
+                }">Add</button>
+              </div>
             </div>
             </div>
             </div>
@@ -46,6 +57,7 @@ function print_products() {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
+        window.location.href = "productdetails.html";
         productdetail(event);
       });
     });
@@ -53,7 +65,7 @@ function print_products() {
 }
 
 function productdetail(event) {
-  //Hämtar artikelnumret för den valda produkten
+  //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
   const artno = event.target.getAttribute("data-value");
 
   //Hämtar elementen container-wrapper och product-container
@@ -102,9 +114,98 @@ function productdetail(event) {
 
   //Loggar ut artikelnumret - ta bort sen
   console.log(artno);
+
+  /* Det som händer efter användaren har skickats till rätt sida.
+/Produktdatan hämtas & presenteras på skärmen*/
 }
 
 function addToCart(event) {
-  const artno = event.target.getAttribute("data-value");
-  console.log(artno);
+  let artno = event.target.getAttribute("data-value");
+  let addbtn = event.target;
+  let parent = document.getElementById(artno);
+  let added = document.createElement("p");
+  added.classList.add("added");
+  added.innerHTML = "Added <i class='bi bi-check'></i>";
+  added.setAttribute("id", artno);
+  addbtn.replaceWith(added);
+  let item = catalog.find((x) => x.artno === artno);
+  cart.push(item);
+  document.getElementById("cart-amount").innerHTML = cart.length.toString();
+  console.log(cart);
+  calculatePrice();
+}
+
+let totalPrice = document.getElementById("totalPrice");
+
+function calculatePrice() {
+  let total = 0;
+
+  if (cart.length > 0) {
+    for (let i = 0; i < cart.length; i++) {
+      let price = cart[i].price;
+      console.log(price);
+      total = total + price;
+      console.log(total);
+    }
+  }
+
+  totalPrice.innerHTML = "$" + total.toString();
+  printCart();
+  return total;
+}
+
+function notAdded(artno) {
+  let parent = document.getElementById(artno);
+  let add = document.createElement("button");
+  let added = parent.firstElementChild;
+  add.classList.add("add-to-cart");
+  add.setAttribute("data-value", artno);
+  add.innerHTML = "Add";
+
+  parent.removeChild(added);
+  parent.appendChild(add);
+
+  add.addEventListener("click", (event) => {
+    addToCart(event);
+  });
+}
+
+function printCart() {
+  let cartWidget = document.getElementById("cart-widget");
+  cartWidget.innerHTML = "";
+  cart.map((item) => {
+    let cartitem = `
+    <div class="row mb-4">
+    <div class="col-3">
+      <img width="100%" src="${item.imgURL}" alt="">
+    </div>
+    <div class="col-6">
+      <p class="my-0">${item.model}</p>
+      <p class="my-0">${item.brand}</p>
+      <p class="my-0">Size: 7</p>
+    </div>
+    <div class="col-3 flex flex-col">
+      <p>$${item.price}</p>
+      <a class="remove-item" data-value="${item.artno}">Remove</a>
+    </div>
+  </div>
+    `;
+    cartWidget.innerHTML += cartitem;
+    document.querySelectorAll(".remove-item").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        removeitem(event);
+        calculatePrice();
+      });
+    });
+  });
+}
+
+function removeitem(event) {
+  let artno = event.target.getAttribute("data-value");
+  cart = cart.filter((item) => {
+    return item.artno != artno;
+  });
+  document.getElementById("cart-amount").innerHTML = cart.length.toString();
+  printCart();
+  notAdded(artno);
 }
