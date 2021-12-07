@@ -459,8 +459,343 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"7BLcd":[function(require,module,exports) {
+var _productCatalog = require("./models/product-catalog");
+var _header = require("./header");
+let cart = [];
+window.onload = ()=>{
+    print_products();
+    document.getElementById("close").addEventListener("click", _header.closecart);
+    document.getElementById("bag").addEventListener("click", _header.opencart);
+};
+function print_products() {
+    _productCatalog.catalog.map((item1)=>{
+        let container = document.getElementById("product-container");
+        let product = `
+
+
+        <div class="group relative">
+            
+            <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
+            <img src="${item1.imgURL}" alt="${item1.model + " " + item1.brand}" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
+                <div class="overlay"><button data-value="${item1.artno}" class="view-product">View Product</button></div>
+
+            </div>
+          <div class="mt-4 flex justify-between">
+            <div>
+              <h3 class="text-sm text-gray-700">
+                  ${item1.model}
+              </h3>
+              <p class="mt-1 text-sm text-gray-500">${item1.brand}</p>
+            </div>
+            <div class="flex-col">
+            <p class="text-sm font-medium text-gray-900 text-right">$${item1.price}</p>
+              <div id="${item1.artno}" class="add-state">
+                <button class="add-to-cart" data-value="${item1.artno}">Add</button>
+              </div>
+            </div>
+            </div>
+            </div>
+      `;
+        container.innerHTML += product;
+        document.querySelectorAll(".add-to-cart").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                addToCart(event);
+            });
+        });
+        document.querySelectorAll(".view-product").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                window.location.href = "productdetails.html";
+                productdetail(event);
+            });
+        });
+    });
+}
+function productdetail(event) {
+    //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
+    const artno = event.target.getAttribute("data-value");
+    //Hämtar elementen container-wrapper och product-container
+    let wrapper = document.getElementById("container-wrapper");
+    let productContainer = document.getElementById("product-container");
+    //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+    let detailsPage = document.createElement("div");
+    detailsPage.innerHTML += `
+
+  <div class="container selected-wrapper"> 
+  <div class="container selected-inner">
+
+  <div class="image-wrapper">
+  <div class="selected-image">
+
+  <h3 class="text-uppercase h3-heading">adidas Originals
+  Stan Smith Vegan</h3>
+  <img src="https://www.sneakersnstuff.com/images/269940/product_large.jpg"/>
+  </div>
+
+  <!--- Här ska produktbeskrivning ligga --->
+
+  <div class="container item-details">
+  <h4 class="item-title">Description</h4>
+  <p class="item-description">
+  Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
+  The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products whatsoever in the creation of the product.</p>
+
+<ul class="list-unstyled detail-list">
+<li class="list-item">- Recycled polyester upper</li>
+<li class="list-item">- Embossed logo</li>
+<li class="list-item">- Rubber outsole</li>
+</ul>
+
+  </div>
+  </div>
+
+  </div>
+  </div> 
+
+  `;
+    //Ersätter "productContainer" med den nya divven "detailsPage"
+    wrapper.replaceChild(detailsPage, productContainer);
+    //Loggar ut artikelnumret - ta bort sen
+    console.log(artno);
+/* Det som händer efter användaren har skickats till rätt sida.
+/Produktdatan hämtas & presenteras på skärmen*/ }
+function addToCart(event) {
+    let artno = event.target.getAttribute("data-value");
+    let addbtn = event.target;
+    let parent = document.getElementById(artno);
+    let added = document.createElement("p");
+    added.classList.add("added");
+    added.innerHTML = "Added <i class='bi bi-check'></i>";
+    added.setAttribute("id", artno);
+    addbtn.replaceWith(added);
+    let item = _productCatalog.catalog.find((x)=>x.artno === artno
+    );
+    cart.push(item);
+    document.getElementById("cart-amount").innerHTML = cart.length.toString();
+    console.log(cart);
+    calculatePrice();
+}
+let totalPrice = document.getElementById("totalPrice");
+function calculatePrice() {
+    let total = 0;
+    if (cart.length > 0) for(let i = 0; i < cart.length; i++){
+        let price = cart[i].price;
+        console.log(price);
+        total = total + price;
+        console.log(total);
+    }
+    totalPrice.innerHTML = "$" + total.toString();
+    printCart();
+    return total;
+}
+function notAdded(artno) {
+    let parent = document.getElementById(artno);
+    let add = document.createElement("button");
+    let added = parent.firstElementChild;
+    add.classList.add("add-to-cart");
+    add.setAttribute("data-value", artno);
+    add.innerHTML = "Add";
+    parent.removeChild(added);
+    parent.appendChild(add);
+    add.addEventListener("click", (event)=>{
+        addToCart(event);
+    });
+}
+function printCart() {
+    let cartWidget = document.getElementById("cart-widget");
+    cartWidget.innerHTML = "";
+    cart.map((item2)=>{
+        let cartitem = `
+    <div class="row mb-4">
+    <div class="col-3">
+      <img width="100%" src="${item2.imgURL}" alt="">
+    </div>
+    <div class="col-6">
+      <p class="my-0">${item2.model}</p>
+      <p class="my-0">${item2.brand}</p>
+      <p class="my-0">Size: 7</p>
+    </div>
+    <div class="col-3 flex flex-col">
+      <p>$${item2.price}</p>
+      <a class="remove-item" data-value="${item2.artno}">Remove</a>
+    </div>
+  </div>
+    `;
+        cartWidget.innerHTML += cartitem;
+        document.querySelectorAll(".remove-item").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                removeitem(event);
+                calculatePrice();
+            });
+        });
+    });
+}
+function removeitem(event) {
+    let artno = event.target.getAttribute("data-value");
+    cart = cart.filter((item)=>{
+        return item.artno != artno;
+    });
+    document.getElementById("cart-amount").innerHTML = cart.length.toString();
+    printCart();
+    notAdded(artno);
+}
+
+},{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "catalog", ()=>catalog
+);
+const catalog = [
+    {
+        artno: "Dm7582-100",
+        model: "Blazer Low '77 Premium",
+        brand: "Nike",
+        price: 99,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "Coconut milk",
+            "Forest green",
+            "Beige"
+        ],
+        sex: "Men",
+        imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
+        instock: true,
+        description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
+    },
+    {
+        artno: "Da8291-001",
+        model: "Wmns Waffle Trainer 2",
+        brand: "Nike",
+        price: 89,
+        sizes: [
+            "5",
+            "5.5",
+            "6",
+            "6.5",
+            "7",
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10"
+        ],
+        colors: [
+            "Light Bone",
+            "Beige",
+            "Green"
+        ],
+        sex: "Woman",
+        imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
+        instock: true,
+        description: "Nike Waffle Trainer 2 gives you the original look of Nike Running and celebrates the 50th anniversary of Swoosh. With its classic Waffle sole and retro material that flashes to 70s athletics and its original Swoosh design, it celebrates Nike's humble beginnings."
+    },
+    {
+        artno: "M990cp2",
+        model: "990v2",
+        brand: "New Balance",
+        price: 175,
+        sizes: [
+            "5"
+        ],
+        colors: [
+            "Grey",
+            "Multi color"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
+        instock: true,
+        description: "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit."
+    },
+    {
+        artno: "Q46229",
+        model: "4D Futurecraft",
+        brand: "adidas Performance",
+        price: 219,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "crystal white",
+            "chalk white",
+            "core black"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/308942/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
+        instock: true
+    },
+    {
+        artno: "",
+        model: "",
+        brand: "",
+        price: 0,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "",
+            "",
+            ""
+        ],
+        sex: "",
+        imgURL: "",
+        imgURL2: "",
+        imgURL3: "",
+        instock: true
+    },
+    {
+        artno: "",
+        model: "",
+        brand: "",
+        price: 0,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "",
+            "",
+            ""
+        ],
+        sex: "",
+        imgURL: "",
+        imgURL2: "",
+        imgURL3: "",
+        instock: true
+    }, 
+];
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -492,6 +827,43 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
+},{}],"7gBgG":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
+);
+parcelHelpers.export(exports, "closecart", ()=>closecart
+);
+parcelHelpers.export(exports, "opencart", ()=>opencart
+);
+function headerFunction() {
+    let searchbarButton = document.getElementById("searchbarButton");
+    searchbarButton.addEventListener("click", expandSearchbar);
+    console.log("hello");
+    function expandSearchbar() {
+        let searchbar = document.getElementById("searchbar");
+        if (searchbar.style.display === "block") searchbar.style.display = "none";
+        else searchbar.style.display = "block";
+    }
+}
+function closecart() {
+    let overlay = document.getElementById("overlay");
+    let widget = document.getElementById("cart");
+    widget.style.display = "none";
+    widget.style.right = "-420px";
+    overlay.style.display = "none";
+}
+function opencart() {
+    let overlay = document.getElementById("overlay");
+    let widget = document.getElementById("cart");
+    widget.style.display = "block";
+    overlay.style.display = "block";
+    window.setTimeout(function() {
+        widget.style.transform = "translate(-420px)";
+    }, 0);
+    overlay.addEventListener("click", closecart);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
 
 //# sourceMappingURL=index.58ba51d9.js.map
