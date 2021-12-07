@@ -4,6 +4,8 @@ import { opencart } from "./header";
 import { closecart } from "./header";
 
 let cart = [];
+let displayProducts = catalog.slice(0);
+let sort = { key: "price", asc: true };
 
 window.onload = () => {
   print_products();
@@ -15,7 +17,9 @@ window.onload = () => {
 let container = document.getElementById("product-container");
 
 function print_products() {
-  catalog.map((item) => {
+  container.innerHTML = "";
+
+  displayProducts.map((item) => {
     let product = `
 
 
@@ -212,26 +216,62 @@ let lowToHigh = document.getElementById("lowToHigh");
 lowToHigh.addEventListener("click", sortLowToHigh);
 
 function sortLowToHigh() {
-  container.innerHTML = "";
-
-  let lowToHighList = catalog.sort(function (a, b) {
-    return a.price - b.price;
-  });
-
+  sortItems("price", true);
   print_products();
-  console.log(lowToHighList);
 }
 
 let highToLow = document.getElementById("highToLow");
 highToLow.addEventListener("click", sortHighToLow);
 
 function sortHighToLow() {
-  container.innerHTML = "";
+  sortItems("price", false);
+  print_products();
+}
 
-  let highToLowList = catalog.sort(function (a, b) {
-    return b.price - a.price;
+function sortItems(key, asc) {
+  sort = { key: key, asc: asc };
+
+  displayProducts.sort(function (a, b) {
+    return asc ? a[key] - b[key] : b[key] - a[key];
+  });
+}
+
+let brandFilters = document.getElementById("brandFilter");
+let allProducts = document.getElementById("allProducts");
+allProducts.addEventListener("click", function () {
+  displayProducts = catalog.slice(0);
+
+  sortItems(sort.key, sort.asc);
+  print_products();
+});
+
+let blocklist = [];
+
+for (let i = 0; i < catalog.length; i++) {
+  let item = catalog[i];
+
+  if (blocklist.indexOf(item.brand) > -1) continue;
+
+  let a = document.createElement("a");
+
+  a.setAttribute("class", "dropdown-item");
+  a.setAttribute("href", "javascript:void(0)");
+  a.addEventListener("click", filterBrand);
+  a.innerText = item.brand;
+
+  brandFilters.appendChild(a);
+  blocklist.push(item.brand);
+}
+
+function filterBrand() {
+  let brand = this.innerText;
+
+  let filtered = catalog.filter(function (property) {
+    return property.brand == brand;
   });
 
+  displayProducts = filtered;
+  sortItems(sort.key, sort.asc);
+
   print_products();
-  console.log(highToLowList);
 }
