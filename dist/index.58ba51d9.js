@@ -502,11 +502,38 @@ function print_products() {
             item.addEventListener("click", (event)=>{
                 productdetail(event);
                 event.preventDefault();
+                controllingValue();
             });
         });
     });
 }
-function productdetail(event) {
+//Funktion som filtrerar ut den produkten man har klickat på och skriver ut i html
+//Alt funktion som kontrollerar om värdet (typ en datavalue) finns med i objektet man klickat på. 
+// MEN hur vet vi om det finns ett datavalue om html:en är dynamisk - dvs det skrivs bara ut i js?
+//Kontrollera vilket data-value, skapa funktion som filtrerar ut det data-value vars element vi klickat på.
+//Skriv ut på skärmen. Krävs att alla värden kontrolleras?
+//return this $item..artno t.ex
+function controllingValue() {
+    _productCatalog.catalog.filter((item)=>{
+    });
+}
+// var result = jsObjects.filter(obj => {
+//   return obj.b === 6
+// })
+/* 
+let catalog = [{ id: 1, title: "title1" },{ id: 2, title: "title2" }]
+let filteredProduct = [{ id: 2, title: "title2" },{ id: 3, title: "title3" }]
+
+const res = arr.filter(f => filteredProduct.some(item => item.id === f.id));
+console.log(res);
+
+ELLER 
+
+const existsInBothArrays = catalog1.filter((element1) =>
+    catalog2.map((element2) => element2._searchKey).includes(element1._searchKey),
+  );
+  
+*/ function productdetail(event) {
     //Hämtar artikelnumret för den valda produkten
     const artno = event.target.getAttribute("data-value");
     //Hämtar elementen container-wrapper och product-container
@@ -566,8 +593,10 @@ function productdetail(event) {
               <option value="4">19</option>
               <option value="4">11</option>
             </select>
-
             
+            <div class="add-btn">
+            <button type="button" class="btn btn-dark">Add to cart</button>
+            </div>
 
             <h5 class="item-title mt-4">Description</h5>
               <p class="item-description">
