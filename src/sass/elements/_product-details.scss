@@ -72,6 +72,10 @@
 }
 
 @media screen and (min-width: 992px) {
+  #sortButton {
+    font-size: 20pt;
+  }
+
   .selected-wrapper {
     width: 100%;
     display: flex;

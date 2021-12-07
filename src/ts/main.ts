@@ -12,9 +12,10 @@ window.onload = () => {
   document.getElementById("bag").addEventListener("click", opencart);
 };
 
+let container = document.getElementById("product-container");
+
 function print_products() {
   catalog.map((item) => {
-    let container = document.getElementById("product-container");
     let product = `
 
 
@@ -135,17 +136,14 @@ function addToCart(event) {
   calculatePrice();
 }
 
-let totalPrice = document.getElementById("totalPrice");
-
 function calculatePrice() {
+  let totalPrice = document.getElementById("totalPrice");
   let total = 0;
 
   if (cart.length > 0) {
     for (let i = 0; i < cart.length; i++) {
       let price = cart[i].price;
-      console.log(price);
       total = total + price;
-      console.log(total);
     }
   }
 
@@ -208,4 +206,32 @@ function removeitem(event) {
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
   printCart();
   notAdded(artno);
+}
+
+let lowToHigh = document.getElementById("lowToHigh");
+lowToHigh.addEventListener("click", sortLowToHigh);
+
+function sortLowToHigh() {
+  container.innerHTML = "";
+
+  let lowToHighList = catalog.sort(function (a, b) {
+    return a.price - b.price;
+  });
+
+  print_products();
+  console.log(lowToHighList);
+}
+
+let highToLow = document.getElementById("highToLow");
+highToLow.addEventListener("click", sortHighToLow);
+
+function sortHighToLow() {
+  container.innerHTML = "";
+
+  let highToLowList = catalog.sort(function (a, b) {
+    return b.price - a.price;
+  });
+
+  print_products();
+  console.log(highToLowList);
 }

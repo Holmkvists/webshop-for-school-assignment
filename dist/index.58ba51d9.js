@@ -467,9 +467,9 @@ window.onload = ()=>{
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
 };
+let container = document.getElementById("product-container");
 function print_products() {
     _productCatalog.catalog.map((item1)=>{
-        let container = document.getElementById("product-container");
         let product = `
 
 
@@ -574,14 +574,12 @@ function addToCart(event) {
     console.log(cart);
     calculatePrice();
 }
-let totalPrice = document.getElementById("totalPrice");
 function calculatePrice() {
+    let totalPrice = document.getElementById("totalPrice");
     let total = 0;
     if (cart.length > 0) for(let i = 0; i < cart.length; i++){
         let price = cart[i].price;
-        console.log(price);
         total = total + price;
-        console.log(total);
     }
     totalPrice.innerHTML = "$" + total.toString();
     printCart();
@@ -637,6 +635,26 @@ function removeitem(event) {
     document.getElementById("cart-amount").innerHTML = cart.length.toString();
     printCart();
     notAdded(artno);
+}
+let lowToHigh = document.getElementById("lowToHigh");
+lowToHigh.addEventListener("click", sortLowToHigh);
+function sortLowToHigh() {
+    container.innerHTML = "";
+    let lowToHighList = _productCatalog.catalog.sort(function(a, b) {
+        return a.price - b.price;
+    });
+    print_products();
+    console.log(lowToHighList);
+}
+let highToLow = document.getElementById("highToLow");
+highToLow.addEventListener("click", sortHighToLow);
+function sortHighToLow() {
+    container.innerHTML = "";
+    let highToLowList = _productCatalog.catalog.sort(function(a, b) {
+        return b.price - a.price;
+    });
+    print_products();
+    console.log(highToLowList);
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
