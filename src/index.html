@@ -32,6 +32,7 @@
     />
   </head>
   <body>
+    <div id="overlay"></div>
     <nav
       class="
         navbar navbar-expand-lg navbar-light
@@ -92,42 +93,67 @@
           <li>
             <a class="nav-link" href="#">Kids</a>
           </li>
+          <li>
+            <a id="bag" class="nav-link">Bag: <span id="cart-amount">0</span></a>
+          </li>
         </ul>
       </div>
     </nav>
+    <div id="cart" class="text-sm">
+      <div class="container my-3">
+        <div class="flex justify-between mb-5">
+          <div class="flex-initial">Bag</div>
+          <div class="flex-initial"><button id="close" class="underline">Close</button></div>
+        </div>
+        <div id="cart-widget">
 
-    <script
-      type="module"
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      type="module"
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      type="module"
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-
-
-
-
-
+        </div>
+        <div class="flex justify-between">
+          <div class="flex-initial">
+            <p>Total</p>
+          </div>
+          <div class="flex-initial">
+            <p id="totalPrice">Price</p>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <a href="checkout.html" id="proceed-checkout" class="bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Go to checkout</a>
+        </div>
+      </div>
+    </div>
 
 
 
 
+
+
+
+
+
+
+  <main>
+    
+    <div class="container">
+      <div
+      id="product-container"
+      class="
+        my-20
+        grid grid-cols-1
+        gap-y-10 gap-x-6
+        sm:grid-cols-2
+        lg:grid-cols-4
+        xl:gap-x-8
+      "
+    ></div>
+    </div>
 
  <main>
-  <div class="container-fluid">
-    <div id="container-wrapper">
-      <div id="product-container" class="
+
+<div class="container-fluid">
+  <div id="container-wrapper">
+    <div
+    id="product-container"
+    class="
       grid grid-cols-1
       gap-y-10 gap-x-6
       sm:grid-cols-2
@@ -139,6 +165,7 @@
   </div>
 </div>
  </main>
+
  <footer class="container-fluid"> 
   <div class="footer mt-auto py-3">
     <div class="row text-center">
@@ -230,7 +257,6 @@
 </div>
 
     
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

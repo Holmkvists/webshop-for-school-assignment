@@ -461,9 +461,11 @@ function hmrAcceptRun(bundle, id) {
 },{}],"7BLcd":[function(require,module,exports) {
 var _productCatalog = require("./models/product-catalog");
 var _header = require("./header");
+let cart = [];
 window.onload = ()=>{
-    console.log("Hello");
     print_products();
+    document.getElementById("close").addEventListener("click", _header.closecart);
+    document.getElementById("bag").addEventListener("click", _header.opencart);
 };
 function print_products() {
     _productCatalog.catalog.map((item1)=>{
@@ -486,8 +488,10 @@ function print_products() {
               <p class="mt-1 text-sm text-gray-500">${item1.brand}</p>
             </div>
             <div class="flex-col">
-            <p class="text-sm font-medium text-gray-900">$${item1.price}</p>
-            <button class="add-to-cart" data-value="${item1.artno}">Add</button>
+            <p class="text-sm font-medium text-gray-900 text-right">$${item1.price}</p>
+              <div id="${item1.artno}" class="add-state">
+                <button class="add-to-cart" data-value="${item1.artno}">Add</button>
+              </div>
             </div>
             </div>
             </div>
@@ -500,6 +504,7 @@ function print_products() {
         });
         document.querySelectorAll(".view-product").forEach((item)=>{
             item.addEventListener("click", (event)=>{
+                window.location.href = "productdetails.html";
                 productdetail(event);
                 event.preventDefault();
                 controllingValue();
@@ -516,16 +521,15 @@ function print_products() {
 function controllingValue() {
     _productCatalog.catalog.filter((item)=>{
     });
-}
-function productdetail(event) {
-    //Hämtar artikelnumret för den valda produkten
-    const artno = event.target.getAttribute("data-value");
-    //Hämtar elementen container-wrapper och product-container
-    let wrapper = document.getElementById("container-wrapper");
-    let productContainer = document.getElementById("product-container");
-    //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
-    let detailsPage = document.createElement("div");
-    detailsPage.innerHTML += `
+    function productdetail(event) {
+        //Hämtar artikelnumret för den valda produkten
+        const artno = event.target.getAttribute("data-value");
+        //Hämtar elementen container-wrapper och product-container
+        let wrapper = document.getElementById("container-wrapper");
+        let productContainer = document.getElementById("product-container");
+        //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+        let detailsPage = document.createElement("div");
+        detailsPage.innerHTML += `
   
     <div class="container selected-wrapper"> 
     <div class="container selected-inner">
@@ -625,14 +629,91 @@ function productdetail(event) {
     </div> 
   
     `;
-    //Ersätter "productContainer" med den nya divven "detailsPage"
-    wrapper.replaceChild(detailsPage, productContainer);
-    //Loggar ut artikelnumret - ta bort sen
-    console.log(artno);
-}
-function addToCart(event) {
-    const artno = event.target.getAttribute("data-value");
-    console.log(artno);
+        //Ersätter "productContainer" med den nya divven "detailsPage"
+        wrapper.replaceChild(detailsPage, productContainer);
+        //Loggar ut artikelnumret - ta bort sen
+        console.log(artno);
+    }
+    function addToCart(event) {
+        let artno = event.target.getAttribute("data-value");
+        let addbtn = event.target;
+        let parent = document.getElementById(artno);
+        let added = document.createElement("p");
+        added.classList.add("added");
+        added.innerHTML = "Added <i class='bi bi-check'></i>";
+        added.setAttribute("id", artno);
+        addbtn.replaceWith(added);
+        let item = _productCatalog.catalog.find((x)=>x.artno === artno
+        );
+        cart.push(item);
+        document.getElementById("cart-amount").innerHTML = cart.length.toString();
+        console.log(cart);
+        calculatePrice();
+    }
+    let totalPrice = document.getElementById("totalPrice");
+    function calculatePrice() {
+        let total = 0;
+        if (cart.length > 0) for(let i = 0; i < cart.length; i++){
+            let price = cart[i].price;
+            console.log(price);
+            total = total + price;
+            console.log(total);
+        }
+        totalPrice.innerHTML = "$" + total.toString();
+        printCart();
+        return total;
+    }
+    function notAdded(artno) {
+        let parent = document.getElementById(artno);
+        let add = document.createElement("button");
+        let added = parent.firstElementChild;
+        add.classList.add("add-to-cart");
+        add.setAttribute("data-value", artno);
+        add.innerHTML = "Add";
+        parent.removeChild(added);
+        parent.appendChild(add);
+        add.addEventListener("click", (event)=>{
+            addToCart(event);
+        });
+    }
+    function printCart() {
+        let cartWidget = document.getElementById("cart-widget");
+        cartWidget.innerHTML = "";
+        cart.map((item2)=>{
+            let cartitem = `
+    <div class="row mb-4">
+    <div class="col-3">
+      <img width="100%" src="${item2.imgURL}" alt="">
+    </div>
+    <div class="col-6">
+      <p class="my-0">${item2.model}</p>
+      <p class="my-0">${item2.brand}</p>
+      <p class="my-0">Size: 7</p>
+    </div>
+    <div class="col-3 flex flex-col">
+      <p>$${item2.price}</p>
+      <a class="remove-item" data-value="${item2.artno}">Remove</a>
+    </div>
+  </div>
+    `;
+            cartWidget.innerHTML += cartitem;
+            document.querySelectorAll(".remove-item").forEach((item)=>{
+                item.addEventListener("click", (event)=>{
+                    removeitem(event);
+                    calculatePrice();
+                });
+            });
+        });
+    }
+    function removeitem(event) {
+        let artno = event.target.getAttribute("data-value");
+        cart = cart.filter((item)=>{
+            return item.artno != artno;
+        });
+        document.getElementById("cart-amount").innerHTML = cart.length.toString();
+        printCart();
+        notAdded(artno);
+    }
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -690,12 +771,12 @@ const catalog = [
             "Beige",
             "Green"
         ],
-        sex: "Men",
+        sex: "Woman",
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
         instock: true,
-        description: "The Swoosh continues the reign of the ”Waffle” with the Nike Waffle Trainer 2 SP. Dressed in orange and with a timeless track style, the low-top sneaker from Nike features the iconic Waffle outsole with old-school suede accents and a contrasting foam midsole."
+        description: "Nike Waffle Trainer 2 gives you the original look of Nike Running and celebrates the 50th anniversary of Swoosh. With its classic Waffle sole and retro material that flashes to 70s athletics and its original Swoosh design, it celebrates Nike's humble beginnings."
     },
     {
         artno: "M990cp2",
@@ -715,6 +796,129 @@ const catalog = [
         imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
         instock: true,
         description: "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit."
+    },
+    {
+        artno: "Q46229",
+        model: "4D Futurecraft",
+        brand: "adidas Performance",
+        price: 219,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "crystal white",
+            "chalk white",
+            "core black"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/308942/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
+        instock: true
+    },
+    {
+        artno: "Da7995-101",
+        model: "Waffle One",
+        brand: "Nike Sportswear",
+        price: 99,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "COCONUT MILK",
+            "BRIGHT CRIMSON-HYPER ROYAL"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/304590/product_small.jpg",
+        instock: true
+    },
+    {
+        artno: "Q46439",
+        model: "Ultra 4D",
+        brand: "adidas Performance",
+        price: 219,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "collegiate green",
+            "ftwr white",
+            "collegiate orange"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/304854/product_small.jpg",
+        instock: true
+    },
+    {
+        artno: "Dc5331-001",
+        model: "Air Max Pre-Day LX",
+        brand: "Nike Sportswear",
+        price: 139,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "PHANTOM",
+            "BLACK-RATTAN-LIGHT BONE"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
+        imgURL2: "",
+        imgURL3: "",
+        instock: true
+    },
+    {
+        artno: "374921-15",
+        model: "Suede VTG",
+        brand: "Puma",
+        price: 89,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "Dill",
+            "Vaporous Gray",
+            "White"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/317583/product_xsmall.jpg",
+        instock: true
     }, 
 ];
 
@@ -753,6 +957,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
 );
+parcelHelpers.export(exports, "closecart", ()=>closecart
+);
+parcelHelpers.export(exports, "opencart", ()=>opencart
+);
 function headerFunction() {
     let searchbarButton = document.getElementById("searchbarButton");
     searchbarButton.addEventListener("click", expandSearchbar);
@@ -762,6 +970,23 @@ function headerFunction() {
         if (searchbar.style.display === "block") searchbar.style.display = "none";
         else searchbar.style.display = "block";
     }
+}
+function closecart() {
+    let overlay = document.getElementById("overlay");
+    let widget = document.getElementById("cart");
+    widget.style.display = "none";
+    widget.style.right = "-420px";
+    overlay.style.display = "none";
+}
+function opencart() {
+    let overlay = document.getElementById("overlay");
+    let widget = document.getElementById("cart");
+    widget.style.display = "block";
+    overlay.style.display = "block";
+    window.setTimeout(function() {
+        widget.style.transform = "translate(-420px)";
+    }, 0);
+    overlay.addEventListener("click", closecart);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")
