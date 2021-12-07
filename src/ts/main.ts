@@ -58,161 +58,122 @@ function print_products() {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-        window.location.href = "productdetails.html";
+
+        //"Popstate" letar efter förändringar i url:en
+        window.addEventListener('popstate', function(e) {
         productdetail(event);
-        event.preventDefault();
-         controllingValue();
+        });
+
       });
     });
   });
 }
 
- //Funktion som filtrerar ut den produkten man har klickat på och skriver ut i html
- //Alt funktion som kontrollerar om värdet (typ en datavalue) finns med i objektet man klickat på. 
- // MEN hur vet vi om det finns ett datavalue om html:en är dynamisk - dvs det skrivs bara ut i js?
-
- //Kontrollera vilket data-value, skapa funktion som filtrerar ut det data-value vars element vi klickat på.
- //Skriv ut på skärmen. Krävs att alla värden kontrolleras?
-
- //return this $item..artno t.ex
-
-
-function controllingValue() {
-  catalog.filter((item) => {
-  
-    //Efter klick - hämta elementets dataset
-    
-    //Gör en filter, includes, indexof osv
-    //returnera värdet & skriv ut på skärmen
-
-    if(/*produkt man har klickat på == har det här värdet */ 0 < 10) {
-        //return...
-        //modell, artno osv
-        //kör funktionen som skriver ut datan
-        //
-        //else.. annars..
-    }
-  });
-
 
 function productdetail(event) {
+  //Hämtar elementen container-wrapper och product-container
+  let wrapper = document.getElementById("container-wrapper");
+  let productContainer = document.getElementById("product-container");
+
   //Hämtar artikelnumret för den valda produkten
-    const artno = event.target.getAttribute("data-value");
-    
-    //Hämtar elementen container-wrapper och product-container
-    let wrapper = document.getElementById("container-wrapper");
-    let productContainer = document.getElementById("product-container");
-  
-    //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
-    let detailsPage = document.createElement("div");
-    detailsPage.innerHTML += `
-  
-    <div class="container selected-wrapper"> 
-    <div class="container selected-inner">
-  
-    <div class="image-wrapper">
-    <div class="selected-image">
-  
-
-      <section class="container productcard my-3 pt-6">
-        <div class="row my-2 mx-1">
-          <div class="col-lg-5 col-md-12 col-12">
-            <img class="img-fluid w-100" src="https://www.sneakersnstuff.com/images/314976/product_medium.jpg" alt="sneaker"/>
-            
-              <div class="small-img-group mb-4">
-                <div class="small-img-col">
-                  <img class="small-img" width="100%" src="https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg" alt="sneaker"/>
-                </div>
-
-                <div class="small-img-col">
-                  <img class="small-img" width="100%" src="https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg" alt="sneaker"/>
-                </div>
-              </div>
-            </div>
+  const artno = event.target.getAttribute("data-value");
 
 
-          <div class="col-lg-6 col-md-12 col-12">
-          <h6>
-          <ul class="product-nav">
-          <li><a href="#">Shop</a></li>
-          <li><a href="#">Women</a></li>
-          <li><a href="#">Nike</a></li>
-          <li><a href="#">Wmns Waffle Trainer 2</a></li>
-          </ul>
-          </h6>
+catalog.filter((item) => {
+//Kontrollerar om artikelnumret i katalogen är samma som artikelnumret i elementet vi klickat på
+ for (var i in catalog) {
+  if (catalog[i].artno == artno) {
 
-          <h4 class="text-uppercase h4-heading">adidas Originals
-            Stan Smith Vegan</h3>
-            <h6 class="price">Price: $175.00</h6>
-            <small id="reviews" class="form-text text-muted">In stock</small>
-          
-
-            <label for="sizes" class="sizing">Size:</label>
-            <select class="my-3" name="sizes" id="sizing">
-              <option value="1">7.5</option>
-              <option value="2">8</option>
-              <option value="3">8.5</option>
-              <option value="4">9</option>
-              <option value="4">9.5</option>
-              <option value="4">19</option>
-              <option value="4">11</option>
-            </select>
-            
-            <div class="add-btn">
-            <button type="button" class="btn btn-dark">Add to cart</button>
-            </div>
-
-            <h5 class="item-title mt-4">Description</h5>
-              <p class="item-description">
-              Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
-              The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products
-              whatsoever in the creation of the product.
-              </p>
-
-              <h5 class="item-title">Materials</h5>
-              <p class="materials">
-              Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
-              The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products
-              whatsoever in the creation of the product.
-              </p>
-            
-
-
-            </div>
-
-          </div>
-
-
-        </div>
-      </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-    </div>
-  
-    </div>
-    </div> 
-  
-    `
-    ; 
-  
+     //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+     let detailsPage = document.createElement("div");
+     detailsPage.innerHTML += `
+   
+     <div class="container selected-wrapper"> 
+     <div class="container selected-inner">
+   
+     <div class="image-wrapper">
+     <div class="selected-image">
+   
+       <section class="container productcard my-3 pt-6">
+         <div class="row my-2 mx-1">
+           <div class="col-lg-5 col-md-12 col-12">
+             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
+             
+               <div class="small-img-group mb-4">
+                 <div class="small-img-col">
+                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
+                 </div>
+ 
+                 <div class="small-img-col">
+                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
+                 </div>
+               </div>
+             </div>
+ 
+ 
+           <div class="col-lg-6 col-md-12 col-12">
+           <h6>
+           <ul class="product-nav">
+           <li><a href="#">Shop</a></li>
+           <li><a href="#">${item.sex}</a></li>
+           <li><a href="#">${item.brand}</a></li>
+           <li><a href="#">${item.model}</a></li>
+           </ul>
+           </h6>
+ 
+           <h4 class="text-uppercase h4-heading">${item.model}</h3>
+             <h6 class="price">Price: ${item.price}</h6>
+             <small id="reviews" class="form-text text-muted">${item.instock}</small>
+           
+ 
+             <label for="sizes" class="sizing">${item.sizes}</label>
+             <select class="my-3" name="sizes" id="sizing">
+               <option value="1">${item.sizes[0]}</option>
+               <option value="2">${item.sizes[1]}</option>
+               <option value="3">${item.sizes[2]}</option>
+               <option value="4">${item.sizes[3]}</option>
+               <option value="4">${item.sizes[4]}</option>
+               <option value="4">${item.sizes[5]}</option>
+               <option value="4">${item.sizes[6]}</option>
+             </select>
+             
+             <div class="add-btn">
+             <button type="button" class="btn btn-dark">Add to cart</button>
+             </div>
+ 
+             <h5 class="item-title mt-4">Description</h5>
+               <p class="item-description">
+               ${item.description}
+               </p>
+ 
+               <h5 class="item-title">Materials</h5>
+               <p class="materials">
+               Empty for now!
+               </p>
+ 
+             </div>
+ 
+           </div>
+ 
+         </div>
+       </section>
+ 
+     </div>
+     </div>
+   
+     </div>
+     </div> 
+     `
+     ;
     //Ersätter "productContainer" med den nya divven "detailsPage"
-    wrapper.replaceChild(detailsPage, productContainer);
-  
-    //Loggar ut artikelnumret - ta bort sen
-    console.log(artno);
+     wrapper.replaceChild(detailsPage, productContainer);
+  }
+}
 
+    console.log(catalog[i].artno);
+
+  //Annars... gör det här
+ });
 }
   
 function addToCart(event) {
@@ -304,4 +265,4 @@ function removeitem(event) {
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
   printCart();
   notAdded(artno);
-}}
+}
