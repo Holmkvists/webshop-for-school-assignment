@@ -234,7 +234,11 @@ footer .submit-btn:hover {
 }
 @media screen and (min-width: 992px) {
   #sortButton {
-    font-size: 20pt;
+    font-size: 12pt;
+  }
+
+  #filterButton {
+    font-size: 12pt;
   }
 
   .selected-wrapper {
