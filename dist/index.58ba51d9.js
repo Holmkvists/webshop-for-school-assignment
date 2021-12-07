@@ -746,10 +746,10 @@ const catalog = [
         instock: true
     },
     {
-        artno: "",
-        model: "",
-        brand: "",
-        price: 0,
+        artno: "Da7995-101",
+        model: "Waffle One",
+        brand: "Nike Sportswear",
+        price: 99,
         sizes: [
             "7.5",
             "8",
@@ -760,21 +760,69 @@ const catalog = [
             "11"
         ],
         colors: [
-            "",
-            "",
-            ""
+            "COCONUT MILK",
+            "BRIGHT CRIMSON-HYPER ROYAL"
         ],
-        sex: "",
-        imgURL: "",
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/304590/product_small.jpg",
+        instock: true
+    },
+    {
+        artno: "Q46439",
+        model: "Ultra 4D",
+        brand: "adidas Performance",
+        price: 219,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "collegiate green",
+            "ftwr white",
+            "collegiate orange"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/304854/product_small.jpg",
+        instock: true
+    },
+    {
+        artno: "Dc5331-001",
+        model: "Air Max Pre-Day LX",
+        brand: "Nike Sportswear",
+        price: 139,
+        sizes: [
+            "7.5",
+            "8",
+            "8.5",
+            "9",
+            "9.5",
+            "10",
+            "11"
+        ],
+        colors: [
+            "PHANTOM",
+            "BLACK-RATTAN-LIGHT BONE"
+        ],
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
         imgURL2: "",
         imgURL3: "",
         instock: true
     },
     {
-        artno: "",
-        model: "",
-        brand: "",
-        price: 0,
+        artno: "374921-15",
+        model: "Suede VTG",
+        brand: "Puma",
+        price: 89,
         sizes: [
             "7.5",
             "8",
@@ -785,14 +833,14 @@ const catalog = [
             "11"
         ],
         colors: [
-            "",
-            "",
-            ""
+            "Dill",
+            "Vaporous Gray",
+            "White"
         ],
-        sex: "",
-        imgURL: "",
-        imgURL2: "",
-        imgURL3: "",
+        sex: "Unisex",
+        imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
+        imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/317583/product_xsmall.jpg",
         instock: true
     }, 
 ];
