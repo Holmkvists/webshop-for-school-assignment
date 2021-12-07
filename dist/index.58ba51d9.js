@@ -517,23 +517,7 @@ function controllingValue() {
     _productCatalog.catalog.filter((item)=>{
     });
 }
-// var result = jsObjects.filter(obj => {
-//   return obj.b === 6
-// })
-/* 
-let catalog = [{ id: 1, title: "title1" },{ id: 2, title: "title2" }]
-let filteredProduct = [{ id: 2, title: "title2" },{ id: 3, title: "title3" }]
-
-const res = arr.filter(f => filteredProduct.some(item => item.id === f.id));
-console.log(res);
-
-ELLER 
-
-const existsInBothArrays = catalog1.filter((element1) =>
-    catalog2.map((element2) => element2._searchKey).includes(element1._searchKey),
-  );
-  
-*/ function productdetail(event) {
+function productdetail(event) {
     //Hämtar artikelnumret för den valda produkten
     const artno = event.target.getAttribute("data-value");
     //Hämtar elementen container-wrapper och product-container
