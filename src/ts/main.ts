@@ -75,7 +75,7 @@ function productdetail(event) {
   let wrapper = document.getElementById("container-wrapper");
   let productContainer = document.getElementById("product-container");
 
-  //Hämtar artikelnumret för den valda produkten
+  //Hämtar artikelnumret för den valda produkten, sparas i artno
   const artno = event.target.getAttribute("data-value");
 
 
