@@ -4,7 +4,7 @@ This repo is a school assignment that includes creating a webshop with basic fun
 
 ## Installation
 
-To get going with this project, you need to follow this
+Steps to run project
 
 1. Clone this repo
 
@@ -16,6 +16,11 @@ To get going with this project, you need to follow this
    ```sh
    npm install
    ```
+3. Run Parcel
+      ```sh
+   npx parcel src/index.html
+   ```
+4. Go to localhost:1234 to view project
 
 ## This project was built with:
 
