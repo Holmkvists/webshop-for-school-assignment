@@ -1,17 +1,24 @@
 import { catalog } from "./models/product-catalog";
-import { headerFunction } from "./header";
+import { expandSearchbar } from "./header";
 import { opencart } from "./header";
 import { closecart } from "./header";
 
 let cart = [];
 let displayProducts = catalog.slice(0);
 let sort = { key: "price", asc: true };
+let blocklist = [];
 
 window.onload = () => {
   print_products();
-  headerFunction;
+  filterBrandOptions();
+  document
+    .getElementById("searchbarButton")
+    .addEventListener("click", expandSearchbar);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
+  document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
+  document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+  document.getElementById("allProducts").addEventListener("click", resetFilter);
 };
 
 let container = document.getElementById("product-container");
@@ -212,16 +219,10 @@ function removeitem(event) {
   notAdded(artno);
 }
 
-let lowToHigh = document.getElementById("lowToHigh");
-lowToHigh.addEventListener("click", sortLowToHigh);
-
 function sortLowToHigh() {
   sortItems("price", true);
   print_products();
 }
-
-let highToLow = document.getElementById("highToLow");
-highToLow.addEventListener("click", sortHighToLow);
 
 function sortHighToLow() {
   sortItems("price", false);
@@ -236,31 +237,31 @@ function sortItems(key, asc) {
   });
 }
 
-let brandFilters = document.getElementById("brandFilter");
-let allProducts = document.getElementById("allProducts");
-allProducts.addEventListener("click", function () {
+function resetFilter() {
   displayProducts = catalog.slice(0);
 
   sortItems(sort.key, sort.asc);
   print_products();
-});
+}
 
-let blocklist = [];
+function filterBrandOptions() {
+  let brandFilters = document.getElementById("brandFilter");
 
-for (let i = 0; i < catalog.length; i++) {
-  let item = catalog[i];
+  for (let i = 0; i < catalog.length; i++) {
+    let item = catalog[i];
 
-  if (blocklist.indexOf(item.brand) > -1) continue;
+    if (blocklist.indexOf(item.brand) > -1) continue;
 
-  let a = document.createElement("a");
+    let a = document.createElement("a");
 
-  a.setAttribute("class", "dropdown-item");
-  a.setAttribute("href", "javascript:void(0)");
-  a.addEventListener("click", filterBrand);
-  a.innerText = item.brand;
-  brandFilters.appendChild(a);
+    a.setAttribute("class", "dropdown-item");
+    a.setAttribute("href", "javascript:void(0)");
+    a.addEventListener("click", filterBrand);
+    a.innerText = item.brand;
+    brandFilters.appendChild(a);
 
-  blocklist.push(item.brand);
+    blocklist.push(item.brand);
+  }
 }
 
 function filterBrand() {
