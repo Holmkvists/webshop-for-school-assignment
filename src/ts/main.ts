@@ -62,7 +62,6 @@ function print_products() {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-        window.location.href = "productdetails.html";
         productdetail(event);
       });
     });
