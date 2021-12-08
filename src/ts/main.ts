@@ -21,19 +21,19 @@ function print_products() {
 
   displayProducts.map((item) => {
     let product = `
-
-
         <div class="group relative">
-            
-            <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
+          <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
             <img src="${item.imgURL}" alt="${
       item.model + " " + item.brand
     }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-                <div class="overlay"><a href="/${item.artno}" data-value="${
+              <div class="overlay">
+                <a href="/${item.artno}" data-value="${
       item.artno
-    }" class="view-product">View Product</a></div>
-
-            </div>
+    }" class="view-product">
+                  <i class="bi bi-eye"></i>
+                </a>
+              </div>
+          </div>
           <div class="mt-4 flex justify-between">
             <div>
               <h3 class="text-sm text-gray-700">
@@ -42,17 +42,18 @@ function print_products() {
               <p class="mt-1 text-sm text-gray-500">${item.brand}</p>
             </div>
             <div class="flex-col">
-            <p class="text-sm font-medium text-gray-900 text-right">$${
-              item.price
-            }</p>
+              <p class="text-sm font-medium text-gray-900 text-right">$${
+                item.price
+              }</p>
               <div id="${item.artno}" class="add-state">
                 <button class="add-to-cart" data-value="${
                   item.artno
                 }">Add</button>
+                
               </div>
             </div>
-            </div>
-            </div>
+          </div>
+        </div>
       `;
     container.innerHTML += product;
     document.querySelectorAll(".add-to-cart").forEach((item) => {
@@ -135,7 +136,6 @@ function addToCart(event) {
   let item = catalog.find((x) => x.artno === artno);
   cart.push(item);
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
-  console.log(cart);
   calculatePrice();
 }
 
