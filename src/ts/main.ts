@@ -75,6 +75,15 @@ function print_products() {
 }
 
 
+function grabValueFromURL() {
+  const queryString = window.location.search;
+  console.log(queryString);
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get("data-value");
+
+}
+
+
 function productdetail(event) {
   //Hämtar elementen container-wrapper och product-container
   let wrapper = document.getElementById("container-wrapper");
