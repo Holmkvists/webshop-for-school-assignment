@@ -53,20 +53,22 @@ function print_products() {
 
 function productdetail(event) {
   //När man klickat på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
-    window.location.assign('http://localhost:8888/#nominate');
-    
-    let container = document.getElementsByClassName("product-wrapper");
-    let productimagewrapper = document.getElementsByClassName("productimage-wrapper");
-    let productimage = `<img src="${item.imgURL}" alt="${item.model + " " + item.brand}"
+  window.location.assign("http://localhost:8888/#nominate");
+
+  let container = document.getElementsByClassName("product-wrapper");
+  let productimagewrapper = document.getElementsByClassName(
+    "productimage-wrapper"
+  );
+  let productimage = `<img src="${item.imgURL}" alt="${
+    item.model + " " + item.brand
+  }"
     class="productimage-1"> 
     `;
 
-    document.getElementById("product-wrapper").appendChild(product-image); 
+  document.getElementById("product-wrapper").appendChild(product - image);
 
-
-/*if... else.. Det som händer efter användaren har skickats till rätt sida.
+  /*if... else.. Det som händer efter användaren har skickats till rätt sida.
 /Produktdatan hämtas & presenteras på skärmen*/
-
 }
 
 function addToCart(event) {
@@ -74,10 +76,8 @@ function addToCart(event) {
   console.log(artno);
 }
 
-
-
 // <div class="container-fluid">
-//   <div class="container product-wrapper"> 
+//   <div class="container product-wrapper">
 //   <div class="container product-div">
 //     <div class="productimage-wrapper">
 //       <div class="product-image">
@@ -99,4 +99,4 @@ function addToCart(event) {
 // imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
 // imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
 // instock: true,
-// description: "An unusual combination of materials and a 
+// description: "An unusual combination of materials and a
