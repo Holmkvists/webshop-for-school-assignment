@@ -258,8 +258,8 @@ for (let i = 0; i < catalog.length; i++) {
   a.setAttribute("href", "javascript:void(0)");
   a.addEventListener("click", filterBrand);
   a.innerText = item.brand;
-
   brandFilters.appendChild(a);
+
   blocklist.push(item.brand);
 }
 
