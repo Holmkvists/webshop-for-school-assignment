@@ -3,6 +3,7 @@ import { headerFunction } from "./header";
 import { preventExtensions } from "core-js/core/object";
 import { opencart } from "./header";
 import { closecart } from "./header";
+import { updatePropertyAccessChain } from "typescript";
 
 let cart = [];
 let displayProducts = catalog.slice(0);
@@ -11,8 +12,11 @@ let sort = { key: "price", asc: true };
 window.onload = () => {
   print_products();
   headerFunction;
+  getUrl();
+
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
+
 };
 
 let container = document.getElementById("product-container");
@@ -61,46 +65,49 @@ function print_products() {
         addToCart(event);
       });
     });
+
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-
-        //"Popstate" letar efter förändringar i url:en
-        window.addEventListener('popstate', function(e) {
-        productdetail(event);
-        });
-
+      productdetails(event); //varje gång man klickar på en produkt, kör funktionen som visar produktdetaljerna
+      let item = event.target;
       });
     });
   });
 }
 
+//Deklarerar variablerna globalt
+let url = window.location.pathname;
+const path = /[^/]*$/.exec(url)[0];
 
-function grabValueFromURL() {
-  const queryString = window.location.search;
-  console.log(queryString);
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get("data-value");
+//loopar igenom katalogen efter ett artno som är detsamma som path
+//& skapar en ny lista baserat på den, som heter product
+let product = catalog.filter(product => product.artno === path);  
 
+//Hämtar url, tar värdet efter / och skickar vidare till productdetails
+function getUrl() {
+ if (!path.length) {
+    return; 
+  } else if (path.length > 0) {
+     //Skickar nya listan product som en parameter i funktionen productdetails
+    productdetails(product);
+  }
 }
 
+//I den nya funktionen, 
+function productdetails(event) {
 
-function productdetail(event) {
-  //Hämtar elementen container-wrapper och product-container
-  let wrapper = document.getElementById("container-wrapper");
-  let productContainer = document.getElementById("product-container");
+  if (product)
+   {
+  
+    //Loopar igenom listan
+    product.map((item) => {
 
-  //Hämtar artikelnumret för den valda produkten, sparas i artno
-  const artno = event.target.getAttribute("data-value");
+    console.log(item.artno, item.colors);
+      let wrapper = document.getElementById("container-wrapper");
+      let productContainer = document.getElementById("product-container");
 
-
-catalog.filter((item) => {
-//Kontrollerar om artikelnumret i katalogen är samma som artikelnumret i elementet vi klickat på
- for (var i in catalog) {
-  if (catalog[i].artno == artno) {
-
-     //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
-     let detailsPage = document.createElement("div");
-     detailsPage.innerHTML += `
+      let detailsPage = document.createElement("div");
+      detailsPage.innerHTML += `
    
      <div class="container selected-wrapper"> 
      <div class="container selected-inner">
@@ -136,11 +143,11 @@ catalog.filter((item) => {
            </h6>
  
            <h4 class="text-uppercase h4-heading">${item.model}</h3>
-             <h6 class="price">Price: ${item.price}</h6>
+             <h6 class="price">Price: $${item.price}</h6>
              <small id="reviews" class="form-text text-muted">${item.instock}</small>
            
  
-             <label for="sizes" class="sizing">${item.sizes}</label>
+             <label for="sizes" class="sizing">Sizes</label>
              <select class="my-3" name="sizes" id="sizing">
                <option value="1">${item.sizes[0]}</option>
                <option value="2">${item.sizes[1]}</option>
@@ -160,11 +167,6 @@ catalog.filter((item) => {
                ${item.description}
                </p>
  
-               <h5 class="item-title">Materials</h5>
-               <p class="materials">
-               Empty for now!
-               </p>
- 
              </div>
  
            </div>
@@ -181,15 +183,10 @@ catalog.filter((item) => {
      ;
     //Ersätter "productContainer" med den nya divven "detailsPage"
      wrapper.replaceChild(detailsPage, productContainer);
+    });
   }
-}
+  }
 
-    console.log(catalog[i].artno);
-
-  //Annars... gör det här
- });
-}
-  
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
