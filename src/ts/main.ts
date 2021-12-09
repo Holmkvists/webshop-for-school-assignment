@@ -283,10 +283,11 @@ function filterBrand() {
 function searchProducts(e) {
   let searchFrase = "";
   searchFrase = e.target.value;
+  searchFrase = searchFrase.toLowerCase();
   let filteredProducts = catalog.filter((item) => {
     return (
-      (item.model as any).includes(searchFrase) ||
-      (item.brand as any).includes(searchFrase)
+      (item.model.toLowerCase() as any).includes(searchFrase) ||
+      (item.brand.toLowerCase() as any).includes(searchFrase)
     );
   });
   print_products(filteredProducts);
