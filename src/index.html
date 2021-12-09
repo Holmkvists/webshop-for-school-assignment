@@ -4,12 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
+
     <script
       type="module"
       src="https://kit.fontawesome.com/9604976d4b.js"
@@ -147,7 +142,7 @@
     <main>
       <div class="container">
         <!-- Sort & filter -->
-        <div class="d-flex gap-x-5 mt-5 mb-4">
+        <div class="d-flex align-items-center gap-x-5 mt-5 mb-4">
           <div>
             <button
               class="dropdown-toggle"
@@ -162,6 +157,10 @@
             <div class="dropdown-menu" aria-labelledby="sortButton">
               <a id="lowToHigh" class="dropdown-item" href="#">Lowest Price</a>
               <a id="highToLow" class="dropdown-item" href="#">Highest Price</a>
+              <a id="brandsAZ" class="dropdown-item" href="#">Brand Name A-Z</a>
+              <a id="brandsZA" class="dropdown-item" href="#">Brand Name Z-A</a>
+              <a id="modelsAZ" class="dropdown-item" href="#">Products A-Z</a>
+              <a id="modelsZA" class="dropdown-item" href="#">Products Z-A</a>
             </div>
           </div>
           <div>
@@ -175,16 +174,22 @@
               <i class="bi bi-filter"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="filterButton">
-              <a id="allProducts" class="dropdown-item">All products</a>
+              <a
+                id="allProducts"
+                class="dropdown-item"
+                href="javascript:void(0)"
+                >All products</a
+              >
               <br />
-              <h6 class="text-center">Popular brands</h6>
-              <div id="brandFilter"></div>
+              <h6 id="brandsHeader">Popular brands</h6>
+              <div id="brandsFilter"></div>
             </div>
           </div>
         </div>
         <div
           id="product-container"
           class="
+            mb-20
             grid grid-cols-1
             gap-y-10 gap-x-6
             sm:grid-cols-2

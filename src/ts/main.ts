@@ -5,7 +5,7 @@ import { closecart } from "./header";
 
 let cart = [];
 let displayProducts = catalog.slice(0);
-let sort = { key: "price", asc: true };
+let sort = { key: "property", asc: true };
 let blocklist = [];
 
 window.onload = () => {
@@ -18,6 +18,10 @@ window.onload = () => {
   document.getElementById("bag").addEventListener("click", opencart);
   document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
   document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+  document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
+  document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
+  document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
+  document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
   document.getElementById("allProducts").addEventListener("click", resetFilter);
 };
 
@@ -219,6 +223,8 @@ function removeitem(event) {
   notAdded(artno);
 }
 
+// Sort functions
+
 function sortLowToHigh() {
   sortItems("price", true);
   print_products();
@@ -229,13 +235,44 @@ function sortHighToLow() {
   print_products();
 }
 
+function sortBrandsAZ() {
+  sortItems("brand", true);
+  print_products();
+}
+
+function sortBrandsZA() {
+  sortItems("brand", false);
+  print_products();
+}
+
+function sortModelsAZ() {
+  sortItems("model", true);
+  print_products();
+}
+
+function sortModelsZA() {
+  sortItems("model", false);
+  print_products();
+}
+
 function sortItems(key, asc) {
   sort = { key: key, asc: asc };
 
-  displayProducts.sort(function (a, b) {
-    return asc ? a[key] - b[key] : b[key] - a[key];
-  });
+  let compareItemFunction = function (a, b) {
+    switch (typeof a[key]) {
+      case "number":
+        return asc ? a[key] - b[key] : b[key] - a[key];
+      case "string":
+        let propertyA = (a[key] as string).toUpperCase();
+        let propertyB = (b[key] as string).toUpperCase();
+        let result = propertyA < propertyB ? -1 : propertyA > propertyB ? 1 : 0;
+        return asc ? result : result * -1;
+    }
+  };
+  displayProducts.sort(compareItemFunction);
 }
+
+// Filter functions
 
 function resetFilter() {
   displayProducts = catalog.slice(0);
@@ -245,7 +282,7 @@ function resetFilter() {
 }
 
 function filterBrandOptions() {
-  let brandFilters = document.getElementById("brandFilter");
+  let brandsFilters = document.getElementById("brandsFilter");
 
   for (let i = 0; i < catalog.length; i++) {
     let item = catalog[i];
@@ -258,21 +295,35 @@ function filterBrandOptions() {
     a.setAttribute("href", "javascript:void(0)");
     a.addEventListener("click", filterBrand);
     a.innerText = item.brand;
-    brandFilters.appendChild(a);
+    brandsFilters.appendChild(a);
 
     blocklist.push(item.brand);
   }
 }
 
+let selectedBrandFilters = [];
+
 function filterBrand() {
   let brand = this.innerText;
+  let selected = !(this.dataset["selected"] == "true");
+
+  if (selected) {
+    selectedBrandFilters.push(brand);
+  } else {
+    let index = selectedBrandFilters.indexOf(brand);
+    if (index >= 0) selectedBrandFilters.splice(index, 1);
+  }
 
   let filtered = catalog.filter(function (property) {
-    return property.brand == brand;
+    return selectedBrandFilters.length > 0
+      ? selectedBrandFilters.indexOf(property.brand) >= 0
+      : true;
   });
 
+  this.dataset["selected"] = selected;
   displayProducts = filtered;
-  sortItems(sort.key, sort.asc);
 
+  sortItems(sort.key, sort.asc);
   print_products();
+  return false;
 }
