@@ -8,18 +8,21 @@ let displayProducts = catalog.slice(0);
 let sort = { key: "price", asc: true };
 
 window.onload = () => {
-  print_products();
+  print_products(catalog);
   headerFunction;
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
+  document
+    .getElementById("searchbarContainer")
+    .addEventListener("keyup", searchProducts);
 };
 
 let container = document.getElementById("product-container");
 
-function print_products() {
+function print_products(ProductsObjects) {
   container.innerHTML = "";
 
-  displayProducts.map((item) => {
+  ProductsObjects.map((item) => {
     let product = `
 
 
@@ -216,7 +219,7 @@ lowToHigh.addEventListener("click", sortLowToHigh);
 
 function sortLowToHigh() {
   sortItems("price", true);
-  print_products();
+  print_products(catalog);
 }
 
 let highToLow = document.getElementById("highToLow");
@@ -224,7 +227,7 @@ highToLow.addEventListener("click", sortHighToLow);
 
 function sortHighToLow() {
   sortItems("price", false);
-  print_products();
+  print_products(catalog);
 }
 
 function sortItems(key, asc) {
@@ -241,7 +244,7 @@ allProducts.addEventListener("click", function () {
   displayProducts = catalog.slice(0);
 
   sortItems(sort.key, sort.asc);
-  print_products();
+  print_products(catalog);
 });
 
 let blocklist = [];
@@ -272,5 +275,19 @@ function filterBrand() {
   displayProducts = filtered;
   sortItems(sort.key, sort.asc);
 
-  print_products();
+  print_products(catalog);
+}
+
+// SEARCH FEATURE
+
+function searchProducts(e) {
+  let searchFrase = "";
+  searchFrase = e.target.value;
+  let filteredProducts = catalog.filter((item) => {
+    return (
+      (item.model as any).includes(searchFrase) ||
+      (item.brand as any).includes(searchFrase)
+    );
+  });
+  print_products(filteredProducts);
 }
