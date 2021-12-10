@@ -10,9 +10,15 @@
 
   transition: all 1s ease;
 }
-
+#cart-amount {
+  width: 15px;
+  margin-left: 5px;
+}
 #bag {
   cursor: pointer !important;
+  background-color: orangered;
+  border-radius: 20px;
+  color: white;
 }
 #cart {
   position: fixed;
