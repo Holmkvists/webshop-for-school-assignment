@@ -7,6 +7,7 @@ let cart = [];
 let displayProducts = catalog.slice(0);
 let sort = { key: "property", asc: true };
 let blocklist = [];
+let selectedBrandFilters = [];
 
 window.onload = () => {
   print_products();
@@ -277,31 +278,60 @@ function sortItems(key, asc) {
 function resetFilter() {
   displayProducts = catalog.slice(0);
 
+  document
+    .querySelectorAll(".dropdown-item")
+    .forEach((b) => b.removeAttribute("data-selected"));
+
   sortItems(sort.key, sort.asc);
   print_products();
 }
 
+// function filterBrandOptions() {
+//   let brandsFilters = document.getElementById("brandsFilter");
+
+//   for (let i = 0; i < catalog.length; i++) {
+//     let item = catalog[i];
+
+//     if (blocklist.indexOf(item.brand) > -1) continue;
+
+//     let a = document.createElement("a");
+//     a.setAttribute("class", "dropdown-item");
+//     a.setAttribute("href", "javascript:void(0)");
+//     a.addEventListener("click", filterBrand);
+//     a.innerText = item.brand;
+//     brandsFilters.appendChild(a);
+
+//     blocklist.push(item.brand);
+//   }
+// }
+
 function filterBrandOptions() {
   let brandsFilters = document.getElementById("brandsFilter");
+  let colorsFilters = document.getElementById("colorsFilter");
 
   for (let i = 0; i < catalog.length; i++) {
     let item = catalog[i];
 
     if (blocklist.indexOf(item.brand) > -1) continue;
 
-    let a = document.createElement("a");
+    let brandsA = document.createElement("a");
+    brandsA.setAttribute("class", "dropdown-item");
+    brandsA.setAttribute("href", "javascript:void(0)");
+    brandsA.addEventListener("click", filterBrand);
+    brandsA.innerText = item.brand;
 
-    a.setAttribute("class", "dropdown-item");
-    a.setAttribute("href", "javascript:void(0)");
-    a.addEventListener("click", filterBrand);
-    a.innerText = item.brand;
-    brandsFilters.appendChild(a);
+    let colorsA = document.createElement("a");
+    colorsA.setAttribute("class", "dropdown-item");
+    colorsA.setAttribute("href", "javascript:void(0)");
+    colorsA.addEventListener("click", filterBrand);
+    colorsA.innerText = item.colors;
+
+    brandsFilters.appendChild(brandsA);
+    colorsFilters.appendChild(colorsA);
 
     blocklist.push(item.brand);
   }
 }
-
-let selectedBrandFilters = [];
 
 function filterBrand() {
   let brand = this.innerText;
@@ -327,3 +357,5 @@ function filterBrand() {
   print_products();
   return false;
 }
+
+function filterColors() {}
