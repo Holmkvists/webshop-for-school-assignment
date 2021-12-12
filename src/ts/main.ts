@@ -13,7 +13,8 @@ window.onload = () => {
   print_products();
   headerFunction;
   getUrl();
-
+  checkAvailability();
+  displaySizes();
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
 
@@ -98,7 +99,6 @@ function productdetails(event) {
 
   if (product)
    {
-  
     //Loopar igenom listan
     product.map((item) => {
 
@@ -121,18 +121,18 @@ function productdetails(event) {
              <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
              
                <div class="small-img-group mb-4">
-                 <div class="small-img-col">
+                 <div class="small-img-col mt-2 mx-1">
                    <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
                  </div>
  
-                 <div class="small-img-col">
+                 <div class="small-img-col mt-2 mx-1">
                    <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
                  </div>
                </div>
              </div>
  
  
-           <div class="col-lg-6 col-md-12 col-12">
+           <div class="col-lg-6 col-md-12 col-12 mb-3">
            <h6>
            <ul class="product-nav">
            <li><a href="#">Shop</a></li>
@@ -144,18 +144,12 @@ function productdetails(event) {
  
            <h4 class="text-uppercase h4-heading">${item.model}</h3>
              <h6 class="price">Price: $${item.price}</h6>
-             <small id="reviews" class="form-text text-muted">${item.instock}</small>
+             <small id="availability" class="form-text text-muted">${item.instock} <script>checkAvailability();</script></small>
            
  
              <label for="sizes" class="sizing">Sizes</label>
              <select class="my-3" name="sizes" id="sizing">
-               <option value="1">${item.sizes[0]}</option>
-               <option value="2">${item.sizes[1]}</option>
-               <option value="3">${item.sizes[2]}</option>
-               <option value="4">${item.sizes[3]}</option>
-               <option value="4">${item.sizes[4]}</option>
-               <option value="4">${item.sizes[5]}</option>
-               <option value="4">${item.sizes[6]}</option>
+             <script>${item.sizes} displaySizes();</script>
              </select>
              
              <div class="add-btn">
@@ -185,6 +179,32 @@ function productdetails(event) {
      wrapper.replaceChild(detailsPage, productContainer);
     });
   }
+  }
+
+  function checkAvailability() {
+    let stockItem = document.getElementById("availability");
+
+    catalog.map((item) => {
+      if (item.instock == true)
+      {
+        stockItem.innerText = "In stock";
+      }
+      else {
+        stockItem.innerText = "Out of stock";
+      }
+    });
+  }
+
+  function displaySizes() {
+  let sizeOption = document.getElementById("sizing");
+
+  product.map((item) => {
+    for (let i = 0; i < item.sizes.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = item.sizes[i];
+      sizeOption.appendChild(option);
+    }
+    });
   }
 
 function addToCart(event) {
