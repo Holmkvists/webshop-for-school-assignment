@@ -36,6 +36,71 @@
     width: 400px;
   }
 }
+.quantity-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  margin: 0 auto;
+}
+
+.quantity-field .value-button {
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 100%;
+  padding: 0;
+  background: #eee;
+  outline: none;
+  cursor: pointer;
+}
+
+.quantity-field .value-button:hover {
+  background: #e6e6e6;
+}
+
+.quantity-field .value-button:active {
+  background: #d2d2d2;
+}
+
+.quantity-field .decrease-button {
+  margin-right: -4px;
+  border-radius: 8px 0 0 8px;
+}
+
+.quantity-field .increase-button {
+  margin-left: -4px;
+  border-radius: 0 8px 8px 0;
+}
+
+.quantity-field .number {
+  display: inline-block;
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 100%;
+  line-height: 40px;
+  font-size: 11pt;
+  box-sizing: border-box;
+  background: white;
+  font-family: calibri;
+}
+
+.quantity-field .number::selection {
+  background: none;
+}
+
+/*
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+*/
 html {
   font-size: 12pt;
   background-color: white;
@@ -280,6 +345,102 @@ ul.product-nav li a:hover {
   }
 }
 @media screen and (min-width: 992px) {
+  .filtersHeader {
+    margin-top: 20px;
+    padding: 0.25rem 1.5rem;
+  }
+
+  #sortButton {
+    font-size: 12pt;
+  }
+
+  #filterButton {
+    font-size: 18pt;
+  }
+
+  .dropdown-item[data-selected=true] {
+    background-color: #ebebeb;
+  }
+
+  .selected-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-wrapper {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .selected-image {
+    width: 100%;
+    margin: 20px 0px 0px 0px;
+  }
+
+  .item-details {
+    width: 90%;
+    margin: 10px;
+  }
+
+  .h3-heading {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 10px;
+  }
+
+  .item-title {
+    font-size: 1.3rem;
+    margin: 5px;
+  }
+
+  .item-description {
+    margin: 20px;
+  }
+
+  .productcard {
+    width: 100%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+}
+@media screen and (min-width: 992px) and (min-width: 768px) {
+  .selected-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item-details {
+    width: 50%;
+  }
+
+  .image-wrapper {
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .selected-image {
+    width: 100%;
+  }
+
+  .small-img-group {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+
+  .small-img-col {
+    flex-basis: 50%;
+  }
+}
+@media screen and (min-width: 992px) and (min-width: 992px) {
   #sortButton {
     font-size: 12pt;
   }
@@ -322,8 +483,16 @@ ul.product-nav li a:hover {
   transition: all 1s ease;
 }
 
+#cart-amount {
+  width: 15px;
+  margin-left: 5px;
+}
+
 #bag {
   cursor: pointer !important;
+  background-color: orangered;
+  border-radius: 20px;
+  color: white;
 }
 
 #cart {
@@ -345,4 +514,70 @@ ul.product-nav li a:hover {
 .added {
   color: green;
 }
+
+.quantity-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px !important;
+  height: 30px !important;
+  margin: 0 auto;
+}
+
+.quantity-field .value-button {
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 20px;
+  height: 50%;
+  padding: 0;
+  background: #eee;
+  outline: none;
+  cursor: pointer;
+}
+
+.quantity-field .value-button:hover {
+  background: #e6e6e6;
+}
+
+.quantity-field .value-button:active {
+  background: #d2d2d2;
+}
+
+.quantity-field .decrease-button {
+  margin-right: -4px;
+  border-radius: 8px 0 0 8px;
+}
+
+.quantity-field .increase-button {
+  margin-left: -4px;
+  border-radius: 0 8px 8px 0;
+}
+
+.quantity-field .number {
+  display: inline-block;
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  width: 10px;
+  height: 50%;
+  line-height: 30px !important;
+  font-size: 11pt;
+  box-sizing: border-box;
+  background: white;
+  font-family: calibri;
+}
+
+.quantity-field .number::selection {
+  background: none;
+}
+
+/*
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+*/
 /*# sourceMappingURL=index.612625cb.css.map */
