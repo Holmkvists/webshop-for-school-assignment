@@ -232,13 +232,13 @@ function printCart() {
     cartWidget.innerHTML += cartitem;
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        // decreaseItem(event);
+        decreaseItem(event);
         printCart();
       });
     });
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        // increaseItem(event);
+        increaseItem(event);
         printCart();
       });
     });
@@ -476,4 +476,22 @@ function searchProducts(e) {
     print_products(filteredProducts);
   } else {
   }
+}
+
+// Increase / Decrease
+
+function decreaseItem(e) {
+  const artno = e.target.getAttribute("data-value");
+  let result = cart.filter((item) => {
+    return item.artno === artno;
+  });
+  console.log(result);
+}
+
+function increaseItem(e) {
+  const artno = e.target.getAttribute("data-value");
+  let result = cart.filter((item) => {
+    return item.artno === artno;
+  });
+  console.log(result);
 }
