@@ -509,6 +509,7 @@ ul.product-nav li a:hover {
 
 .remove-item {
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .added {

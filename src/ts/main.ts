@@ -180,7 +180,10 @@ function calculatePrice() {
   if (cart.length > 0) {
     for (let i = 0; i < cart.length; i++) {
       let price = cart[i].price;
-      total = total + price;
+      let quantity = cart[i].quantity;
+      console.log(quantity);
+      console.log(quantity * price);
+      total = total + quantity * price;
     }
   }
 
@@ -270,6 +273,7 @@ function removeitem(event) {
 
   cartAmount.innerHTML = itemsInCart();
 
+  calculatePrice();
   printCart();
   notAdded(artno);
 }
@@ -506,6 +510,7 @@ function increaseItem(e) {
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
   cartAmount.innerHTML = itemsInCart();
+  calculatePrice();
   printCart();
   console.log(cart);
 }
@@ -522,6 +527,7 @@ function decreaseItem(e) {
   }
 
   cartAmount.innerHTML = itemsInCart();
+  calculatePrice();
   printCart();
   console.log(cart);
 }
