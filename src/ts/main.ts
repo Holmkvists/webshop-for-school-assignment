@@ -12,6 +12,7 @@ let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
+  fromLocalStorage();
   print_products(catalog);
 
   document
@@ -156,12 +157,12 @@ function addToCart(event) {
   // Om produkten finns i varukorg, addera +1 i quantity
   if (!containsObject(item, cart)) {
     cart.push(item);
-
     cart[itemIndex]["quantity"] = 1;
   } else {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
 
+  toLocalstorage(cart);
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
   cartAmount.innerHTML = itemsInCart();
@@ -185,7 +186,7 @@ function calculatePrice() {
   }
 
   totalPrice.innerHTML = "$" + total.toString();
-  printCart();
+  printCart(cart);
   return total;
 }
 
@@ -205,7 +206,7 @@ function notAdded(artno) {
   });
 }
 
-function printCart() {
+function printCart(cart) {
   let cartWidget = document.getElementById("cart-widget");
   cartWidget.innerHTML = "";
   cart.map((item) => {
@@ -220,7 +221,7 @@ function printCart() {
       <p class="my-0">Size: 7</p>
     </div>
     <div class="col-3 flex flex-col">
-      <p>$${item.price}</p>
+      <p class="text-center">$${item.price}</p>
       <a class="remove-item" data-value="${item.artno}">Remove</a>
     <div>
     <div class="quantity-field" >
@@ -244,19 +245,16 @@ function printCart() {
     document.querySelectorAll(".remove-item").forEach((item) => {
       item.addEventListener("click", (event) => {
         removeitem(event);
-        printCart();
       });
     });
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         decreaseItem(event);
-        printCart();
       });
     });
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         increaseItem(event);
-        printCart();
       });
     });
   });
@@ -270,7 +268,8 @@ function removeitem(event) {
 
   cartAmount.innerHTML = itemsInCart();
 
-  printCart();
+  toLocalstorage(cart);
+  printCart(cart);
   notAdded(artno);
 }
 
@@ -506,8 +505,8 @@ function increaseItem(e) {
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
   cartAmount.innerHTML = itemsInCart();
-  printCart();
-  console.log(cart);
+  printCart(cart);
+  toLocalstorage(cart);
 }
 
 function decreaseItem(e) {
@@ -522,8 +521,9 @@ function decreaseItem(e) {
   }
 
   cartAmount.innerHTML = itemsInCart();
-  printCart();
   console.log(cart);
+  printCart(cart);
+  toLocalstorage(cart);
 }
 
 function itemsInCart() {
@@ -539,4 +539,18 @@ function containsObject(obj, list) {
   }
 
   return false;
+}
+
+function toLocalstorage(thing) {
+  localStorage.setItem("cart", JSON.stringify(thing));
+}
+
+function fromLocalStorage() {
+  const itemJSON = localStorage.getItem("cart");
+
+  if (itemJSON) {
+    cart = JSON.parse(itemJSON);
+    cartAmount.innerHTML = itemsInCart();
+    printCart(cart);
+  }
 }
