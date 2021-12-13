@@ -477,3 +477,22 @@ function searchProducts(e) {
   } else {
   }
 }
+
+// Quantity
+// function increaseItem(e) {
+//   const artno = e.target.getAttribute("data-value");
+//   cart.filter((x) => {});
+//   console.log(artno);
+//   if (!result.hasOwnProperty("quantity")) {
+//     result[]
+//   }
+// }
+
+// function decreaseItem(e) {
+//   const artno = e.target.getAttribute("data-value");
+//   let result = cart.filter((item) => {
+//     return item.artno === artno;
+//   });
+//   if (result)
+//   console.log(result);
+// }
