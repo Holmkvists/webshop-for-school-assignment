@@ -239,6 +239,7 @@ function printCart() {
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         // increaseItem(event);
+        // hej
         printCart();
       });
     });
