@@ -1,10 +1,7 @@
 import { catalog } from "./models/product-catalog";
 import { expandSearchbar } from "./header";
-import { headerFunction } from "./header";
-import { preventExtensions } from "core-js/core/object";
 import { opencart } from "./header";
 import { closecart } from "./header";
-import { updatePropertyAccessChain } from "typescript";
 
 let cart = [];
 let displayProducts = catalog.slice(0);
@@ -15,12 +12,6 @@ let selectedCategoriesFilters = [];
 
 window.onload = () => {
   print_products(catalog);
-  getUrl();
-  checkAvailability();
-  displaySizes();
-  clickAddBtn();
-  document.getElementById("close").addEventListener("click", closecart);
-  document.getElementById("bag").addEventListener("click", opencart);
 
   document
     .getElementById("searchbarContainer")
@@ -38,7 +29,6 @@ window.onload = () => {
   document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
   document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
   document.getElementById("allProducts").addEventListener("click", resetFilter);
-
 };
 
 let container = document.getElementById("product-container");
@@ -57,9 +47,9 @@ function print_products(ProductsObjects) {
             <img src="${item.imgURL}" alt="${
       item.model + " " + item.brand
     }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-              <div class="overlay"><a href="${item.artno}" data-value="${
-                item.artno
-              }" class="view-product">View Product</a></button></div>
+                <div class="overlay"><button data-value="${
+                  item.artno
+                }" class="view-product">View Product</button></div>
 
             </div>
           <div class="mt-4 flex justify-between">
@@ -88,162 +78,68 @@ function print_products(ProductsObjects) {
         addToCart(event);
       });
     });
-
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-      productdetails(event); //varje gång man klickar på en produkt, kör funktionen som visar produktdetaljerna
-      let item = event.target;
+        productdetail(event);
       });
     });
   });
 }
 
-//Deklarerar variablerna globalt
-let url = window.location.pathname;
-const path = /[^/]*$/.exec(url)[0];
+function productdetail(event) {
+  //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
+  const artno = event.target.getAttribute("data-value");
 
-//loopar igenom katalogen efter ett artno som är detsamma som path
-//& skapar en ny lista baserat på den, som heter product
-let product = catalog.filter(product => product.artno === path);  
+  //Hämtar elementen container-wrapper och product-container
+  let wrapper = document.getElementById("container-wrapper");
+  let productContainer = document.getElementById("product-container");
 
-//Hämtar url, tar värdet efter / och skickar vidare till productdetails
-function getUrl() {
- if (!path.length) {
-    return; 
-  } else if (path.length > 0) {
-     //Skickar nya listan product som en parameter i funktionen productdetails
-    productdetails(product);
-  }
+  //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+  let detailsPage = document.createElement("div");
+  detailsPage.innerHTML += `
+
+  <div class="container selected-wrapper"> 
+  <div class="container selected-inner">
+
+  <div class="image-wrapper">
+  <div class="selected-image">
+
+  <h3 class="text-uppercase h3-heading">adidas Originals
+  Stan Smith Vegan</h3>
+  <img src="https://www.sneakersnstuff.com/images/269940/product_large.jpg"/>
+  </div>
+
+  <!--- Här ska produktbeskrivning ligga --->
+
+  <div class="container item-details">
+  <h4 class="item-title">Description</h4>
+  <p class="item-description">
+  Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
+  The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products whatsoever in the creation of the product.</p>
+
+<ul class="list-unstyled detail-list">
+<li class="list-item">- Recycled polyester upper</li>
+<li class="list-item">- Embossed logo</li>
+<li class="list-item">- Rubber outsole</li>
+</ul>
+
+  </div>
+  </div>
+
+  </div>
+  </div> 
+
+  `;
+
+  //Ersätter "productContainer" med den nya divven "detailsPage"
+  wrapper.replaceChild(detailsPage, productContainer);
+
+  //Loggar ut artikelnumret - ta bort sen
+  console.log(artno);
+
+  /* Det som händer efter användaren har skickats till rätt sida.
+/Produktdatan hämtas & presenteras på skärmen*/
 }
-
-//I den nya funktionen, 
-function productdetails(event) {
-
-  if (product)
-   {
-    //Loopar igenom listan
-    product.map((item) => {
-
-    console.log(item.artno, item.colors);
-      let wrapper = document.getElementById("container-wrapper");
-      let productContainer = document.getElementById("product-container");
-
-      let detailsPage = document.createElement("div");
-      detailsPage.innerHTML += `
-   
-     <div class="container selected-wrapper"> 
-     <div class="container selected-inner">
-   
-     <div class="image-wrapper">
-     <div class="selected-image">
-   
-       <section class="container productcard my-3 pt-6">
-         <div class="row my-2 mx-1">
-           <div class="col-lg-5 col-md-12 col-12">
-             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
-             
-               <div class="small-img-group mb-4">
-                 <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
-                 </div>
- 
-                 <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
-                 </div>
-               </div>
-             </div>
- 
- 
-           <div class="col-lg-6 col-md-12 col-12 mb-3">
-           <h6>
-           <ul class="product-nav">
-           <li><a href="#">Shop</a></li>
-           <li><a href="#">${item.sex}</a></li>
-           <li><a href="#">${item.brand}</a></li>
-           <li><a href="#">${item.model}</a></li>
-           </ul>
-           </h6>
- 
-           <h4 class="text-uppercase h4-heading">${item.model}</h3>
-             <h6 class="price">Price: $${item.price}</h6>
-             <small id="availability" class="form-text text-muted">${item.instock} <script>checkAvailability();</script></small>
-           
- 
-             <label for="sizes" class="sizing">Sizes</label>
-             <select class="my-3" name="sizes" id="sizing">
-             <script>${item.sizes} displaySizes();</script>
-             </select>
-             
-             <div class="addbtn">
-             <button type="button" class="btn btn-dark">Add to cart</button>
-             </div>
- 
-             <h5 class="item-title mt-4">Description</h5>
-               <p class="item-description">
-               ${item.description}
-               </p>
- 
-             </div>
- 
-           </div>
- 
-         </div>
-       </section>
- 
-     </div>
-     </div>
-   
-     </div>
-     </div> 
-     `
-     ;
-    //Ersätter "productContainer" med den nya divven "detailsPage"
-     wrapper.replaceChild(detailsPage, productContainer);
-    });
-  }
-  }
-
-  function checkAvailability() {
-    let stockItem = document.getElementById("availability");
-
-    catalog.map((item) => {
-      if (item.instock == true)
-      {
-        stockItem.innerText = "In stock";
-      }
-      else {
-        stockItem.innerText = "Out of stock";
-      }
-    });
-  }
-
-  function displaySizes() {
-  let sizeOption = document.getElementById("sizing");
-
-  product.map((item) => {
-    for (let i = 0; i < item.sizes.length; i++) {
-      let option = document.createElement("option");
-      option.innerHTML = item.sizes[i];
-      sizeOption.appendChild(option);
-    }
-    });
-  }
-
-
-//Vid klick på addBtn knappen så anropas funktionen addFromDetails
-function clickAddBtn() {  
-let addBtn = document.getElementById("add-btn"); //Hämtar knapp
-addBtn.addEventListener("click", addFromDetails); //Funktionen anropas
-}
-
-//Hämtar url, tar värdet efter / och skickar vidare till productdetails
-//Hämtar informationen från urlen och skickar till varukorgen
-function addFromDetails() { 
-  catalog.find((item) => {
-    product.push(item);
-    });
-  }
-
 
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");
@@ -336,13 +232,13 @@ function printCart() {
     cartWidget.innerHTML += cartitem;
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        decreaseItem(event);
+        // decreaseItem(event);
         printCart();
       });
     });
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        increaseItem(event);
+        // increaseItem(event);
         printCart();
       });
     });
