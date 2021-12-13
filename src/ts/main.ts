@@ -12,6 +12,7 @@ let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
+  fromLocalStorage();
   print_products(catalog);
 
   document
@@ -143,7 +144,6 @@ function productdetail(event) {
 }
 
 function addToCart(event) {
-  console.log("cart");
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
   let added = document.createElement("p");
@@ -186,7 +186,7 @@ function calculatePrice() {
   }
 
   totalPrice.innerHTML = "$" + total.toString();
-  printCart();
+  printCart(cart);
   return total;
 }
 
@@ -206,7 +206,7 @@ function notAdded(artno) {
   });
 }
 
-function printCart() {
+function printCart(cart) {
   let cartWidget = document.getElementById("cart-widget");
   cartWidget.innerHTML = "";
   cart.map((item) => {
@@ -221,7 +221,7 @@ function printCart() {
       <p class="my-0">Size: 7</p>
     </div>
     <div class="col-3 flex flex-col">
-      <p>$${item.price}</p>
+      <p class="text-center">$${item.price}</p>
       <a class="remove-item" data-value="${item.artno}">Remove</a>
     <div>
     <div class="quantity-field" >
@@ -245,19 +245,16 @@ function printCart() {
     document.querySelectorAll(".remove-item").forEach((item) => {
       item.addEventListener("click", (event) => {
         removeitem(event);
-        printCart();
       });
     });
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         decreaseItem(event);
-        printCart();
       });
     });
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         increaseItem(event);
-        printCart();
       });
     });
   });
@@ -271,7 +268,8 @@ function removeitem(event) {
 
   cartAmount.innerHTML = itemsInCart();
 
-  printCart();
+  toLocalstorage(cart);
+  printCart(cart);
   notAdded(artno);
 }
 
@@ -507,8 +505,8 @@ function increaseItem(e) {
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
   cartAmount.innerHTML = itemsInCart();
-  printCart();
-  console.log(cart);
+  printCart(cart);
+  toLocalstorage(cart);
 }
 
 function decreaseItem(e) {
@@ -523,8 +521,9 @@ function decreaseItem(e) {
   }
 
   cartAmount.innerHTML = itemsInCart();
-  printCart();
   console.log(cart);
+  printCart(cart);
+  toLocalstorage(cart);
 }
 
 function itemsInCart() {
@@ -543,15 +542,15 @@ function containsObject(obj, list) {
 }
 
 function toLocalstorage(thing) {
-  console.log("saved");
-
   localStorage.setItem("cart", JSON.stringify(thing));
 }
 
-function fromLocalStorage(array) {
+function fromLocalStorage() {
   const itemJSON = localStorage.getItem("cart");
 
   if (itemJSON) {
-    return (cart = JSON.parse(itemJSON));
+    cart = JSON.parse(itemJSON);
+    cartAmount.innerHTML = itemsInCart();
+    printCart(cart);
   }
 }

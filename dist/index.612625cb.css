@@ -509,6 +509,8 @@ ul.product-nav li a:hover {
 
 .remove-item {
   cursor: pointer;
+  text-decoration: underline !important;
+  text-align: center;
 }
 
 .added {
@@ -520,7 +522,7 @@ ul.product-nav li a:hover {
   justify-content: center;
   align-items: center;
   width: 80px !important;
-  height: 30px !important;
+  height: 50px !important;
   margin: 0 auto;
 }
 
@@ -560,9 +562,9 @@ ul.product-nav li a:hover {
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   margin: 0px;
-  width: 10px;
+  width: 25px;
   height: 50%;
-  line-height: 30px !important;
+  line-height: 25px !important;
   font-size: 11pt;
   box-sizing: border-box;
   background: white;
