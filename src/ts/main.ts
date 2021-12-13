@@ -143,6 +143,7 @@ function productdetail(event) {
 }
 
 function addToCart(event) {
+  console.log("cart");
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
   let added = document.createElement("p");
@@ -156,12 +157,12 @@ function addToCart(event) {
   // Om produkten finns i varukorg, addera +1 i quantity
   if (!containsObject(item, cart)) {
     cart.push(item);
-
     cart[itemIndex]["quantity"] = 1;
   } else {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
 
+  toLocalstorage(cart);
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
   cartAmount.innerHTML = itemsInCart();
@@ -539,4 +540,18 @@ function containsObject(obj, list) {
   }
 
   return false;
+}
+
+function toLocalstorage(thing) {
+  console.log("saved");
+
+  localStorage.setItem("cart", JSON.stringify(thing));
+}
+
+function fromLocalStorage(array) {
+  const itemJSON = localStorage.getItem("cart");
+
+  if (itemJSON) {
+    return (cart = JSON.parse(itemJSON));
+  }
 }
