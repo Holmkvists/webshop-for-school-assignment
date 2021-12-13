@@ -151,11 +151,15 @@ function addToCart(event) {
   added.setAttribute("id", artno);
   addbtn.replaceWith(added);
   let item = catalog.find((x) => x.artno === artno);
-  let itemIndex = catalog.findIndex((x) => x.artno === artno);
+  let itemIndex = cart.length;
+  console.log(item);
 
   // Om produkten finns i varukorg, addera +1 i quantity
   if (!containsObject(item, cart)) {
+    console.log("hello");
     cart.push(item);
+    console.log(itemIndex);
+
     cart[itemIndex]["quantity"] = 1;
   } else {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
