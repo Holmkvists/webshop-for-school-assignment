@@ -507,11 +507,7 @@ function print_products() {
     });
 }
 function productdetail(event) {
-<<<<<<< Updated upstream
-    //Hämtar artikelnumret för den valda produkten
-=======
     //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
->>>>>>> Stashed changes
     const artno = event.target.getAttribute("data-value");
     //Hämtar elementen container-wrapper och product-container
     let wrapper = document.getElementById("container-wrapper");
