@@ -464,30 +464,40 @@ var _header = require("./header");
 let cart = [];
 let displayProducts = _productCatalog.catalog.slice(0);
 let sort = {
-    key: "price",
+    key: "property",
     asc: true
 };
+let selectedBrandsFilters = [];
+let selectedColorsFilters = [];
+let selectedCategoriesFilters = [];
 window.onload = ()=>{
-    print_products();
-    getUrl();
-    checkAvailability();
-    displaySizes();
-    clickAddBtn();
+    print_products(_productCatalog.catalog);
+    document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
+    filterOptions();
+    document.getElementById("searchbarButton").addEventListener("click", _header.expandSearchbar);
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
+    document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
+    document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+    document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
+    document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
+    document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
+    document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
+    document.getElementById("allProducts").addEventListener("click", resetFilter);
 };
 let container = document.getElementById("product-container");
-function print_products() {
+function print_products(ProductsObjects) {
     container.innerHTML = "";
-    displayProducts.map((item1)=>{
+    ProductsObjects.map((item1)=>{
         let product = `
+
 
 
         <div class="group relative">
             
             <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
             <img src="${item1.imgURL}" alt="${item1.model + " " + item1.brand}" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-              <div class="overlay"><a href="${item1.artno}" data-value="${item1.artno}" class="view-product">View Product</a></button></div>
+                <div class="overlay"><button data-value="${item1.artno}" class="view-product">View Product</button></div>
 
             </div>
           <div class="mt-4 flex justify-between">
@@ -514,135 +524,11 @@ function print_products() {
         });
         document.querySelectorAll(".view-product").forEach((item)=>{
             item.addEventListener("click", (event)=>{
-                productdetails(event); //varje gång man klickar på en produkt, kör funktionen som visar produktdetaljerna
-                let item = event.target;
+                productdetail(event);
             });
         });
     });
 }
-<<<<<<< Updated upstream
-//Deklarerar variablerna globalt
-let url = window.location.pathname;
-const path = /[^/]*$/.exec(url)[0];
-//loopar igenom katalogen efter ett artno som är detsamma som path
-//& skapar en ny lista baserat på den, som heter product
-let product1 = _productCatalog.catalog.filter((product)=>product.artno === path
-);
-//Hämtar url, tar värdet efter / och skickar vidare till productdetails
-function getUrl() {
-    if (!path.length) return;
-    else if (path.length > 0) //Skickar nya listan product som en parameter i funktionen productdetails
-    productdetails(product1);
-}
-//I den nya funktionen, 
-function productdetails(event) {
-    if (product1) //Loopar igenom listan
-    product1.map((item)=>{
-        console.log(item.artno, item.colors);
-        let wrapper = document.getElementById("container-wrapper");
-        let productContainer = document.getElementById("product-container");
-        let detailsPage = document.createElement("div");
-        detailsPage.innerHTML += `
-   
-     <div class="container selected-wrapper"> 
-     <div class="container selected-inner">
-   
-     <div class="image-wrapper">
-     <div class="selected-image">
-   
-       <section class="container productcard my-3 pt-6">
-         <div class="row my-2 mx-1">
-           <div class="col-lg-5 col-md-12 col-12">
-             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
-             
-               <div class="small-img-group mb-4">
-                 <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
-                 </div>
- 
-                 <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
-                 </div>
-               </div>
-             </div>
- 
- 
-           <div class="col-lg-6 col-md-12 col-12 mb-3">
-           <h6>
-           <ul class="product-nav">
-           <li><a href="#">Shop</a></li>
-           <li><a href="#">${item.sex}</a></li>
-           <li><a href="#">${item.brand}</a></li>
-           <li><a href="#">${item.model}</a></li>
-           </ul>
-           </h6>
- 
-           <h4 class="text-uppercase h4-heading">${item.model}</h3>
-             <h6 class="price">Price: $${item.price}</h6>
-             <small id="availability" class="form-text text-muted">${item.instock} <script>checkAvailability();</script></small>
-           
- 
-             <label for="sizes" class="sizing">Sizes</label>
-             <select class="my-3" name="sizes" id="sizing">
-             <script>${item.sizes} displaySizes();</script>
-             </select>
-             
-             <div class="addbtn">
-             <button type="button" class="btn btn-dark">Add to cart</button>
-             </div>
- 
-             <h5 class="item-title mt-4">Description</h5>
-               <p class="item-description">
-               ${item.description}
-               </p>
- 
-             </div>
- 
-           </div>
- 
-         </div>
-       </section>
- 
-     </div>
-     </div>
-   
-     </div>
-     </div> 
-     `;
-        //Ersätter "productContainer" med den nya divven "detailsPage"
-        wrapper.replaceChild(detailsPage, productContainer);
-    });
-}
-function checkAvailability() {
-    let stockItem = document.getElementById("availability");
-    _productCatalog.catalog.map((item)=>{
-        if (item.instock == true) stockItem.innerText = "In stock";
-        else stockItem.innerText = "Out of stock";
-    });
-}
-function displaySizes() {
-    let sizeOption = document.getElementById("sizing");
-    product1.map((item)=>{
-        for(let i = 0; i < item.sizes.length; i++){
-            let option = document.createElement("option");
-            option.innerHTML = item.sizes[i];
-            sizeOption.appendChild(option);
-        }
-    });
-}
-//Vid klick på addBtn knappen så anropas funktionen addFromDetails
-function clickAddBtn() {
-    let addBtn = document.getElementById("add-btn"); //Hämtar knapp
-    addBtn.addEventListener("click", addFromDetails); //Funktionen anropas
-}
-//Hämtar url, tar värdet efter / och skickar vidare till productdetails
-//Hämtar informationen från urlen och skickar till varukorgen
-function addFromDetails() {
-    _productCatalog.catalog.find((item)=>{
-        product1.push(item);
-    });
-}
-=======
 function productdetail(event) {
     //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
     const artno = event.target.getAttribute("data-value");
@@ -691,7 +577,6 @@ function productdetail(event) {
     console.log(artno);
 /* Det som händer efter användaren har skickats till rätt sida.
 /Produktdatan hämtas & presenteras på skärmen*/ }
->>>>>>> Stashed changes
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
     let addbtn = event.target;
@@ -705,7 +590,12 @@ function addToCart(event) {
     );
     cart.push(item);
     document.getElementById("cart-amount").innerHTML = cart.length.toString();
-    console.log(cart);
+    let cartIcon = document.getElementById("bag");
+    document.getElementById("bag").classList.add("animate__headShake");
+    setTimeout(function() {
+        document.getElementById("bag").classList.remove("animate__headShake");
+    }, 800);
+    // cartAnimation(cartIcon);
     calculatePrice();
 }
 function calculatePrice() {
@@ -749,14 +639,35 @@ function printCart() {
     <div class="col-3 flex flex-col">
       <p>$${item2.price}</p>
       <a class="remove-item" data-value="${item2.artno}">Remove</a>
+    <div>
+    <div class="quantity-field" >
+    <button 
+    data-value="${item2.artno}"
+      class="value-button decrease-button" 
+      title="Azalt">-</button>
+      <div class="number">0</div>
+    <button 
+      data-value="${item2.artno}"
+      class="value-button increase-button" 
+      title="Arrtır"
+    >+
+    </button>
+  </div>
+  </div>
     </div>
   </div>
     `;
         cartWidget.innerHTML += cartitem;
-        document.querySelectorAll(".remove-item").forEach((item)=>{
+        document.querySelectorAll(".decrease-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
-                removeitem(event);
-                calculatePrice();
+                // decreaseItem(event);
+                printCart();
+            });
+        });
+        document.querySelectorAll(".increase-button").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                // increaseItem(event);
+                printCart();
             });
         });
     });
@@ -770,54 +681,165 @@ function removeitem(event) {
     printCart();
     notAdded(artno);
 }
-let lowToHigh = document.getElementById("lowToHigh");
-lowToHigh.addEventListener("click", sortLowToHigh);
+// Sort functions
 function sortLowToHigh() {
     sortItems("price", true);
-    print_products();
+    print_products(displayProducts);
 }
-let highToLow = document.getElementById("highToLow");
-highToLow.addEventListener("click", sortHighToLow);
 function sortHighToLow() {
     sortItems("price", false);
-    print_products();
+    print_products(displayProducts);
+}
+function sortBrandsAZ() {
+    sortItems("brand", true);
+    print_products(displayProducts);
+}
+function sortBrandsZA() {
+    sortItems("brand", false);
+    print_products(displayProducts);
+}
+function sortModelsAZ() {
+    sortItems("model", true);
+    print_products(displayProducts);
+}
+function sortModelsZA() {
+    sortItems("model", false);
+    print_products(displayProducts);
 }
 function sortItems(key, asc) {
     sort = {
         key: key,
         asc: asc
     };
-    displayProducts.sort(function(a, b) {
-        return asc ? a[key] - b[key] : b[key] - a[key];
-    });
+    let compareItemFunction = function(a, b) {
+        switch(typeof a[key]){
+            case "number":
+                return asc ? a[key] - b[key] : b[key] - a[key];
+            case "string":
+                let propertyA = a[key].toUpperCase();
+                let propertyB = b[key].toUpperCase();
+                let result = propertyA < propertyB ? -1 : propertyA > propertyB ? 1 : 0;
+                return asc ? result : result * -1;
+        }
+    };
+    displayProducts.sort(compareItemFunction);
 }
-let brandFilters = document.getElementById("brandFilter");
-let allProducts = document.getElementById("allProducts");
-allProducts.addEventListener("click", function() {
-    displayProducts = _productCatalog.catalog.slice(0);
-    sortItems(sort.key, sort.asc);
-    print_products();
-});
-let blocklist = [];
-for(let i1 = 0; i1 < _productCatalog.catalog.length; i1++){
-    let item = _productCatalog.catalog[i1];
-    if (blocklist.indexOf(item.brand) > -1) continue;
-    let a = document.createElement("a");
-    a.setAttribute("class", "dropdown-item");
-    a.setAttribute("href", "javascript:void(0)");
-    a.addEventListener("click", filterBrand);
-    a.innerText = item.brand;
-    brandFilters.appendChild(a);
-    blocklist.push(item.brand);
+// Filter functions
+function filterOptions() {
+    let brandsFilters = document.getElementById("brandsFilter");
+    let uniqueBrands = getUniqueValues(_productCatalog.catalog, (m)=>m.brand
+    );
+    for(let i = 0; i < uniqueBrands.length; i++){
+        let brandName = uniqueBrands[i];
+        let brandsTag = createFilterOption(brandName);
+        brandsTag.addEventListener("click", selectBrand);
+        brandsFilters.appendChild(brandsTag);
+    }
+    let colorFilters = document.getElementById("colorsFilter");
+    let uniqueColors = getUniqueValues(_productCatalog.catalog, (m)=>m.colors
+    );
+    for(let i1 = 0; i1 < uniqueColors.length; i1++){
+        let colorName = uniqueColors[i1];
+        let colorTag = createFilterOption(colorName);
+        colorTag.addEventListener("click", selectColor);
+        colorFilters.appendChild(colorTag);
+    }
+    let categoriesFilters = document.getElementById("categoriesFilter");
+    let uniqueCategories = getUniqueValues(_productCatalog.catalog, (m)=>m.sex
+    );
+    for(let i2 = 0; i2 < uniqueCategories.length; i2++){
+        let categoryName = uniqueCategories[i2];
+        let categoryTag = createFilterOption(categoryName);
+        categoryTag.addEventListener("click", selectCategory);
+        categoriesFilters.appendChild(categoryTag);
+    }
 }
-function filterBrand() {
-    let brand = this.innerText;
-    let filtered = _productCatalog.catalog.filter(function(property) {
-        return property.brand == brand;
-    });
+function getUniqueValues(arrayOfItems, propertyAccessorCallback) {
+    let unique = [];
+    for(let i = 0; i < arrayOfItems.length; i++){
+        let value = propertyAccessorCallback(arrayOfItems[i]);
+        if (unique.indexOf(value) < 0) unique.push(value);
+    }
+    return unique;
+}
+function createFilterOption(str) {
+    let anchorTag = document.createElement("a");
+    anchorTag.setAttribute("class", "dropdown-item");
+    anchorTag.setAttribute("href", "javascript:void(0)");
+    anchorTag.innerText = str;
+    return anchorTag;
+}
+function selectBrand() {
+    let brandOption = this.innerText;
+    let selected = !(this.dataset["selected"] == "true");
+    if (selected) selectedBrandsFilters.push(brandOption);
+    else {
+        let index = selectedBrandsFilters.indexOf(brandOption);
+        if (index >= 0) selectedBrandsFilters.splice(index, 1);
+    }
+    this.dataset["selected"] = selected;
+    let filtered = _productCatalog.catalog.filter(applyFilter);
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
-    print_products();
+    print_products(displayProducts);
+    return false;
+}
+function selectColor() {
+    let colorOption = this.innerText;
+    let selected = !(this.dataset["selected"] == "true");
+    if (selected) selectedColorsFilters.push(colorOption);
+    else {
+        let index = selectedColorsFilters.indexOf(colorOption);
+        if (index >= 0) selectedColorsFilters.splice(index, 1);
+    }
+    this.dataset["selected"] = selected;
+    let filtered = _productCatalog.catalog.filter(applyFilter);
+    displayProducts = filtered;
+    sortItems(sort.key, sort.asc);
+    print_products(displayProducts);
+    return false;
+}
+function selectCategory() {
+    let categoryOption = this.innerText;
+    let selected = !(this.dataset["selected"] == "true");
+    if (selected) selectedCategoriesFilters.push(categoryOption);
+    else {
+        let index = selectedCategoriesFilters.indexOf(categoryOption);
+        if (index >= 0) selectedCategoriesFilters.splice(index, 1);
+    }
+    this.dataset["selected"] = selected;
+    let filtered = _productCatalog.catalog.filter(applyFilter);
+    displayProducts = filtered;
+    sortItems(sort.key, sort.asc);
+    print_products(displayProducts);
+    return false;
+}
+function applyFilter(catalogItem) {
+    let isBrandMatch = selectedBrandsFilters.length > 0 ? selectedBrandsFilters.indexOf(catalogItem.brand) >= 0 : true;
+    let isColorMatch = selectedColorsFilters.length > 0 ? selectedColorsFilters.indexOf(catalogItem.colors) >= 0 : true;
+    let isCategoryMatch = selectedCategoriesFilters.length > 0 ? selectedCategoriesFilters.indexOf(catalogItem.sex) >= 0 : true;
+    return isBrandMatch && isColorMatch && isCategoryMatch;
+}
+function resetFilter() {
+    displayProducts = _productCatalog.catalog.slice(0);
+    document.querySelectorAll(".dropdown-item").forEach((b)=>b.removeAttribute("data-selected")
+    );
+    selectedBrandsFilters.length = 0;
+    selectedColorsFilters.length = 0;
+    selectedCategoriesFilters.length = 0;
+    sortItems(sort.key, sort.asc);
+    print_products(displayProducts);
+}
+// SEARCH FEATURE
+function searchProducts(e) {
+    let searchFrase = "";
+    searchFrase = e.target.value;
+    searchFrase = searchFrase.toLowerCase();
+    let filteredProducts = _productCatalog.catalog.filter((item)=>{
+        return item.model.toLowerCase().includes(searchFrase) || item.brand.toLowerCase().includes(searchFrase);
+    });
+    let app = document.getElementById("app");
+    if (filteredProducts.length > 0) print_products(filteredProducts);
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -840,17 +862,14 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "Coconut milk",
-            "Forest green",
-            "Beige"
-        ],
+        colors: "Beige",
         sex: "Men",
         imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
         instock: true,
-        description: "After seeing the original colorways of the classic Nike Blazer return it’s time to bring back the low-tops. Constructed with a white leather upper with black and grey suede overlays, these retro kicks are more than just a throwback for old heads, this breaths sneaker culture."
+        numberInStock: 10,
+        description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
     },
     {
         artno: "Da8291-001",
@@ -870,12 +889,8 @@ const catalog = [
             "9.5",
             "10"
         ],
-        colors: [
-            "Light Bone",
-            "Beige",
-            "Green"
-        ],
-        sex: "Woman",
+        colors: "Beige",
+        sex: "Women",
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
@@ -890,10 +905,7 @@ const catalog = [
         sizes: [
             "5"
         ],
-        colors: [
-            "Grey",
-            "Multi color"
-        ],
+        colors: "Multi-color",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
@@ -915,16 +927,13 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "crystal white",
-            "chalk white",
-            "core black"
-        ],
+        colors: "White",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/308942/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
-        instock: true
+        instock: true,
+        numberInStock: 8
     },
     {
         artno: "Da7995-101",
@@ -940,10 +949,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "COCONUT MILK",
-            "BRIGHT CRIMSON-HYPER ROYAL"
-        ],
+        colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
@@ -964,11 +970,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "collegiate green",
-            "ftwr white",
-            "collegiate orange"
-        ],
+        colors: "Green",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
@@ -989,10 +991,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "PHANTOM",
-            "BLACK-RATTAN-LIGHT BONE"
-        ],
+        colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
         imgURL2: "",
@@ -1013,11 +1012,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "Dill",
-            "Vaporous Gray",
-            "White"
-        ],
+        colors: "Green",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
@@ -1059,34 +1054,34 @@ exports.export = function(dest, destName, get) {
 },{}],"7gBgG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
+parcelHelpers.export(exports, "expandSearchbar", ()=>expandSearchbar
 );
 parcelHelpers.export(exports, "closecart", ()=>closecart
 );
 parcelHelpers.export(exports, "opencart", ()=>opencart
 );
-function headerFunction() {
-    let searchbarButton = document.getElementById("searchbarButton");
-    searchbarButton.addEventListener("click", expandSearchbar);
-    console.log("hello");
-    function expandSearchbar() {
-        let searchbar = document.getElementById("searchbar");
-        if (searchbar.style.display === "block") searchbar.style.display = "none";
-        else searchbar.style.display = "block";
-    }
+function expandSearchbar() {
+    let searchbar = document.getElementById("searchbar");
+    if (searchbar.style.display === "block") searchbar.style.display = "none";
+    else searchbar.style.display = "block";
 }
 function closecart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    widget.style.display = "none";
-    widget.style.right = "-420px";
+    window.setTimeout(function() {
+        widget.style.transform = "translate(0px)";
+    }, 0);
     overlay.style.display = "none";
 }
 function opencart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
     widget.style.display = "block";
+    overlay.classList.add("animate__headShake");
     overlay.style.display = "block";
+    window.setTimeout(function() {
+        overlay.style.transform = "translate(opacity .25s)";
+    }, 0);
     window.setTimeout(function() {
         widget.style.transform = "translate(-420px)";
     }, 0);
