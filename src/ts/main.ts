@@ -240,6 +240,12 @@ function printCart() {
   </div>
     `;
     cartWidget.innerHTML += cartitem;
+    document.querySelectorAll(".remove-item").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        removeitem(event);
+        printCart();
+      });
+    });
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         decreaseItem(event);
@@ -261,7 +267,7 @@ function removeitem(event) {
     return item.artno != artno;
   });
 
-  document.getElementById("cart-amount").innerHTML = cart.length.toString();
+  cartAmount.innerHTML = itemsInCart();
 
   printCart();
   notAdded(artno);
