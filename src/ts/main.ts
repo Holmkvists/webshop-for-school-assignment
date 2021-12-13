@@ -248,14 +248,13 @@ function printCart() {
     });
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        // decreaseItem(event);
+        decreaseItem(event);
         printCart();
       });
     });
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        // increaseItem(event);
-        // hej
+        increaseItem(event);
         printCart();
       });
     });
