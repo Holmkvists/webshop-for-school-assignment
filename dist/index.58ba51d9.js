@@ -520,6 +520,7 @@ function print_products() {
         });
     });
 }
+<<<<<<< Updated upstream
 //Deklarerar variablerna globalt
 let url = window.location.pathname;
 const path = /[^/]*$/.exec(url)[0];
@@ -641,6 +642,56 @@ function addFromDetails() {
         product1.push(item);
     });
 }
+=======
+function productdetail(event) {
+    //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
+    const artno = event.target.getAttribute("data-value");
+    //Hämtar elementen container-wrapper och product-container
+    let wrapper = document.getElementById("container-wrapper");
+    let productContainer = document.getElementById("product-container");
+    //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
+    let detailsPage = document.createElement("div");
+    detailsPage.innerHTML += `
+
+  <div class="container selected-wrapper"> 
+  <div class="container selected-inner">
+
+  <div class="image-wrapper">
+  <div class="selected-image">
+
+  <h3 class="text-uppercase h3-heading">adidas Originals
+  Stan Smith Vegan</h3>
+  <img src="https://www.sneakersnstuff.com/images/269940/product_large.jpg"/>
+  </div>
+
+  <!--- Här ska produktbeskrivning ligga --->
+
+  <div class="container item-details">
+  <h4 class="item-title">Description</h4>
+  <p class="item-description">
+  Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
+  The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products whatsoever in the creation of the product.</p>
+
+<ul class="list-unstyled detail-list">
+<li class="list-item">- Recycled polyester upper</li>
+<li class="list-item">- Embossed logo</li>
+<li class="list-item">- Rubber outsole</li>
+</ul>
+
+  </div>
+  </div>
+
+  </div>
+  </div> 
+
+  `;
+    //Ersätter "productContainer" med den nya divven "detailsPage"
+    wrapper.replaceChild(detailsPage, productContainer);
+    //Loggar ut artikelnumret - ta bort sen
+    console.log(artno);
+/* Det som händer efter användaren har skickats till rätt sida.
+/Produktdatan hämtas & presenteras på skärmen*/ }
+>>>>>>> Stashed changes
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
     let addbtn = event.target;
