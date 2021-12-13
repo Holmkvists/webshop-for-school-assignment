@@ -5,10 +5,15 @@
 // check out the link below and learn how to write your first test:
 // https://on.cypress.io/writing-first-test
 
-describe("sort test", () => {
-  cy.visit;
+describe("sort tests", () => {
+  it("should sort low to high", () => {
+    // Arrange
+    cy.visit("http://localhost:1234/productdetails.html#");
 
-  it("Does not do much!", () => {
-    expect(true).to.equal(true);
+    // Act
+    cy.get("#sortButton").click();
+    cy.get("#lowToHigh").click();
+
+    // Result
   });
 });
