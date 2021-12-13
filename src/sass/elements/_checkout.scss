@@ -1,0 +1,45 @@
+
+html {
+    font-size: 12pt;
+    background-color: white;
+}
+
+.h4-checkout {
+    font-size: 1.2rem;
+}
+    
+.adresscard {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 2%;
+}
+
+.cart-list {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.promocard {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.confirmorder {
+    display: flex;
+    justify-content: center;
+
+    .confirmbtn,
+    .redeem-btn {
+        background-color: black;
+        margin: 10px;
+        background-color: black;
+        border-style: none;
+    }
+
+    .confirmbtn:hover {
+        background-color: rgb(41, 41, 41);
+        transition: background-color 0.2s ease-out;
+
+    }
+}
+
+.checkoutinput {
+    height: calc(2rem + 2px);
+}
