@@ -805,6 +805,7 @@ function selectColor() {
     }
     this.dataset["selected"] = selected;
     let filtered = _productCatalog.catalog.filter(applyFilter);
+<<<<<<< HEAD
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
     print_products(displayProducts);
@@ -820,11 +821,31 @@ function selectCategory() {
     }
     this.dataset["selected"] = selected;
     let filtered = _productCatalog.catalog.filter(applyFilter);
+=======
+>>>>>>> e4b0badd1ff4fba77a819602e482cf0dacdd5d76
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
     print_products(displayProducts);
     return false;
 }
+<<<<<<< HEAD
+=======
+function selectCategory() {
+    let categoryOption = this.innerText;
+    let selected = !(this.dataset["selected"] == "true");
+    if (selected) selectedCategoriesFilters.push(categoryOption);
+    else {
+        let index = selectedCategoriesFilters.indexOf(categoryOption);
+        if (index >= 0) selectedCategoriesFilters.splice(index, 1);
+    }
+    this.dataset["selected"] = selected;
+    let filtered = _productCatalog.catalog.filter(applyFilter);
+    displayProducts = filtered;
+    sortItems(sort.key, sort.asc);
+    print_products(displayProducts);
+    return false;
+}
+>>>>>>> e4b0badd1ff4fba77a819602e482cf0dacdd5d76
 function applyFilter(catalogItem) {
     let isBrandMatch = selectedBrandsFilters.length > 0 ? selectedBrandsFilters.indexOf(catalogItem.brand) >= 0 : true;
     let isColorMatch = selectedColorsFilters.length > 0 ? selectedColorsFilters.indexOf(catalogItem.colors) >= 0 : true;
