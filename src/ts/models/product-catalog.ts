@@ -27,7 +27,8 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
     instock: true,
-    description: "Nike Waffle Trainer 2 gives you the original look of Nike Running and celebrates the 50th anniversary of Swoosh. With its classic Waffle sole and retro material that flashes to 70s athletics and its original Swoosh design, it celebrates Nike's humble beginnings.",
+    description:
+      "Nike Waffle Trainer 2 gives you the original look of Nike Running and celebrates the 50th anniversary of Swoosh. With its classic Waffle sole and retro material that flashes to 70s athletics and its original Swoosh design, it celebrates Nike's humble beginnings.",
   },
   {
     artno: "M990cp2",
@@ -41,7 +42,8 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/316754/02a2537.jpg",
     instock: true,
-    description: "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit.",
+    description:
+      "The iconic New Balance Made In US 990v2 has a shock-absorbing ABZORB midsole that provides the support and comfort you need every day. The shoe is made of first-class pigskin and mesh, and gives a timeless style to any outfit.",
   },
   {
     artno: "Q46229",

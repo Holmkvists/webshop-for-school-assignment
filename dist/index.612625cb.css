@@ -509,8 +509,12 @@ ul.product-nav li a:hover {
 
 .remove-item {
   cursor: pointer;
+<<<<<<< HEAD
   text-decoration: underline !important;
   text-align: center;
+=======
+  text-decoration: underline;
+>>>>>>> feature/improved-calculate-price
 }
 
 .added {

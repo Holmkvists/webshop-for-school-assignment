@@ -610,7 +610,8 @@ function calculatePrice() {
     let total = 0;
     if (cart1.length > 0) for(let i = 0; i < cart1.length; i++){
         let price = cart1[i].price;
-        total = total + price;
+        let quantity = cart1[i].quantity;
+        total = total + quantity * price;
     }
     totalPrice.innerHTML = "$" + total.toString();
     printCart(cart1);
@@ -665,14 +666,11 @@ function printCart(cart) {
   </div>
     `;
         cartWidget.innerHTML += cartitem;
-<<<<<<< HEAD
-=======
         document.querySelectorAll(".remove-item").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 removeitem(event);
             });
         });
->>>>>>> 125d0987c8da9beee8f5a5d91eb3540c52c681b4
         document.querySelectorAll(".decrease-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 decreaseItem(event);
@@ -681,10 +679,6 @@ function printCart(cart) {
         document.querySelectorAll(".increase-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 increaseItem(event);
-<<<<<<< HEAD
-                printCart();
-=======
->>>>>>> 125d0987c8da9beee8f5a5d91eb3540c52c681b4
             });
         });
     });
@@ -696,6 +690,7 @@ function removeitem(event) {
     });
     cartAmount.innerHTML = itemsInCart();
     toLocalstorage(cart1);
+    calculatePrice();
     printCart(cart1);
     notAdded(artno);
 }
@@ -812,9 +807,6 @@ function selectColor() {
     }
     this.dataset["selected"] = selected;
     let filtered = _productCatalog.catalog.filter(applyFilter);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
     print_products(displayProducts);
@@ -830,38 +822,11 @@ function selectCategory() {
     }
     this.dataset["selected"] = selected;
     let filtered = _productCatalog.catalog.filter(applyFilter);
-=======
->>>>>>> e4b0badd1ff4fba77a819602e482cf0dacdd5d76
->>>>>>> 125d0987c8da9beee8f5a5d91eb3540c52c681b4
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
     print_products(displayProducts);
     return false;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 125d0987c8da9beee8f5a5d91eb3540c52c681b4
-function selectCategory() {
-    let categoryOption = this.innerText;
-    let selected = !(this.dataset["selected"] == "true");
-    if (selected) selectedCategoriesFilters.push(categoryOption);
-    else {
-        let index = selectedCategoriesFilters.indexOf(categoryOption);
-        if (index >= 0) selectedCategoriesFilters.splice(index, 1);
-    }
-    this.dataset["selected"] = selected;
-    let filtered = _productCatalog.catalog.filter(applyFilter);
-    displayProducts = filtered;
-    sortItems(sort.key, sort.asc);
-    print_products(displayProducts);
-    return false;
-}
-<<<<<<< HEAD
-=======
->>>>>>> e4b0badd1ff4fba77a819602e482cf0dacdd5d76
->>>>>>> 125d0987c8da9beee8f5a5d91eb3540c52c681b4
 function applyFilter(catalogItem) {
     let isBrandMatch = selectedBrandsFilters.length > 0 ? selectedBrandsFilters.indexOf(catalogItem.brand) >= 0 : true;
     let isColorMatch = selectedColorsFilters.length > 0 ? selectedColorsFilters.indexOf(catalogItem.colors) >= 0 : true;
@@ -889,22 +854,6 @@ function searchProducts(e) {
     let app = document.getElementById("app");
     if (filteredProducts.length > 0) print_products(filteredProducts);
 }
-<<<<<<< HEAD
-// Increase / Decrease
-function decreaseItem(e) {
-    const artno = e.target.getAttribute("data-value");
-    let result = cart.filter((item)=>{
-        return item.artno === artno;
-    });
-    console.log(result);
-}
-function increaseItem(e) {
-    const artno = e.target.getAttribute("data-value");
-    let result = cart.filter((item)=>{
-        return item.artno === artno;
-    });
-    console.log(result);
-=======
 // Quantity
 function increaseItem(e) {
     const artno = e.target.getAttribute("data-value");
@@ -914,6 +863,7 @@ function increaseItem(e) {
     );
     cart1[itemIndex].quantity = cart1[itemIndex].quantity + 1;
     cartAmount.innerHTML = itemsInCart();
+    calculatePrice();
     printCart(cart1);
     toLocalstorage(cart1);
 }
@@ -926,7 +876,7 @@ function decreaseItem(e) {
     cart1[itemIndex].quantity = cart1[itemIndex].quantity - 1;
     if (cart1[itemIndex].quantity === 0) removeitem(e);
     cartAmount.innerHTML = itemsInCart();
-    console.log(cart1);
+    calculatePrice();
     printCart(cart1);
     toLocalstorage(cart1);
 }
@@ -949,9 +899,9 @@ function fromLocalStorage() {
     if (itemJSON) {
         cart1 = JSON.parse(itemJSON);
         cartAmount.innerHTML = itemsInCart();
+        calculatePrice();
         printCart(cart1);
     }
->>>>>>> 125d0987c8da9beee8f5a5d91eb3540c52c681b4
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -974,17 +924,14 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "Coconut milk",
-            "Forest green",
-            "Beige"
-        ],
+        colors: "Beige",
         sex: "Men",
         imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
         instock: true,
-        description: "After seeing the original colorways of the classic Nike Blazer return it’s time to bring back the low-tops. Constructed with a white leather upper with black and grey suede overlays, these retro kicks are more than just a throwback for old heads, this breaths sneaker culture."
+        numberInStock: 10,
+        description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
     },
     {
         artno: "Da8291-001",
@@ -1004,12 +951,8 @@ const catalog = [
             "9.5",
             "10"
         ],
-        colors: [
-            "Light Bone",
-            "Beige",
-            "Green"
-        ],
-        sex: "Woman",
+        colors: "Beige",
+        sex: "Women",
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
@@ -1024,10 +967,7 @@ const catalog = [
         sizes: [
             "5"
         ],
-        colors: [
-            "Grey",
-            "Multi color"
-        ],
+        colors: "Multi-color",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
@@ -1049,16 +989,13 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "crystal white",
-            "chalk white",
-            "core black"
-        ],
+        colors: "White",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/308942/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
-        instock: true
+        instock: true,
+        numberInStock: 8
     },
     {
         artno: "Da7995-101",
@@ -1074,10 +1011,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "COCONUT MILK",
-            "BRIGHT CRIMSON-HYPER ROYAL"
-        ],
+        colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
@@ -1098,11 +1032,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "collegiate green",
-            "ftwr white",
-            "collegiate orange"
-        ],
+        colors: "Green",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
@@ -1123,10 +1053,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "PHANTOM",
-            "BLACK-RATTAN-LIGHT BONE"
-        ],
+        colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
         imgURL2: "",
@@ -1147,11 +1074,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "Dill",
-            "Vaporous Gray",
-            "White"
-        ],
+        colors: "Green",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
@@ -1193,34 +1116,34 @@ exports.export = function(dest, destName, get) {
 },{}],"7gBgG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
+parcelHelpers.export(exports, "expandSearchbar", ()=>expandSearchbar
 );
 parcelHelpers.export(exports, "closecart", ()=>closecart
 );
 parcelHelpers.export(exports, "opencart", ()=>opencart
 );
-function headerFunction() {
-    let searchbarButton = document.getElementById("searchbarButton");
-    searchbarButton.addEventListener("click", expandSearchbar);
-    console.log("hello");
-    function expandSearchbar() {
-        let searchbar = document.getElementById("searchbar");
-        if (searchbar.style.display === "block") searchbar.style.display = "none";
-        else searchbar.style.display = "block";
-    }
+function expandSearchbar() {
+    let searchbar = document.getElementById("searchbar");
+    if (searchbar.style.display === "block") searchbar.style.display = "none";
+    else searchbar.style.display = "block";
 }
 function closecart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    widget.style.display = "none";
-    widget.style.right = "-420px";
+    window.setTimeout(function() {
+        widget.style.transform = "translate(0px)";
+    }, 0);
     overlay.style.display = "none";
 }
 function opencart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
     widget.style.display = "block";
+    overlay.classList.add("animate__headShake");
     overlay.style.display = "block";
+    window.setTimeout(function() {
+        overlay.style.transform = "translate(opacity .25s)";
+    }, 0);
     window.setTimeout(function() {
         widget.style.transform = "translate(-420px)";
     }, 0);

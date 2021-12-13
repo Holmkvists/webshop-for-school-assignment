@@ -181,7 +181,8 @@ function calculatePrice() {
   if (cart.length > 0) {
     for (let i = 0; i < cart.length; i++) {
       let price = cart[i].price;
-      total = total + price;
+      let quantity = cart[i].quantity;
+      total = total + quantity * price;
     }
   }
 
@@ -269,6 +270,7 @@ function removeitem(event) {
   cartAmount.innerHTML = itemsInCart();
 
   toLocalstorage(cart);
+  calculatePrice();
   printCart(cart);
   notAdded(artno);
 }
@@ -505,6 +507,8 @@ function increaseItem(e) {
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
   cartAmount.innerHTML = itemsInCart();
+
+  calculatePrice();
   printCart(cart);
   toLocalstorage(cart);
 }
@@ -521,7 +525,7 @@ function decreaseItem(e) {
   }
 
   cartAmount.innerHTML = itemsInCart();
-  console.log(cart);
+  calculatePrice();
   printCart(cart);
   toLocalstorage(cart);
 }
@@ -551,6 +555,7 @@ function fromLocalStorage() {
   if (itemJSON) {
     cart = JSON.parse(itemJSON);
     cartAmount.innerHTML = itemsInCart();
+    calculatePrice();
     printCart(cart);
   }
 }
