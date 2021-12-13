@@ -153,7 +153,12 @@ function addToCart(event) {
   let item = catalog.find((x) => x.artno === artno);
   cart.push(item);
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
-  console.log(cart);
+  let cartIcon = document.getElementById("bag");
+  document.getElementById("bag").classList.add("animate__headShake");
+  setTimeout(function () {
+    document.getElementById("bag").classList.remove("animate__headShake");
+  }, 800);
+  // cartAnimation(cartIcon);
   calculatePrice();
 }
 
@@ -206,14 +211,35 @@ function printCart() {
     <div class="col-3 flex flex-col">
       <p>$${item.price}</p>
       <a class="remove-item" data-value="${item.artno}">Remove</a>
+    <div>
+    <div class="quantity-field" >
+    <button 
+    data-value="${item.artno}"
+      class="value-button decrease-button" 
+      title="Azalt">-</button>
+      <div class="number">0</div>
+    <button 
+      data-value="${item.artno}"
+      class="value-button increase-button" 
+      title="Arrtır"
+    >+
+    </button>
+  </div>
+  </div>
     </div>
   </div>
     `;
     cartWidget.innerHTML += cartitem;
-    document.querySelectorAll(".remove-item").forEach((item) => {
+    document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        removeitem(event);
-        calculatePrice();
+        decreaseItem(event);
+        printCart();
+      });
+    });
+    document.querySelectorAll(".increase-button").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        increaseItem(event);
+        printCart();
       });
     });
   });
@@ -225,6 +251,7 @@ function removeitem(event) {
     return item.artno != artno;
   });
   document.getElementById("cart-amount").innerHTML = cart.length.toString();
+
   printCart();
   notAdded(artno);
 }
@@ -444,7 +471,7 @@ function searchProducts(e) {
       (item.brand.toLowerCase() as any).includes(searchFrase)
     );
   });
-
+  let app = document.getElementById("app");
   if (filteredProducts.length > 0) {
     print_products(filteredProducts);
   } else {
