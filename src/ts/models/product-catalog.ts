@@ -11,6 +11,7 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
     instock: true,
+    numberInStock: 10,
     description:
       "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns.",
   },
@@ -21,7 +22,7 @@ export const catalog = [
     price: 89,
     sizes: ["5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"],
     colors: "Beige",
-    sex: "Woman",
+    sex: "Women",
     imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
     imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
@@ -35,7 +36,7 @@ export const catalog = [
     brand: "New Balance",
     price: 175,
     sizes: ["5"],
-    colors: "Multi color",
+    colors: "Multi-color",
     sex: "Unisex",
     imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
     imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
@@ -56,6 +57,7 @@ export const catalog = [
     imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
     imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
     instock: true,
+    numberInStock: 8,
   },
   {
     artno: "Da7995-101",

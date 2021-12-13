@@ -6,12 +6,13 @@ import { closecart } from "./header";
 let cart = [];
 let displayProducts = catalog.slice(0);
 let sort = { key: "property", asc: true };
-let blocklist = [];
-let selectedBrandFilters = [];
+let selectedBrandsFilters = [];
+let selectedColorsFilters = [];
+let selectedCategoriesFilters = [];
 
 window.onload = () => {
   print_products();
-  filterBrandOptions();
+  filterOptions();
   document
     .getElementById("searchbarButton")
     .addEventListener("click", expandSearchbar);
@@ -275,82 +276,78 @@ function sortItems(key, asc) {
 
 // Filter functions
 
-function resetFilter() {
-  displayProducts = catalog.slice(0);
+function filterOptions() {
+  let brandsFilters: HTMLDivElement = document.getElementById(
+    "brandsFilter"
+  ) as HTMLDivElement;
+  let uniqueBrands = getUniqueValues(catalog, (m) => m.brand);
 
-  document
-    .querySelectorAll(".dropdown-item")
-    .forEach((b) => b.removeAttribute("data-selected"));
+  for (let i = 0; i < uniqueBrands.length; i++) {
+    let brandName: string = uniqueBrands[i];
+    let brandsTag = createFilterOption(brandName);
+    brandsTag.addEventListener("click", selectBrand);
+    brandsFilters.appendChild(brandsTag);
+  }
 
-  sortItems(sort.key, sort.asc);
-  print_products();
-}
+  let colorFilters: HTMLDivElement = document.getElementById(
+    "colorsFilter"
+  ) as HTMLDivElement;
+  let uniqueColors = getUniqueValues(catalog, (m) => m.colors);
 
-// function filterBrandOptions() {
-//   let brandsFilters = document.getElementById("brandsFilter");
+  for (let i = 0; i < uniqueColors.length; i++) {
+    let colorName: string = uniqueColors[i];
+    let colorTag = createFilterOption(colorName);
+    colorTag.addEventListener("click", selectColor);
+    colorFilters.appendChild(colorTag);
+  }
 
-//   for (let i = 0; i < catalog.length; i++) {
-//     let item = catalog[i];
+  let categoriesFilters: HTMLDivElement = document.getElementById(
+    "categoriesFilter"
+  ) as HTMLDivElement;
+  let uniqueCategories = getUniqueValues(catalog, (m) => m.sex);
 
-//     if (blocklist.indexOf(item.brand) > -1) continue;
-
-//     let a = document.createElement("a");
-//     a.setAttribute("class", "dropdown-item");
-//     a.setAttribute("href", "javascript:void(0)");
-//     a.addEventListener("click", filterBrand);
-//     a.innerText = item.brand;
-//     brandsFilters.appendChild(a);
-
-//     blocklist.push(item.brand);
-//   }
-// }
-
-function filterBrandOptions() {
-  let brandsFilters = document.getElementById("brandsFilter");
-  let colorsFilters = document.getElementById("colorsFilter");
-
-  for (let i = 0; i < catalog.length; i++) {
-    let item = catalog[i];
-
-    if (blocklist.indexOf(item.brand) > -1) continue;
-
-    let brandsA = document.createElement("a");
-    brandsA.setAttribute("class", "dropdown-item");
-    brandsA.setAttribute("href", "javascript:void(0)");
-    brandsA.addEventListener("click", filterBrand);
-    brandsA.innerText = item.brand;
-
-    let colorsA = document.createElement("a");
-    colorsA.setAttribute("class", "dropdown-item");
-    colorsA.setAttribute("href", "javascript:void(0)");
-    colorsA.addEventListener("click", filterBrand);
-    colorsA.innerText = item.colors;
-
-    brandsFilters.appendChild(brandsA);
-    colorsFilters.appendChild(colorsA);
-
-    blocklist.push(item.brand);
+  for (let i = 0; i < uniqueCategories.length; i++) {
+    let categoryName: string = uniqueCategories[i];
+    let categoryTag = createFilterOption(categoryName);
+    categoryTag.addEventListener("click", selectCategory);
+    categoriesFilters.appendChild(categoryTag);
   }
 }
 
-function filterBrand() {
-  let brand = this.innerText;
+function getUniqueValues(arrayOfItems, propertyAccessorCallback) {
+  let unique = [];
+
+  for (let i = 0; i < arrayOfItems.length; i++) {
+    let value = propertyAccessorCallback(arrayOfItems[i]);
+    if (unique.indexOf(value) < 0) {
+      unique.push(value);
+    }
+  }
+  return unique;
+}
+
+function createFilterOption(str: string) {
+  let anchorTag = document.createElement("a");
+  anchorTag.setAttribute("class", "dropdown-item");
+  anchorTag.setAttribute("href", "javascript:void(0)");
+  anchorTag.innerText = str;
+  return anchorTag;
+}
+
+function selectBrand() {
+  let brandOption = this.innerText;
   let selected = !(this.dataset["selected"] == "true");
 
   if (selected) {
-    selectedBrandFilters.push(brand);
+    selectedBrandsFilters.push(brandOption);
   } else {
-    let index = selectedBrandFilters.indexOf(brand);
-    if (index >= 0) selectedBrandFilters.splice(index, 1);
+    let index = selectedBrandsFilters.indexOf(brandOption);
+    if (index >= 0) selectedBrandsFilters.splice(index, 1);
   }
 
-  let filtered = catalog.filter(function (property) {
-    return selectedBrandFilters.length > 0
-      ? selectedBrandFilters.indexOf(property.brand) >= 0
-      : true;
-  });
-
   this.dataset["selected"] = selected;
+
+  let filtered = catalog.filter(applyFilter);
   displayProducts = filtered;
 
   sortItems(sort.key, sort.asc);
@@ -358,4 +355,75 @@ function filterBrand() {
   return false;
 }
 
-function filterColors() {}
+function selectColor() {
+  let colorOption = this.innerText;
+  let selected = !(this.dataset["selected"] == "true");
+
+  if (selected) {
+    selectedColorsFilters.push(colorOption);
+  } else {
+    let index = selectedColorsFilters.indexOf(colorOption);
+    if (index >= 0) selectedColorsFilters.splice(index, 1);
+  }
+  this.dataset["selected"] = selected;
+
+  let filtered = catalog.filter(applyFilter);
+  displayProducts = filtered;
+
+  sortItems(sort.key, sort.asc);
+  print_products();
+  return false;
+}
+
+function selectCategory() {
+  let categoryOption = this.innerText;
+  let selected = !(this.dataset["selected"] == "true");
+
+  if (selected) {
+    selectedCategoriesFilters.push(categoryOption);
+  } else {
+    let index = selectedCategoriesFilters.indexOf(categoryOption);
+    if (index >= 0) selectedCategoriesFilters.splice(index, 1);
+  }
+  this.dataset["selected"] = selected;
+
+  let filtered = catalog.filter(applyFilter);
+  displayProducts = filtered;
+
+  sortItems(sort.key, sort.asc);
+  print_products();
+  return false;
+}
+
+function applyFilter(catalogItem) {
+  let isBrandMatch =
+    selectedBrandsFilters.length > 0
+      ? selectedBrandsFilters.indexOf(catalogItem.brand) >= 0
+      : true;
+
+  let isColorMatch =
+    selectedColorsFilters.length > 0
+      ? selectedColorsFilters.indexOf(catalogItem.colors) >= 0
+      : true;
+
+  let isCategoryMatch =
+    selectedCategoriesFilters.length > 0
+      ? selectedCategoriesFilters.indexOf(catalogItem.sex) >= 0
+      : true;
+
+  return isBrandMatch && isColorMatch && isCategoryMatch;
+}
+
+function resetFilter() {
+  displayProducts = catalog.slice(0);
+
+  document
+    .querySelectorAll(".dropdown-item")
+    .forEach((b) => b.removeAttribute("data-selected"));
+
+  selectedBrandsFilters.length = 0;
+  selectedColorsFilters.length = 0;
+  selectedCategoriesFilters.length = 0;
+  sortItems(sort.key, sort.asc);
+  print_products();
+}
