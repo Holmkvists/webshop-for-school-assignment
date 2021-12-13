@@ -461,7 +461,7 @@ function hmrAcceptRun(bundle, id) {
 },{}],"7BLcd":[function(require,module,exports) {
 var _productCatalog = require("./models/product-catalog");
 var _header = require("./header");
-let cart = [];
+let cart1 = [];
 let displayProducts = _productCatalog.catalog.slice(0);
 let sort = {
     key: "property",
@@ -472,6 +472,7 @@ let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 window.onload = ()=>{
+    fromLocalStorage();
     print_products(_productCatalog.catalog);
     document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
     filterOptions();
@@ -588,13 +589,14 @@ function addToCart(event) {
     addbtn.replaceWith(added);
     let item = _productCatalog.catalog.find((x)=>x.artno === artno
     );
-    let itemIndex = cart.length;
+    let itemIndex = cart1.length;
     // Om produkten finns i varukorg, addera +1 i quantity
-    if (!containsObject(item, cart)) {
-        cart.push(item);
-        cart[itemIndex]["quantity"] = 1;
-    } else cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
-    cart.reduce((total, obj)=>obj.quantity + total
+    if (!containsObject(item, cart1)) {
+        cart1.push(item);
+        cart1[itemIndex]["quantity"] = 1;
+    } else cart1[itemIndex]["quantity"] = cart1[itemIndex]["quantity"] + 1;
+    toLocalstorage(cart1);
+    cart1.reduce((total, obj)=>obj.quantity + total
     , 0);
     cartAmount.innerHTML = itemsInCart();
     document.getElementById("bag").classList.add("animate__headShake");
@@ -606,12 +608,12 @@ function addToCart(event) {
 function calculatePrice() {
     let totalPrice = document.getElementById("totalPrice");
     let total = 0;
-    if (cart.length > 0) for(let i = 0; i < cart.length; i++){
-        let price = cart[i].price;
+    if (cart1.length > 0) for(let i = 0; i < cart1.length; i++){
+        let price = cart1[i].price;
         total = total + price;
     }
     totalPrice.innerHTML = "$" + total.toString();
-    printCart();
+    printCart(cart1);
     return total;
 }
 function notAdded(artno) {
@@ -627,7 +629,7 @@ function notAdded(artno) {
         addToCart(event);
     });
 }
-function printCart() {
+function printCart(cart) {
     let cartWidget = document.getElementById("cart-widget");
     cartWidget.innerHTML = "";
     cart.map((item2)=>{
@@ -642,7 +644,7 @@ function printCart() {
       <p class="my-0">Size: 7</p>
     </div>
     <div class="col-3 flex flex-col">
-      <p>$${item2.price}</p>
+      <p class="text-center">$${item2.price}</p>
       <a class="remove-item" data-value="${item2.artno}">Remove</a>
     <div>
     <div class="quantity-field" >
@@ -666,30 +668,28 @@ function printCart() {
         document.querySelectorAll(".remove-item").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 removeitem(event);
-                printCart();
             });
         });
         document.querySelectorAll(".decrease-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 decreaseItem(event);
-                printCart();
             });
         });
         document.querySelectorAll(".increase-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 increaseItem(event);
-                printCart();
             });
         });
     });
 }
 function removeitem(event) {
     let artno = event.target.getAttribute("data-value");
-    cart = cart.filter((item)=>{
+    cart1 = cart1.filter((item)=>{
         return item.artno != artno;
     });
     cartAmount.innerHTML = itemsInCart();
-    printCart();
+    toLocalstorage(cart1);
+    printCart(cart1);
     notAdded(artno);
 }
 // Sort functions
@@ -855,29 +855,30 @@ function searchProducts(e) {
 // Quantity
 function increaseItem(e) {
     const artno = e.target.getAttribute("data-value");
-    let item = cart.find((x)=>x.artno === artno
+    let item = cart1.find((x)=>x.artno === artno
     );
-    let itemIndex = cart.findIndex((x)=>x.artno === artno
+    let itemIndex = cart1.findIndex((x)=>x.artno === artno
     );
-    cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
+    cart1[itemIndex].quantity = cart1[itemIndex].quantity + 1;
     cartAmount.innerHTML = itemsInCart();
-    printCart();
-    console.log(cart);
+    printCart(cart1);
+    toLocalstorage(cart1);
 }
 function decreaseItem(e) {
     const artno = e.target.getAttribute("data-value");
-    let item = cart.find((x)=>x.artno === artno
+    let item = cart1.find((x)=>x.artno === artno
     );
-    let itemIndex = cart.findIndex((x)=>x.artno === artno
+    let itemIndex = cart1.findIndex((x)=>x.artno === artno
     );
-    cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
-    if (cart[itemIndex].quantity === 0) removeitem(e);
+    cart1[itemIndex].quantity = cart1[itemIndex].quantity - 1;
+    if (cart1[itemIndex].quantity === 0) removeitem(e);
     cartAmount.innerHTML = itemsInCart();
-    printCart();
-    console.log(cart);
+    console.log(cart1);
+    printCart(cart1);
+    toLocalstorage(cart1);
 }
 function itemsInCart() {
-    return cart.reduce((total, obj)=>obj.quantity + total
+    return cart1.reduce((total, obj)=>obj.quantity + total
     , 0).toString();
 }
 function containsObject(obj, list) {
@@ -886,6 +887,17 @@ function containsObject(obj, list) {
         if (list[i] === obj) return true;
     }
     return false;
+}
+function toLocalstorage(thing) {
+    localStorage.setItem("cart", JSON.stringify(thing));
+}
+function fromLocalStorage() {
+    const itemJSON = localStorage.getItem("cart");
+    if (itemJSON) {
+        cart1 = JSON.parse(itemJSON);
+        cartAmount.innerHTML = itemsInCart();
+        printCart(cart1);
+    }
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
