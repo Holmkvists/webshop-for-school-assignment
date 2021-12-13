@@ -470,27 +470,14 @@ let sort = {
 let selectedBrandsFilters = [];
 let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
+let cartAmount = document.getElementById("cart-amount");
 window.onload = ()=>{
     print_products(_productCatalog.catalog);
-<<<<<<< Updated upstream
     document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
     filterOptions();
     document.getElementById("searchbarButton").addEventListener("click", _header.expandSearchbar);
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
-=======
-    getUrl();
-    //checkAvailability();
-    displaySizes();
-    clickAddBtn();
-    document.getElementById("close").addEventListener("click", _header.closecart);
-    document.getElementById("bag").addEventListener("click", _header.opencart);
-    document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
-    filterOptions();
-    document.getElementById("searchbarButton").addEventListener("click", _header.expandSearchbar);
-    document.getElementById("close").addEventListener("click", _header.closecart);
-    document.getElementById("bag").addEventListener("click", _header.opencart);
->>>>>>> Stashed changes
     document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
     document.getElementById("highToLow").addEventListener("click", sortHighToLow);
     document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
@@ -543,7 +530,6 @@ function print_products(ProductsObjects) {
         });
     });
 }
-<<<<<<< Updated upstream
 function productdetail(event) {
     //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
     const artno = event.target.getAttribute("data-value");
@@ -592,126 +578,9 @@ function productdetail(event) {
     console.log(artno);
 /* Det som händer efter användaren har skickats till rätt sida.
 /Produktdatan hämtas & presenteras på skärmen*/ }
-=======
-//Deklarerar variablerna globalt
-let url = window.location.pathname;
-const path = /[^/]*$/.exec(url)[0];
-//loopar igenom katalogen efter ett artno som är detsamma som path
-//& skapar en ny lista baserat på den, som heter product
-let product1 = _productCatalog.catalog.filter((product)=>product.artno === path
-);
-//Hämtar url, tar värdet efter / och skickar vidare till productdetails
-function getUrl() {
-    if (!path.length) return;
-    else if (path.length > 0) //Skickar nya listan product som en parameter i funktionen productdetails
-    productdetails(product1);
-}
-//I den nya funktionen, 
-function productdetails(event) {
-    if (product1) //Loopar igenom listan
-    product1.map((item)=>{
-        let stock = "";
-        if (item.instock) stock = "Available";
-        else stock = "Not available";
-        console.log(item.artno, item.colors);
-        let wrapper = document.getElementById("container-wrapper");
-        let productContainer = document.getElementById("product-container");
-        let detailsPage = document.createElement("div");
-        detailsPage.innerHTML += `
-   
-     <div class="container selected-wrapper"> 
-     <div class="container selected-inner">
-   
-     <div class="image-wrapper">
-     <div class="selected-image">
-   
-       <section class="container productcard my-3 pt-6">
-         <div class="row my-2 mx-1">
-           <div class="col-lg-5 col-md-12 col-12">
-             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
-             
-               <div class="small-img-group mb-4">
-                 <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
-                 </div>
- 
-                 <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
-                 </div>
-               </div>
-             </div>
- 
- 
-           <div class="col-lg-6 col-md-12 col-12 mb-3">
-           <h6>
-           <ul class="product-nav">
-           <li><a href="#">Shop</a></li>
-           <li><a href="#">${item.sex}</a></li>
-           <li><a href="#">${item.brand}</a></li>
-           <li><a href="#">${item.model}</a></li>
-           </ul>
-           </h6>
- 
-           <h4 class="text-uppercase h4-heading">${item.model}</h3>
-             <h6 class="price">Price: $${item.price}</h6>
-             <small id="availability" class="form-text text-muted">${stock} </small>
-           
- 
-
-             
-             <div class="addbtn">
-             <button type="button" class="btn btn-dark">Add to cart</button>
-             </div>
- 
-             <h5 class="item-title mt-4">Description</h5>
-               <p class="item-description">
-               ${item.description}
-               </p>
- 
-             </div>
- 
-           </div>
- 
-         </div>
-       </section>
- 
-     </div>
-     </div>
-   
-     </div>
-     </div> 
-     `;
-        //Ersätter "productContainer" med den nya divven "detailsPage"
-        wrapper.replaceChild(detailsPage, productContainer);
-    });
-}
-// function displaySizes() {
-// let sizeOption = document.getElementById("sizing");
-// product.map((item) => {
-//   for (let i = 0; i < item.sizes.length; i++) {
-//     let option = document.createElement("option");
-//     option.innerHTML = item.sizes[i];
-//     sizeOption.appendChild(option);
-//   }
-//   });
-// }
-//Vid klick på addBtn knappen så anropas funktionen addFromDetails
-function clickAddBtn() {
-    let addBtn = document.getElementById("add-btn"); //Hämtar knapp
-    addBtn.addEventListener("click", addFromDetails); //Funktionen anropas
-}
-//Hämtar url, tar värdet efter / och skickar vidare till productdetails
-//Hämtar informationen från urlen och skickar till varukorgen
-function addFromDetails() {
-    _productCatalog.catalog.find((item)=>{
-        product1.push(item);
-    });
-}
->>>>>>> Stashed changes
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
     let addbtn = event.target;
-    let parent = document.getElementById(artno);
     let added = document.createElement("p");
     added.classList.add("added");
     added.innerHTML = "Added <i class='bi bi-check'></i>";
@@ -719,14 +588,19 @@ function addToCart(event) {
     addbtn.replaceWith(added);
     let item = _productCatalog.catalog.find((x)=>x.artno === artno
     );
-    cart.push(item);
-    document.getElementById("cart-amount").innerHTML = cart.length.toString();
-    let cartIcon = document.getElementById("bag");
+    let itemIndex = cart.length;
+    // Om produkten finns i varukorg, addera +1 i quantity
+    if (!containsObject(item, cart)) {
+        cart.push(item);
+        cart[itemIndex]["quantity"] = 1;
+    } else cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
+    cart.reduce((total, obj)=>obj.quantity + total
+    , 0);
+    cartAmount.innerHTML = itemsInCart();
     document.getElementById("bag").classList.add("animate__headShake");
     setTimeout(function() {
         document.getElementById("bag").classList.remove("animate__headShake");
     }, 800);
-    // cartAnimation(cartIcon);
     calculatePrice();
 }
 function calculatePrice() {
@@ -776,7 +650,7 @@ function printCart() {
     data-value="${item2.artno}"
       class="value-button decrease-button" 
       title="Azalt">-</button>
-      <div class="number">0</div>
+      <div class="number">${item2.quantity}</div>
     <button 
       data-value="${item2.artno}"
       class="value-button increase-button" 
@@ -789,17 +663,13 @@ function printCart() {
   </div>
     `;
         cartWidget.innerHTML += cartitem;
-        document.querySelectorAll(".decrease-button").forEach((item)=>{
-<<<<<<< Updated upstream
+        document.querySelectorAll(".remove-item").forEach((item)=>{
             item.addEventListener("click", (event)=>{
-                // decreaseItem(event);
+                removeitem(event);
                 printCart();
             });
         });
-        document.querySelectorAll(".increase-button").forEach((item)=>{
-            item.addEventListener("click", (event)=>{
-                // increaseItem(event);
-=======
+        document.querySelectorAll(".decrease-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 decreaseItem(event);
                 printCart();
@@ -808,7 +678,6 @@ function printCart() {
         document.querySelectorAll(".increase-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 increaseItem(event);
->>>>>>> Stashed changes
                 printCart();
             });
         });
@@ -819,7 +688,7 @@ function removeitem(event) {
     cart = cart.filter((item)=>{
         return item.artno != artno;
     });
-    document.getElementById("cart-amount").innerHTML = cart.length.toString();
+    cartAmount.innerHTML = itemsInCart();
     printCart();
     notAdded(artno);
 }
@@ -936,8 +805,6 @@ function selectColor() {
     }
     this.dataset["selected"] = selected;
     let filtered = _productCatalog.catalog.filter(applyFilter);
-<<<<<<< Updated upstream
-=======
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
     print_products(displayProducts);
@@ -953,30 +820,11 @@ function selectCategory() {
     }
     this.dataset["selected"] = selected;
     let filtered = _productCatalog.catalog.filter(applyFilter);
->>>>>>> Stashed changes
     displayProducts = filtered;
     sortItems(sort.key, sort.asc);
     print_products(displayProducts);
     return false;
 }
-<<<<<<< Updated upstream
-function selectCategory() {
-    let categoryOption = this.innerText;
-    let selected = !(this.dataset["selected"] == "true");
-    if (selected) selectedCategoriesFilters.push(categoryOption);
-    else {
-        let index = selectedCategoriesFilters.indexOf(categoryOption);
-        if (index >= 0) selectedCategoriesFilters.splice(index, 1);
-    }
-    this.dataset["selected"] = selected;
-    let filtered = _productCatalog.catalog.filter(applyFilter);
-    displayProducts = filtered;
-    sortItems(sort.key, sort.asc);
-    print_products(displayProducts);
-    return false;
-}
-=======
->>>>>>> Stashed changes
 function applyFilter(catalogItem) {
     let isBrandMatch = selectedBrandsFilters.length > 0 ? selectedBrandsFilters.indexOf(catalogItem.brand) >= 0 : true;
     let isColorMatch = selectedColorsFilters.length > 0 ? selectedColorsFilters.indexOf(catalogItem.colors) >= 0 : true;
@@ -1003,6 +851,41 @@ function searchProducts(e) {
     });
     let app = document.getElementById("app");
     if (filteredProducts.length > 0) print_products(filteredProducts);
+}
+// Quantity
+function increaseItem(e) {
+    const artno = e.target.getAttribute("data-value");
+    let item = cart.find((x)=>x.artno === artno
+    );
+    let itemIndex = cart.findIndex((x)=>x.artno === artno
+    );
+    cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
+    cartAmount.innerHTML = itemsInCart();
+    printCart();
+    console.log(cart);
+}
+function decreaseItem(e) {
+    const artno = e.target.getAttribute("data-value");
+    let item = cart.find((x)=>x.artno === artno
+    );
+    let itemIndex = cart.findIndex((x)=>x.artno === artno
+    );
+    cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
+    if (cart[itemIndex].quantity === 0) removeitem(e);
+    cartAmount.innerHTML = itemsInCart();
+    printCart();
+    console.log(cart);
+}
+function itemsInCart() {
+    return cart.reduce((total, obj)=>obj.quantity + total
+    , 0).toString();
+}
+function containsObject(obj, list) {
+    var i;
+    for(i = 0; i < list.length; i++){
+        if (list[i] === obj) return true;
+    }
+    return false;
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
