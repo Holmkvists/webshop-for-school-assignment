@@ -9,6 +9,7 @@ let sort = { key: "property", asc: true };
 let selectedBrandsFilters = [];
 let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
+let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
   print_products(catalog);
@@ -144,21 +145,30 @@ function productdetail(event) {
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
-  let parent = document.getElementById(artno);
   let added = document.createElement("p");
   added.classList.add("added");
   added.innerHTML = "Added <i class='bi bi-check'></i>";
   added.setAttribute("id", artno);
   addbtn.replaceWith(added);
   let item = catalog.find((x) => x.artno === artno);
-  cart.push(item);
-  document.getElementById("cart-amount").innerHTML = cart.length.toString();
-  let cartIcon = document.getElementById("bag");
+  let itemIndex = catalog.findIndex((x) => x.artno === artno);
+
+  // Om produkten finns i varukorg, addera +1 i quantity
+  if (!containsObject(item, cart)) {
+    cart.push(item);
+    cart[itemIndex]["quantity"] = 1;
+  } else {
+    cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
+  }
+
+  cart.reduce((total, obj) => obj.quantity + total, 0);
+
+  cartAmount.innerHTML = itemsInCart();
+
   document.getElementById("bag").classList.add("animate__headShake");
   setTimeout(function () {
     document.getElementById("bag").classList.remove("animate__headShake");
   }, 800);
-  // cartAnimation(cartIcon);
   calculatePrice();
 }
 
@@ -217,7 +227,7 @@ function printCart() {
     data-value="${item.artno}"
       class="value-button decrease-button" 
       title="Azalt">-</button>
-      <div class="number">0</div>
+      <div class="number">${item.quantity}</div>
     <button 
       data-value="${item.artno}"
       class="value-button increase-button" 
@@ -230,6 +240,12 @@ function printCart() {
   </div>
     `;
     cartWidget.innerHTML += cartitem;
+    document.querySelectorAll(".remove-item").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        removeitem(event);
+        printCart();
+      });
+    });
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         // decreaseItem(event);
@@ -251,7 +267,8 @@ function removeitem(event) {
   cart = cart.filter((item) => {
     return item.artno != artno;
   });
-  document.getElementById("cart-amount").innerHTML = cart.length.toString();
+
+  cartAmount.innerHTML = itemsInCart();
 
   printCart();
   notAdded(artno);
@@ -479,20 +496,47 @@ function searchProducts(e) {
   }
 }
 
-// Increase / Decrease
+// Quantity
+function increaseItem(e) {
+  const artno = e.target.getAttribute("data-value");
+
+  let item = cart.find((x) => x.artno === artno);
+  let itemIndex = cart.findIndex((x) => x.artno === artno);
+
+  cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
+
+  cartAmount.innerHTML = itemsInCart();
+  printCart();
+  console.log(cart);
+}
 
 function decreaseItem(e) {
   const artno = e.target.getAttribute("data-value");
-  let result = cart.filter((item) => {
-    return item.artno === artno;
-  });
-  console.log(result);
+  let item = cart.find((x) => x.artno === artno);
+  let itemIndex = cart.findIndex((x) => x.artno === artno);
+
+  cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
+
+  if (cart[itemIndex].quantity === 0) {
+    removeitem(e);
+  }
+
+  cartAmount.innerHTML = itemsInCart();
+  printCart();
+  console.log(cart);
 }
 
-function increaseItem(e) {
-  const artno = e.target.getAttribute("data-value");
-  let result = cart.filter((item) => {
-    return item.artno === artno;
-  });
-  console.log(result);
+function itemsInCart() {
+  return cart.reduce((total, obj) => obj.quantity + total, 0).toString();
+}
+
+function containsObject(obj, list) {
+  var i;
+  for (i = 0; i < list.length; i++) {
+    if (list[i] === obj) {
+      return true;
+    }
+  }
+
+  return false;
 }
