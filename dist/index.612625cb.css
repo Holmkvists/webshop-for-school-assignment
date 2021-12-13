@@ -1,3 +1,4 @@
+@charset "UTF-8";
 #searchbarContainer {
   width: 200px;
 }
@@ -162,6 +163,37 @@ footer .submit-btn:hover {
   box-sizing: border-box;
 }
 
+/* Style the list */
+ul.product-nav {
+  padding: 10px 16px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+ul.product-nav li {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.product-nav li + li:before {
+  padding: 8px;
+  color: black;
+  content: "/ ";
+}
+
+/* Add a color to all links inside the list */
+ul.product-nav li a {
+  color: #696969;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.product-nav li a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
 .selected-wrapper {
   width: 100%;
   display: flex;
@@ -209,6 +241,11 @@ footer .submit-btn:hover {
   margin: 20px;
 }
 
+.productcard {
+  width: 100%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 @media screen and (min-width: 768px) {
   .selected-wrapper {
     width: 100%;
@@ -229,7 +266,17 @@ footer .submit-btn:hover {
   }
 
   .selected-image {
-    width: 60%;
+    width: 100%;
+  }
+
+  .small-img-group {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+
+  .small-img-col {
+    flex-basis: 50%;
   }
 }
 @media screen and (min-width: 992px) {
@@ -256,7 +303,7 @@ footer .submit-btn:hover {
   }
 
   .selected-image {
-    width: 60%;
+    width: 100%;
   }
 
   .item-details {

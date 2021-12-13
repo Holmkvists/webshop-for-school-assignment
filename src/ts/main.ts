@@ -15,6 +15,7 @@ window.onload = () => {
   getUrl();
   checkAvailability();
   displaySizes();
+  clickAddBtn();
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
 
@@ -152,7 +153,7 @@ function productdetails(event) {
              <script>${item.sizes} displaySizes();</script>
              </select>
              
-             <div class="add-btn">
+             <div class="addbtn">
              <button type="button" class="btn btn-dark">Add to cart</button>
              </div>
  
@@ -206,6 +207,22 @@ function productdetails(event) {
     }
     });
   }
+
+
+//Vid klick på addBtn knappen så anropas funktionen addFromDetails
+function clickAddBtn() {  
+let addBtn = document.getElementById("add-btn"); //Hämtar knapp
+addBtn.addEventListener("click", addFromDetails); //Funktionen anropas
+}
+
+//Hämtar url, tar värdet efter / och skickar vidare till productdetails
+//Hämtar informationen från urlen och skickar till varukorgen
+function addFromDetails() { 
+  catalog.find((item) => {
+    product.push(item);
+    });
+  }
+
 
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");

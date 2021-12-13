@@ -470,6 +470,9 @@ let sort = {
 window.onload = ()=>{
     print_products();
     getUrl();
+    checkAvailability();
+    displaySizes();
+    clickAddBtn();
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
 };
@@ -552,18 +555,18 @@ function productdetails(event) {
              <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
              
                <div class="small-img-group mb-4">
-                 <div class="small-img-col">
+                 <div class="small-img-col mt-2 mx-1">
                    <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
                  </div>
  
-                 <div class="small-img-col">
+                 <div class="small-img-col mt-2 mx-1">
                    <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
                  </div>
                </div>
              </div>
  
  
-           <div class="col-lg-6 col-md-12 col-12">
+           <div class="col-lg-6 col-md-12 col-12 mb-3">
            <h6>
            <ul class="product-nav">
            <li><a href="#">Shop</a></li>
@@ -575,21 +578,15 @@ function productdetails(event) {
  
            <h4 class="text-uppercase h4-heading">${item.model}</h3>
              <h6 class="price">Price: $${item.price}</h6>
-             <small id="reviews" class="form-text text-muted">${item.instock}</small>
+             <small id="availability" class="form-text text-muted">${item.instock} <script>checkAvailability();</script></small>
            
  
              <label for="sizes" class="sizing">Sizes</label>
              <select class="my-3" name="sizes" id="sizing">
-               <option value="1">${item.sizes[0]}</option>
-               <option value="2">${item.sizes[1]}</option>
-               <option value="3">${item.sizes[2]}</option>
-               <option value="4">${item.sizes[3]}</option>
-               <option value="4">${item.sizes[4]}</option>
-               <option value="4">${item.sizes[5]}</option>
-               <option value="4">${item.sizes[6]}</option>
+             <script>${item.sizes} displaySizes();</script>
              </select>
              
-             <div class="add-btn">
+             <div class="addbtn">
              <button type="button" class="btn btn-dark">Add to cart</button>
              </div>
  
@@ -615,110 +612,36 @@ function productdetails(event) {
         wrapper.replaceChild(detailsPage, productContainer);
     });
 }
-/*
-function productdetail(event) {
-  //Hämtar elementen container-wrapper och product-container
-  let wrapper = document.getElementById("container-wrapper");
-  let productContainer = document.getElementById("product-container");
-
-  //Hämtar artikelnumret för den valda produkten, sparas i artno
-  const artno = event.target.getAttribute("data-value");
-
-
-catalog.filter((item) => {
-
-     //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
-     let detailsPage = document.createElement("div");
-     detailsPage.innerHTML += `
-   
-     <div class="container selected-wrapper"> 
-     <div class="container selected-inner">
-   
-     <div class="image-wrapper">
-     <div class="selected-image">
-   
-       <section class="container productcard my-3 pt-6">
-         <div class="row my-2 mx-1">
-           <div class="col-lg-5 col-md-12 col-12">
-             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
-             
-               <div class="small-img-group mb-4">
-                 <div class="small-img-col">
-                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
-                 </div>
- 
-                 <div class="small-img-col">
-                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
-                 </div>
-               </div>
-             </div>
- 
- 
-           <div class="col-lg-6 col-md-12 col-12">
-           <h6>
-           <ul class="product-nav">
-           <li><a href="#">Shop</a></li>
-           <li><a href="#">${item.sex}</a></li>
-           <li><a href="#">${item.brand}</a></li>
-           <li><a href="#">${item.model}</a></li>
-           </ul>
-           </h6>
- 
-           <h4 class="text-uppercase h4-heading">${item.model}</h3>
-             <h6 class="price">Price: ${item.price}</h6>
-             <small id="reviews" class="form-text text-muted">${item.instock}</small>
-           
- 
-             <label for="sizes" class="sizing">${item.sizes}</label>
-             <select class="my-3" name="sizes" id="sizing">
-               <option value="1">${item.sizes[0]}</option>
-               <option value="2">${item.sizes[1]}</option>
-               <option value="3">${item.sizes[2]}</option>
-               <option value="4">${item.sizes[3]}</option>
-               <option value="4">${item.sizes[4]}</option>
-               <option value="4">${item.sizes[5]}</option>
-               <option value="4">${item.sizes[6]}</option>
-             </select>
-             
-             <div class="add-btn">
-             <button type="button" class="btn btn-dark">Add to cart</button>
-             </div>
- 
-             <h5 class="item-title mt-4">Description</h5>
-               <p class="item-description">
-               ${item.description}
-               </p>
- 
-               <h5 class="item-title">Materials</h5>
-               <p class="materials">
-               Empty for now!
-               </p>
- 
-             </div>
- 
-           </div>
- 
-         </div>
-       </section>
- 
-     </div>
-     </div>
-   
-     </div>
-     </div> 
-     `
-     ;
-    //Ersätter "productContainer" med den nya divven "detailsPage"
-     wrapper.replaceChild(detailsPage, productContainer);
-  }
+function checkAvailability() {
+    let stockItem = document.getElementById("availability");
+    _productCatalog.catalog.map((item)=>{
+        if (item.instock == true) stockItem.innerText = "In stock";
+        else stockItem.innerText = "Out of stock";
+    });
 }
-
-    console.log(catalog[i].artno);
-
-  //Annars... gör det här
- });
+function displaySizes() {
+    let sizeOption = document.getElementById("sizing");
+    product1.map((item)=>{
+        for(let i = 0; i < item.sizes.length; i++){
+            let option = document.createElement("option");
+            option.innerHTML = item.sizes[i];
+            sizeOption.appendChild(option);
+        }
+    });
 }
-*/ function addToCart(event) {
+//Vid klick på addBtn knappen så anropas funktionen addFromDetails
+function clickAddBtn() {
+    let addBtn = document.getElementById("add-btn"); //Hämtar knapp
+    addBtn.addEventListener("click", addFromDetails); //Funktionen anropas
+}
+//Hämtar url, tar värdet efter / och skickar vidare till productdetails
+//Hämtar informationen från urlen och skickar till varukorgen
+function addFromDetails() {
+    _productCatalog.catalog.find((item)=>{
+        product1.push(item);
+    });
+}
+function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
     let addbtn = event.target;
     let parent = document.getElementById(artno);
