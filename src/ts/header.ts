@@ -1,19 +1,10 @@
-export function headerFunction() {
-  let searchbarButton: HTMLButtonElement = document.getElementById(
-    "searchbarButton"
-  ) as HTMLButtonElement;
-  searchbarButton.addEventListener("click", expandSearchbar);
-  console.log("hello");
-  function expandSearchbar() {
-    let searchbar: HTMLInputElement = document.getElementById(
-      "searchbar"
-    ) as HTMLInputElement;
+export function expandSearchbar() {
+  let searchbar = document.getElementById("searchbar");
 
-    if (searchbar.style.display === "block") {
-      searchbar.style.display = "none";
-    } else {
-      searchbar.style.display = "block";
-    }
+  if (searchbar.style.display === "block") {
+    searchbar.style.display = "none";
+  } else {
+    searchbar.style.display = "block";
   }
 }
 
