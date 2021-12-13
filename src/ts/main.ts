@@ -478,3 +478,21 @@ function searchProducts(e) {
   } else {
   }
 }
+
+// Increase / Decrease
+
+function decreaseItem(e) {
+  const artno = e.target.getAttribute("data-value");
+  let result = cart.filter((item) => {
+    return item.artno === artno;
+  });
+  console.log(result);
+}
+
+function increaseItem(e) {
+  const artno = e.target.getAttribute("data-value");
+  let result = cart.filter((item) => {
+    return item.artno === artno;
+  });
+  console.log(result);
+}
