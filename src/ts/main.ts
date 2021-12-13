@@ -232,13 +232,13 @@ function printCart() {
     cartWidget.innerHTML += cartitem;
     document.querySelectorAll(".decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        decreaseItem(event);
+        // decreaseItem(event);
         printCart();
       });
     });
     document.querySelectorAll(".increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
-        increaseItem(event);
+        // increaseItem(event);
         printCart();
       });
     });
