@@ -119,23 +119,6 @@ ul.product-nav li a:hover {
 }
 
 @media screen and (min-width: 992px) {
-  .filtersHeader {
-    margin-top: 20px;
-    padding: 0.25rem 1.5rem;
-  }
-
-  #sortButton {
-    font-size: 12pt;
-  }
-
-  #filterButton {
-    font-size: 18pt;
-  }
-
-  .dropdown-item[data-selected="true"] {
-    background-color: rgb(235, 235, 235);
-  }
-
   .selected-wrapper {
     width: 100%;
     display: flex;
@@ -217,14 +200,6 @@ ul.product-nav li a:hover {
   }
 
   @media screen and (min-width: 992px) {
-    #sortButton {
-      font-size: 12pt;
-    }
-
-    #filterButton {
-      font-size: 12pt;
-    }
-
     .selected-wrapper {
       width: 100%;
       display: flex;
