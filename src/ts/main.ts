@@ -1,5 +1,4 @@
 import { catalog } from "./models/product-catalog";
-import { expandSearchbar } from "./header";
 import { opencart } from "./header";
 import { closecart } from "./header";
 
@@ -19,9 +18,6 @@ window.onload = () => {
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
   filterOptions();
-  document
-    .getElementById("searchbarButton")
-    .addEventListener("click", expandSearchbar);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
   document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);

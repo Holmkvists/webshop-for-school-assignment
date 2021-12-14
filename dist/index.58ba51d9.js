@@ -461,7 +461,7 @@ function hmrAcceptRun(bundle, id) {
 },{}],"7BLcd":[function(require,module,exports) {
 var _productCatalog = require("./models/product-catalog");
 var _header = require("./header");
-let cart = [];
+let cart1 = [];
 let displayProducts = _productCatalog.catalog.slice(0);
 let sort = {
     key: "property",
@@ -470,11 +470,12 @@ let sort = {
 let selectedBrandsFilters = [];
 let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
+let cartAmount = document.getElementById("cart-amount");
 window.onload = ()=>{
+    fromLocalStorage();
     print_products(_productCatalog.catalog);
     document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
     filterOptions();
-    document.getElementById("searchbarButton").addEventListener("click", _header.expandSearchbar);
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
     document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
@@ -580,7 +581,6 @@ function productdetail(event) {
 function addToCart(event) {
     let artno = event.target.getAttribute("data-value");
     let addbtn = event.target;
-    let parent = document.getElementById(artno);
     let added = document.createElement("p");
     added.classList.add("added");
     added.innerHTML = "Added <i class='bi bi-check'></i>";
@@ -588,25 +588,32 @@ function addToCart(event) {
     addbtn.replaceWith(added);
     let item = _productCatalog.catalog.find((x)=>x.artno === artno
     );
-    cart.push(item);
-    document.getElementById("cart-amount").innerHTML = cart.length.toString();
-    let cartIcon = document.getElementById("bag");
+    let itemIndex = cart1.length;
+    // Om produkten finns i varukorg, addera +1 i quantity
+    if (!containsObject(item, cart1)) {
+        cart1.push(item);
+        cart1[itemIndex]["quantity"] = 1;
+    } else cart1[itemIndex]["quantity"] = cart1[itemIndex]["quantity"] + 1;
+    toLocalstorage(cart1);
+    cart1.reduce((total, obj)=>obj.quantity + total
+    , 0);
+    cartAmount.innerHTML = itemsInCart();
     document.getElementById("bag").classList.add("animate__headShake");
     setTimeout(function() {
         document.getElementById("bag").classList.remove("animate__headShake");
     }, 800);
-    // cartAnimation(cartIcon);
     calculatePrice();
 }
 function calculatePrice() {
     let totalPrice = document.getElementById("totalPrice");
     let total = 0;
-    if (cart.length > 0) for(let i = 0; i < cart.length; i++){
-        let price = cart[i].price;
-        total = total + price;
+    if (cart1.length > 0) for(let i = 0; i < cart1.length; i++){
+        let price = cart1[i].price;
+        let quantity = cart1[i].quantity;
+        total = total + quantity * price;
     }
     totalPrice.innerHTML = "$" + total.toString();
-    printCart();
+    printCart(cart1);
     return total;
 }
 function notAdded(artno) {
@@ -622,7 +629,7 @@ function notAdded(artno) {
         addToCart(event);
     });
 }
-function printCart() {
+function printCart(cart) {
     let cartWidget = document.getElementById("cart-widget");
     cartWidget.innerHTML = "";
     cart.map((item2)=>{
@@ -637,7 +644,7 @@ function printCart() {
       <p class="my-0">Size: 7</p>
     </div>
     <div class="col-3 flex flex-col">
-      <p>$${item2.price}</p>
+      <p class="text-center">$${item2.price}</p>
       <a class="remove-item" data-value="${item2.artno}">Remove</a>
     <div>
     <div class="quantity-field" >
@@ -645,7 +652,7 @@ function printCart() {
     data-value="${item2.artno}"
       class="value-button decrease-button" 
       title="Azalt">-</button>
-      <div class="number">0</div>
+      <div class="number">${item2.quantity}</div>
     <button 
       data-value="${item2.artno}"
       class="value-button increase-button" 
@@ -658,27 +665,32 @@ function printCart() {
   </div>
     `;
         cartWidget.innerHTML += cartitem;
+        document.querySelectorAll(".remove-item").forEach((item)=>{
+            item.addEventListener("click", (event)=>{
+                removeitem(event);
+            });
+        });
         document.querySelectorAll(".decrease-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 decreaseItem(event);
-                printCart();
             });
         });
         document.querySelectorAll(".increase-button").forEach((item)=>{
             item.addEventListener("click", (event)=>{
                 increaseItem(event);
-                printCart();
             });
         });
     });
 }
 function removeitem(event) {
     let artno = event.target.getAttribute("data-value");
-    cart = cart.filter((item)=>{
+    cart1 = cart1.filter((item)=>{
         return item.artno != artno;
     });
-    document.getElementById("cart-amount").innerHTML = cart.length.toString();
-    printCart();
+    cartAmount.innerHTML = itemsInCart();
+    toLocalstorage(cart1);
+    calculatePrice();
+    printCart(cart1);
     notAdded(artno);
 }
 // Sort functions
@@ -841,20 +853,54 @@ function searchProducts(e) {
     let app = document.getElementById("app");
     if (filteredProducts.length > 0) print_products(filteredProducts);
 }
-// Increase / Decrease
-function decreaseItem(e) {
-    const artno = e.target.getAttribute("data-value");
-    let result = cart.filter((item)=>{
-        return item.artno === artno;
-    });
-    console.log(result);
-}
+// Quantity
 function increaseItem(e) {
     const artno = e.target.getAttribute("data-value");
-    let result = cart.filter((item)=>{
-        return item.artno === artno;
-    });
-    console.log(result);
+    let item = cart1.find((x)=>x.artno === artno
+    );
+    let itemIndex = cart1.findIndex((x)=>x.artno === artno
+    );
+    cart1[itemIndex].quantity = cart1[itemIndex].quantity + 1;
+    cartAmount.innerHTML = itemsInCart();
+    calculatePrice();
+    printCart(cart1);
+    toLocalstorage(cart1);
+}
+function decreaseItem(e) {
+    const artno = e.target.getAttribute("data-value");
+    let item = cart1.find((x)=>x.artno === artno
+    );
+    let itemIndex = cart1.findIndex((x)=>x.artno === artno
+    );
+    cart1[itemIndex].quantity = cart1[itemIndex].quantity - 1;
+    if (cart1[itemIndex].quantity === 0) removeitem(e);
+    cartAmount.innerHTML = itemsInCart();
+    calculatePrice();
+    printCart(cart1);
+    toLocalstorage(cart1);
+}
+function itemsInCart() {
+    return cart1.reduce((total, obj)=>obj.quantity + total
+    , 0).toString();
+}
+function containsObject(obj, list) {
+    var i;
+    for(i = 0; i < list.length; i++){
+        if (list[i] === obj) return true;
+    }
+    return false;
+}
+function toLocalstorage(thing) {
+    localStorage.setItem("cart", JSON.stringify(thing));
+}
+function fromLocalStorage() {
+    const itemJSON = localStorage.getItem("cart");
+    if (itemJSON) {
+        cart1 = JSON.parse(itemJSON);
+        cartAmount.innerHTML = itemsInCart();
+        calculatePrice();
+        printCart(cart1);
+    }
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {
@@ -1069,25 +1115,10 @@ exports.export = function(dest, destName, get) {
 },{}],"7gBgG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "expandSearchbar", ()=>expandSearchbar
+parcelHelpers.export(exports, "opencart", ()=>opencart
 );
 parcelHelpers.export(exports, "closecart", ()=>closecart
 );
-parcelHelpers.export(exports, "opencart", ()=>opencart
-);
-function expandSearchbar() {
-    let searchbar = document.getElementById("searchbar");
-    if (searchbar.style.display === "block") searchbar.style.display = "none";
-    else searchbar.style.display = "block";
-}
-function closecart() {
-    let overlay = document.getElementById("overlay");
-    let widget = document.getElementById("cart");
-    window.setTimeout(function() {
-        widget.style.transform = "translate(0px)";
-    }, 0);
-    overlay.style.display = "none";
-}
 function opencart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
@@ -1101,6 +1132,14 @@ function opencart() {
         widget.style.transform = "translate(-420px)";
     }, 0);
     overlay.addEventListener("click", closecart);
+}
+function closecart() {
+    let overlay = document.getElementById("overlay");
+    let widget = document.getElementById("cart");
+    window.setTimeout(function() {
+        widget.style.transform = "translate(0px)";
+    }, 0);
+    overlay.style.display = "none";
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["e4k7L","7BLcd"], "7BLcd", "parcelRequire7390")

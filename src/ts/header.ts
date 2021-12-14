@@ -1,22 +1,3 @@
-export function expandSearchbar() {
-  let searchbar = document.getElementById("searchbar");
-
-  if (searchbar.style.display === "block") {
-    searchbar.style.display = "none";
-  } else {
-    searchbar.style.display = "block";
-  }
-}
-
-export function closecart() {
-  let overlay = document.getElementById("overlay");
-  let widget = document.getElementById("cart");
-  window.setTimeout(function () {
-    widget.style.transform = "translate(0px)";
-  }, 0);
-  overlay.style.display = "none";
-}
-
 export function opencart() {
   let overlay = document.getElementById("overlay");
   let widget = document.getElementById("cart");
@@ -30,4 +11,13 @@ export function opencart() {
     widget.style.transform = "translate(-420px)";
   }, 0);
   overlay.addEventListener("click", closecart);
+}
+
+export function closecart() {
+  let overlay = document.getElementById("overlay");
+  let widget = document.getElementById("cart");
+  window.setTimeout(function () {
+    widget.style.transform = "translate(0px)";
+  }, 0);
+  overlay.style.display = "none";
 }

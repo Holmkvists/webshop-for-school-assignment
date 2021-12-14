@@ -1,22 +1,24 @@
 @charset "UTF-8";
-#searchbarContainer {
-  height: 30px;
-}
-#searchbarContainer #searchbar {
+#searchbar {
   display: none;
   width: 175px;
   right: 0px;
   height: 30px;
   border: 0;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid lightgray;
 }
-#searchbarContainer #searchbarButton {
+
+#searchbarButton {
   z-index: 1;
-  border-radius: 30px;
   background-color: white;
   right: 0;
   width: 30px;
   height: 30px;
+  border-bottom: 1px solid lightgray;
+}
+
+#searchbarButton {
+  outline: none;
 }
 
 #hamburgerButton {
@@ -28,7 +30,7 @@
 }
 
 @media screen and (min-width: 576px) {
-  #searchbarContainer #searchbar {
+  #searchbar {
     width: 300px;
   }
 }
@@ -486,9 +488,8 @@ ul.product-nav li a:hover {
 
 #bag {
   cursor: pointer !important;
-  background-color: orangered;
   border-radius: 20px;
-  color: white;
+  color: black;
 }
 
 #cart {
@@ -578,7 +579,4 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 */
-body {
-  background-color: #f7f7f7 !important;
-}
 /*# sourceMappingURL=index.612625cb.css.map */
