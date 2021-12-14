@@ -14,6 +14,10 @@ let cartAmount = document.getElementById("cart-amount");
 window.onload = () => {
   fromLocalStorage();
   print_products(catalog);
+  getUrl();
+  checkAvailability();
+  displaySizes();
+
 
   document
     .getElementById("searchbarContainer")
@@ -135,13 +139,155 @@ function productdetail(event) {
 
   //Ersätter "productContainer" med den nya divven "detailsPage"
   wrapper.replaceChild(detailsPage, productContainer);
-
-  //Loggar ut artikelnumret - ta bort sen
-  console.log(artno);
-
-  /* Det som händer efter användaren har skickats till rätt sida.
-/Produktdatan hämtas & presenteras på skärmen*/
 }
+
+
+//Deklarerar variablerna globalt
+let url = window.location.pathname;
+const path = /[^/]*$/.exec(url)[0];
+
+//loopar igenom katalogen efter ett artno som är detsamma som path
+//& skapar en ny lista baserat på den, som heter product
+let product = catalog.filter(product => product.artno === path);  
+
+//Hämtar url, tar värdet efter / och skickar vidare till productdetails
+function getUrl() {
+ if (!path.length) {
+    return; 
+  } else if (path.length > 0) {
+     //Skickar nya listan product som en parameter i funktionen productdetails
+    productdetails(product);
+  }
+}
+
+//I den nya funktionen, 
+function productdetails(event) {
+
+  if (product)
+   {
+    //Loopar igenom listan
+    product.map((item) => {
+
+    console.log(item.artno, item.colors);
+      let wrapper = document.getElementById("container-wrapper");
+      let productContainer = document.getElementById("product-container");
+
+      let detailsPage = document.createElement("div");
+      detailsPage.innerHTML += `
+   
+     <div class="container selected-wrapper"> 
+     <div class="container selected-inner">
+   
+     <div class="image-wrapper">
+     <div class="selected-image">
+   
+       <section class="container productcard my-3 pt-6">
+         <div class="row my-2 mx-1">
+           <div class="col-lg-5 col-md-12 col-12">
+             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
+             
+               <div class="small-img-group mb-4">
+                 <div class="small-img-col mt-2 mx-1">
+                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
+                 </div>
+ 
+                 <div class="small-img-col mt-2 mx-1">
+                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
+                 </div>
+               </div>
+             </div>
+ 
+ 
+           <div class="col-lg-6 col-md-12 col-12 mb-3">
+           <h6>
+           <ul class="product-nav">
+           <li><a href="#">Shop</a></li>
+           <li><a href="#">${item.sex}</a></li>
+           <li><a href="#">${item.brand}</a></li>
+           <li><a href="#">${item.model}</a></li>
+           </ul>
+           </h6>
+ 
+           <h4 class="text-uppercase h4-heading">${item.model}</h3>
+             <h6 class="price">Price: $${item.price}</h6>
+             <small id="availability" class="form-text text-muted">${item.instock} <script>checkAvailability();</script></small>
+           
+ 
+             <label for="sizes" class="sizing">Sizes</label>
+             <select class="my-3" name="sizes" id="sizing">
+             <script>${item.sizes} displaySizes();</script>
+             </select>
+             
+             <div class="addbtn">
+             <button type="button" class="btn btn-dark">Add to cart</button>
+             </div>
+ 
+             <h5 class="item-title mt-4">Description</h5>
+               <p class="item-description">
+               ${item.description}
+               </p>
+ 
+             </div>
+ 
+           </div>
+ 
+         </div>
+       </section>
+ 
+     </div>
+     </div>
+   
+     </div>
+     </div> 
+     `
+     ;
+    //Ersätter "productContainer" med den nya divven "detailsPage"
+     wrapper.replaceChild(detailsPage, productContainer);
+    });
+  }
+  }
+
+  function checkAvailability() {
+    let stockItem = document.getElementById("availability");
+
+    catalog.map((item) => {
+      if (item.instock == true)
+      {
+        stockItem.innerText = "In stock";
+      }
+      else {
+        stockItem.innerText = "Out of stock";
+      }
+    });
+  }
+
+  function displaySizes() {
+  let sizeOption = document.getElementById("sizing");
+
+  product.map((item) => {
+    for (let i = 0; i < item.sizes.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = item.sizes[i];
+      sizeOption.appendChild(option);
+    }
+    });
+  }
+
+
+//Vid klick på addBtn knappen så anropas funktionen addFromDetails
+function clickAddBtn() {  
+let addBtn = document.getElementById("add-btn"); //Hämtar knapp
+addBtn.addEventListener("click", addFromDetails); //Funktionen anropas
+}
+
+//Hämtar url, tar värdet efter / och skickar vidare till productdetails
+//Hämtar informationen från urlen och skickar till varukorgen
+function addFromDetails() { 
+  catalog.find((item) => {
+    product.push(item);
+    });
+  }
+
 
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");
