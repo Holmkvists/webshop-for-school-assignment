@@ -331,7 +331,6 @@ function proceedPurchase() {
   let address = (document.getElementById("address") as HTMLInputElement).value;
   let address2 = (document.getElementById("address2") as HTMLInputElement)
     .value;
-  let country = (document.getElementById("country") as HTMLInputElement).value;
 
   let zip = (document.getElementById("zip") as HTMLInputElement).value;
   let nameOnCard = (document.getElementById("cc-name") as HTMLInputElement)
@@ -348,7 +347,7 @@ function proceedPurchase() {
   customerObject["email"] = email;
   customerObject["address"] = address;
   customerObject["address2"] = address2;
-  customerObject["country"] = country;
+
   customerObject["zip"] = zip;
   customerObject["nameOnCard"] = nameOnCard;
   customerObject["cardNumber"] = cardNumber;
@@ -422,7 +421,7 @@ function displayThankYou() {
         </div>
         <div class="col">
         <p><b>Address: </b>${customer.address}</p>
-        <p><b>Country: </b>${customer.Country}</p>
+        <p><b>Country: </b>Sweden</p>
         <p><b>Zip: </b>${customer.zip}</p>
       </div>
       </div>
