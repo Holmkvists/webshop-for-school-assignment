@@ -1,36 +1,53 @@
-// sort.spec.js created with Cypress
-//
-// Start writing your Cypress tests below!
-// If you're unfamiliar with how Cypress works,
-// check out the link below and learn how to write your first test:
-// https://on.cypress.io/writing-first-test
-
-import { catalog } from "../../src/ts/models/product-catalog";
-
 describe("sort tests", () => {
   beforeEach(() => {
     cy.visit("http://localhost:1234/productdetails.html#");
   });
 
   it("should sort price low to high", () => {
-    // Arrange
-
-    // Act
-
     cy.get("#sortButton").click();
     cy.get("#lowToHigh").click();
 
-    // Result
+    cy.get(".flex-col > .text-sm").first().should("have.text", "$89");
+    cy.get(".flex-col > .text-sm").last().should("have.text", "$219");
   });
 
   it("should sort price high to low", () => {
-    // Arrange
-
-    // Act
-
     cy.get("#sortButton").click();
     cy.get("#highToLow").click();
 
-    // Result
+    cy.get(".flex-col > .text-sm").first().should("have.text", "$219");
+    cy.get(".flex-col > .text-sm").last().should("have.text", "$89");
+  });
+
+  it("should sort brands A-Z", () => {
+    cy.get("#sortButton").click();
+    cy.get("#brandsAZ").click();
+
+    cy.get("div > .mt-1").first().should("have.text", "adidas Performance");
+    cy.get("div > .mt-1").last().should("have.text", "Puma");
+  });
+
+  it("should sort brands Z-A", () => {
+    cy.get("#sortButton").click();
+    cy.get("#brandsZA").click();
+
+    cy.get("div > .mt-1").first().should("have.text", "Puma");
+    cy.get("div > .mt-1").last().should("have.text", "adidas Performance");
+  });
+
+  it("should sort models A-Z", () => {
+    cy.get("#sortButton").click();
+    cy.get("#modelsAZ").click();
+
+    cy.get("div > h3").first().should("contain.text", "4D Futurecraft");
+    cy.get("div > h3").last().should("contain.text", "Wmns Waffle Trainer 2");
+  });
+
+  it("should sort models Z-A", () => {
+    cy.get("#sortButton").click();
+    cy.get("#modelsZA").click();
+
+    cy.get("div > h3").first().should("contain.text", "Wmns Waffle Trainer 2");
+    cy.get("div > h3").last().should("contain.text", "4D Futurecraft");
   });
 });
