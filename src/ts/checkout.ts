@@ -4,11 +4,6 @@ import { opencart } from "./header";
 import { closecart } from "./header";
 
 let cart = [];
-let displayProducts = catalog.slice(0);
-let sort = { key: "property", asc: true };
-let selectedBrandsFilters = [];
-let selectedColorsFilters = [];
-let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
@@ -34,37 +29,60 @@ function cartSummary(cart) {
   cart.map((item) => {
     let cartItems = `
     <div class="row mb-4">
-    <div class="col-3">
-      <img width="100%" src="${item.imgURL}" alt="">
-    </div>
-    <div class="col-6">
-      <p class="my-0">${item.model}</p>
-      <p class="my-0">${item.brand}</p>
-      <p class="my-0">Size: 7</p>
-    </div>
-    <div class="col-3 flex flex-col">
-      <p class="text-center">$${item.price}</p>
-      <a class="remove-item" data-value="${item.artno}">Remove</a>
-    <div>
-    <div class="quantity-field" >
-    <button 
-    data-value="${item.artno}"
-      class="value-button decrease-button" 
-      title="Azalt">-</button>
-      <div class="number">${item.quantity}</div>
-    <button 
-      data-value="${item.artno}"
-      class="value-button increase-button" 
-      title="Arrtır"
-    >+
-    </button>
-  </div>
-  </div>
+        <div class="col-3">
+          <img width="100%" src="${item.imgURL}" alt="">
+        </div>
+        <div class="col-6">
+          <p class="my-0">${item.model}</p>
+          <p class="my-0">${item.brand}</p>
+          <p class="my-0">Size: 7</p>
+        </div>
+        <div class="col-3 flex flex-col">
+          <p class="text-center">$${item.price}</p>
+          <a class="summary-remove-item" data-value="${item.artno}">Remove</a>
+        <div>
+        <div class="quantity-field" >
+        <button 
+        data-value="${item.artno}"
+          class="value-button summary-decrease-button" 
+          title="Azalt">-</button>
+          <div class="number">${item.quantity}</div>
+          <button 
+            data-value="${item.artno}"
+            class="value-button summary-increase-button" 
+            title="Arrtır"
+          >+
+          </button>
+        </div>
+      </div>
     </div>
   </div>
       `;
     productContainer.innerHTML += cartItems;
+
+    document.querySelectorAll(".summary-remove-item").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        removeitem(event);
+      });
+    });
+    document.querySelectorAll(".summary-decrease-button").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        decreaseItem(event);
+      });
+    });
+    document.querySelectorAll(".summary-increase-button").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        increaseItem(event);
+      });
+    });
   });
+  let price = document.createElement("span");
+  price.innerHTML = "Total price is $" + calculatePrice();
+  productContainer.appendChild(price);
+  if (cart.length === 0) {
+    document.getElementById("cart-summary").innerHTML =
+      "There are no products in your cart. <br>Please browse our products <a href='/'>here</a>";
+  }
 }
 
 let container = document.getElementById("product-container");
@@ -168,23 +186,8 @@ function calculatePrice() {
 
   totalPrice.innerHTML = "$" + total.toString();
   printCart(cart);
+
   return total;
-}
-
-function notAdded(artno) {
-  let parent = document.getElementById(artno);
-  let add = document.createElement("button");
-  let added = parent.firstElementChild;
-  add.classList.add("add-to-cart");
-  add.setAttribute("data-value", artno);
-  add.innerHTML = "Add";
-
-  parent.removeChild(added);
-  parent.appendChild(add);
-
-  add.addEventListener("click", (event) => {
-    addToCart(event);
-  });
 }
 
 function printCart(cart) {
@@ -251,46 +254,29 @@ function removeitem(event) {
 
   toLocalstorage(cart);
   printCart(cart);
-  notAdded(artno);
-}
-
-// Sort functions
-
-function sortItems(key, asc) {
-  sort = { key: key, asc: asc };
-
-  let compareItemFunction = function (a, b) {
-    switch (typeof a[key]) {
-      case "number":
-        return asc ? a[key] - b[key] : b[key] - a[key];
-      case "string":
-        let propertyA = (a[key] as string).toUpperCase();
-        let propertyB = (b[key] as string).toUpperCase();
-        let result = propertyA < propertyB ? -1 : propertyA > propertyB ? 1 : 0;
-        return asc ? result : result * -1;
-    }
-  };
-  displayProducts.sort(compareItemFunction);
+  cartSummary(cart);
 }
 
 // Quantity
 function increaseItem(e) {
   const artno = e.target.getAttribute("data-value");
 
-  let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
+  console.log(cart);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
   cartAmount.innerHTML = itemsInCart();
   printCart(cart);
   toLocalstorage(cart);
+  cartSummary(cart);
 }
 
 function decreaseItem(e) {
   const artno = e.target.getAttribute("data-value");
   let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
+  console.log(cart);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
 
@@ -299,8 +285,8 @@ function decreaseItem(e) {
   }
 
   cartAmount.innerHTML = itemsInCart();
-  console.log(cart);
   printCart(cart);
+  cartSummary(cart);
   toLocalstorage(cart);
 }
 
