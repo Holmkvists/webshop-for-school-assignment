@@ -27,7 +27,7 @@
   bottom: 0;
   right: -420px;
   z-index: 100;
-  width: 100%;
+  width: 420px;
   background-color: #fafafa;
   transition: all 0.5s ease;
 }
@@ -100,17 +100,17 @@
   background: none;
 }
 
-@media screen and (min-width: 576px) {
-  #cart {
-    width: 60%;
-  }
-}
+// @media screen and (min-width: 576px) {
+//   #cart {
+//     width: 60%;
+//   }
+// }
 
-@media screen and (min-width: 768px) {
-  #cart {
-    width: 420px;
-  }
-}
+// @media screen and (min-width: 768px) {
+//   #cart {
+//     width: 420px;
+//   }
+// }
 
 /*
 input[type=number]::-webkit-inner-spin-button,

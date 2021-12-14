@@ -1,25 +1,16 @@
-#fcont {
-  width: 100%;
-
-  #filterButton i {
-    font-size: 18pt;
-  }
-
-  #allProducts {
-    padding: 4px 39px 4px 39px;
-  }
-
-  .filtersHeader {
-    margin-top: 8px;
-    padding: 0.25rem 1.5rem;
-  }
-
-  .dropdown-item[data-selected="true"] {
-    background-color: rgb(235, 235, 235);
-  }
+#filterButton i {
+  font-size: 18pt;
 }
-@media screen and (min-width: 992px) {
-  #filterButton {
-    font-size: 12pt;
-  }
+
+#allProducts {
+  padding: 4px 39px 4px 39px;
+}
+
+.filtersHeader {
+  margin-top: 8px;
+  padding: 0.25rem 1.5rem;
+}
+
+.dropdown-item[data-selected="true"] {
+  background-color: rgb(235, 235, 235);
 }
