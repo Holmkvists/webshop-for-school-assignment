@@ -1116,34 +1116,34 @@ exports.export = function(dest, destName, get) {
 },{}],"7gBgG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "expandSearchbar", ()=>expandSearchbar
+parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
 );
 parcelHelpers.export(exports, "closecart", ()=>closecart
 );
 parcelHelpers.export(exports, "opencart", ()=>opencart
 );
-function expandSearchbar() {
-    let searchbar = document.getElementById("searchbar");
-    if (searchbar.style.display === "block") searchbar.style.display = "none";
-    else searchbar.style.display = "block";
+function headerFunction() {
+    let searchbarButton = document.getElementById("searchbarButton");
+    searchbarButton.addEventListener("click", expandSearchbar);
+    console.log("hello");
+    function expandSearchbar() {
+        let searchbar = document.getElementById("searchbar");
+        if (searchbar.style.display === "block") searchbar.style.display = "none";
+        else searchbar.style.display = "block";
+    }
 }
 function closecart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    window.setTimeout(function() {
-        widget.style.transform = "translate(0px)";
-    }, 0);
+    widget.style.display = "none";
+    widget.style.right = "-420px";
     overlay.style.display = "none";
 }
 function opencart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
     widget.style.display = "block";
-    overlay.classList.add("animate__headShake");
     overlay.style.display = "block";
-    window.setTimeout(function() {
-        overlay.style.transform = "translate(opacity .25s)";
-    }, 0);
     window.setTimeout(function() {
         widget.style.transform = "translate(-420px)";
     }, 0);
