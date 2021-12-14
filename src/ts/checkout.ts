@@ -14,10 +14,6 @@ window.onload = () => {
 };
 
 function cartSummary(cart) {
-  if (cart.length === 0) {
-    document.getElementById("cart-summary").innerHTML =
-      "There are no products in your cart. <br>Please browse our products <a href='/'>here</a>";
-  }
   let summary = document.getElementById("cart-summary");
   summary.innerHTML = "";
   let productContainer = document.createElement("div");
@@ -83,6 +79,10 @@ function cartSummary(cart) {
   let price = document.createElement("span");
   price.innerHTML = "Total price is $" + calculatePrice();
   productContainer.appendChild(price);
+  if (cart.length === 0) {
+    document.getElementById("cart-summary").innerHTML =
+      "There are no products in your cart. <br>Please browse our products <a href='/'>here</a>";
+  }
 }
 
 let container = document.getElementById("product-container");
