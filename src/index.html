@@ -45,6 +45,7 @@
       class="
         navbar navbar-expand-lg navbar-light
         bg-white
+        position-relative
         justify-content-between
       "
     >
@@ -55,6 +56,8 @@
         class="
           form-inline
           ml-auto ml-md-0 ml-lg-0
+          d-none
+          d-md-block 
           flex-nowrap
         "
         id="searchbarContainer"
@@ -73,7 +76,7 @@
       </form>
       <!-- Hamburger menu -->
       <button
-        class="navbar-toggler border-0"
+        class="navbar-toggler border-0 position-absolute"
         id="hamburgerButton"
         type="button"
         data-toggle="collapse"
