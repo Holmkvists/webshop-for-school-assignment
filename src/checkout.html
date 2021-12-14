@@ -60,6 +60,8 @@
           position-relative
         "
         id="searchbarContainer"
+        action="post_purchase.html"
+        method="post"
       >
         <input
           class="form-control mr-sm-2 d-md-block position-absolute"
@@ -146,7 +148,7 @@
     </div>
 
     <main>
-      <div class="bg-gray-900 text-white py-8 text-center">
+      <div id="banner" class="bg-gray-900 text-white py-8 text-center">
         <span class="text-2xl font-light"
           >Lets
           <b
@@ -175,11 +177,11 @@
       <div class="container">
         <!--- Checkout page --->
 
-        <div class="container mt-auto">
+        <div id="checkout-container" class="container mt-auto">
           <div class="row">
             <div class="col-6">
               <h4 class="mb-3 mt-5 mx-auto">Billing address</h4>
-              <form class="needs-validation" novalidate="">
+              <form id="checkout-form" class="needs-validation" novalidate="">
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="firstName">First name</label>
@@ -420,6 +422,8 @@
                   </div>
                 </div>
                 <button
+                  href=""
+                  id="proceed-purchase"
                   class="btn btn-dark btn-lg btn-block mb-5"
                   type="submit"
                 >

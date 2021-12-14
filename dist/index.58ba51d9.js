@@ -472,7 +472,11 @@ let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 window.onload = ()=>{
-    fromLocalStorage();
+    if (fromLocalStorage("cart")) {
+        cart1 = fromLocalStorage("cart");
+        cartAmount.innerHTML = "" + cart1.length;
+        printCart(fromLocalStorage("cart"));
+    }
     print_products(_productCatalog.catalog);
     document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
     // filterOptions();
@@ -595,7 +599,7 @@ function addToCart(event) {
         cart1.push(item);
         cart1[itemIndex]["quantity"] = 1;
     } else cart1[itemIndex]["quantity"] = cart1[itemIndex]["quantity"] + 1;
-    toLocalstorage(cart1);
+    toLocalstorage(cart1, "cart");
     cart1.reduce((total, obj)=>obj.quantity + total
     , 0);
     cartAmount.innerHTML = itemsInCart();
@@ -689,7 +693,7 @@ function removeitem(event) {
         return item.artno != artno;
     });
     cartAmount.innerHTML = itemsInCart();
-    toLocalstorage(cart1);
+    toLocalstorage(cart1, "cart");
     calculatePrice();
     printCart(cart1);
     notAdded(artno);
@@ -865,7 +869,7 @@ function increaseItem(e) {
     cartAmount.innerHTML = itemsInCart();
     calculatePrice();
     printCart(cart1);
-    toLocalstorage(cart1);
+    toLocalstorage(cart1, "cart");
 }
 function decreaseItem(e) {
     const artno = e.target.getAttribute("data-value");
@@ -878,7 +882,7 @@ function decreaseItem(e) {
     cartAmount.innerHTML = itemsInCart();
     calculatePrice();
     printCart(cart1);
-    toLocalstorage(cart1);
+    toLocalstorage(cart1, "cart");
 }
 function itemsInCart() {
     return cart1.reduce((total, obj)=>obj.quantity + total
@@ -891,17 +895,12 @@ function containsObject(obj, list) {
     }
     return false;
 }
-function toLocalstorage(thing) {
-    localStorage.setItem("cart", JSON.stringify(thing));
+function toLocalstorage(thing, name) {
+    localStorage.setItem(name, JSON.stringify(thing));
 }
-function fromLocalStorage() {
-    const itemJSON = localStorage.getItem("cart");
-    if (itemJSON) {
-        cart1 = JSON.parse(itemJSON);
-        cartAmount.innerHTML = itemsInCart();
-        calculatePrice();
-        printCart(cart1);
-    }
+function fromLocalStorage(item) {
+    const itemJSON = localStorage.getItem(item);
+    if (itemJSON) return JSON.parse(itemJSON);
 }
 
 },{"./models/product-catalog":"eymG3","./header":"7gBgG"}],"eymG3":[function(require,module,exports) {

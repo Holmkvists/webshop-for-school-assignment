@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <script
       type="module"
       src="https://kit.fontawesome.com/9604976d4b.js"
@@ -33,10 +38,6 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
   </head>
   <body>
@@ -100,11 +101,13 @@
           <li>
             <a class="nav-link" href="#">Kids</a>
           </li>
+          <li>
+            <a id="bag" class="nav-link animate__animated">
+              <i class="bi bi-cart4"></i><span id="cart-amount">0</span></a
+            >
+          </li>
         </ul>
       </div>
-      <a id="bag" class="nav-link animate__animated">
-        <i class="bi bi-cart4"></i><span id="cart-amount">0</span></a
-      >
     </nav>
     <div id="cart" class="text-sm">
       <div class="container my-3">
@@ -114,112 +117,10 @@
             <button id="close" class="underline">Close</button>
           </div>
         </div>
-        <div id="cart-widget" class="animate__animated"></div>
-        <div class="flex justify-between">
-          <div class="flex-initial">
-            <p>Total</p>
-          </div>
-          <div class="flex-initial">
-            <p id="totalPrice">Price</p>
-          </div>
-        </div>
-        <div class="flex justify-center">
-          <a
-            href="checkout.html"
-            id="proceed-checkout"
-            class="
-              bg-gray-900
-              hover:bg-gray-700
-              text-white
-              font-bold
-              py-2
-              px-4
-              rounded
-            "
-            >Go to checkout</a
-          >
-        </div>
-      </div>
-    </div>
 
-    <main>
-      <div class="container">
-        <!-- Sort -->
-        <div class="d-flex align-items-center gap-x-5 mt-5 mb-4">
-          <div>
-            <button
-              class="dropdown-toggle"
-              type="button"
-              id="sortButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Sort by
-            </button>
-            <div class="dropdown-menu" aria-labelledby="sortButton">
-              <a id="lowToHigh" class="dropdown-item" href="#">Lowest Price</a>
-              <a id="highToLow" class="dropdown-item" href="#">Highest Price</a>
-              <a id="brandsAZ" class="dropdown-item" href="#">Brand Name A-Z</a>
-              <a id="brandsZA" class="dropdown-item" href="#">Brand Name Z-A</a>
-              <a id="modelsAZ" class="dropdown-item" href="#">Products A-Z</a>
-              <a id="modelsZA" class="dropdown-item" href="#">Products Z-A</a>
-            </div>
-          </div>
-          <!-- Filter -->
-          <div>
-            <button
-              type="button"
-              id="filterButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i class="bi bi-filter"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="filterButton">
-              <a
-                id="allProducts"
-                class="dropdown-item ml-lg-3"
-                href="javascript:void(0)"
-                >All products</a
-              >
-              <div class="d-lg-flex">
-                <div id="brandsContainer" class="col-4">
-                  <h6 class="filtersHeader">Brands</h6>
-                  <div id="brandsFilter"></div>
-                </div>
-                <div id="colorContainer" class="col-4">
-                  <h6 class="filtersHeader">Colors</h6>
-                  <div id="colorsFilter"></div>
-                </div>
-                <div id="categoriesContainer" class="col-4">
-                  <h6 class="filtersHeader">Categories</h6>
-                  <div id="categoriesFilter"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-      <!-- Product display -->
-      <div class="container-fluid">
-        <div id="container-wrapper">
-          <div
-            id="product-container"
-            class="
-              grid grid-cols-1
-              gap-y-10 gap-x-6
-              sm:grid-cols-2
-              lg:grid-cols-4
-              xl:gap-x-8
-            "
-          ></div>
-        </div>
-      </div>
     </main>
 
-    <!-- Footer -->
     <footer class="container-fluid">
       <div class="footer mt-auto py-3">
         <div class="row text-center">
@@ -318,7 +219,7 @@
                   aria-describedby="email-form"
                   placeholder="yourname@email.com"
                 />
-                <button id="proceed-purchase" type="button" class="btn btn-dark btn-sm submit-btn">
+                <button type="button" class="btn btn-dark btn-sm submit-btn">
                   OK
                 </button>
               </div>
@@ -343,6 +244,6 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="./ts/main.ts"></script>
+    <script type="module" src="./ts/checkout.ts"></script>
   </body>
 </html>

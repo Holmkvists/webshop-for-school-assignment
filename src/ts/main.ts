@@ -12,7 +12,11 @@ let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
-  fromLocalStorage();
+  if (fromLocalStorage("cart")) {
+    cart = fromLocalStorage("cart");
+    cartAmount.innerHTML = "" + cart.length;
+    printCart(fromLocalStorage("cart"));
+  }
   print_products(catalog);
 
   document
@@ -162,7 +166,7 @@ function addToCart(event) {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
 
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
   cartAmount.innerHTML = itemsInCart();
@@ -269,7 +273,7 @@ function removeitem(event) {
 
   cartAmount.innerHTML = itemsInCart();
 
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
   calculatePrice();
   printCart(cart);
   notAdded(artno);
@@ -510,7 +514,7 @@ function increaseItem(e) {
 
   calculatePrice();
   printCart(cart);
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
 }
 
 function decreaseItem(e) {
@@ -527,7 +531,7 @@ function decreaseItem(e) {
   cartAmount.innerHTML = itemsInCart();
   calculatePrice();
   printCart(cart);
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
 }
 
 function itemsInCart() {
@@ -545,17 +549,14 @@ function containsObject(obj, list) {
   return false;
 }
 
-function toLocalstorage(thing) {
-  localStorage.setItem("cart", JSON.stringify(thing));
+function toLocalstorage(thing, name) {
+  localStorage.setItem(name, JSON.stringify(thing));
 }
 
-function fromLocalStorage() {
-  const itemJSON = localStorage.getItem("cart");
+function fromLocalStorage(item) {
+  const itemJSON = localStorage.getItem(item);
 
   if (itemJSON) {
-    cart = JSON.parse(itemJSON);
-    cartAmount.innerHTML = itemsInCart();
-    calculatePrice();
-    printCart(cart);
+    return JSON.parse(itemJSON);
   }
 }

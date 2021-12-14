@@ -5,12 +5,20 @@ import { closecart } from "./header";
 
 let cart = [];
 let cartAmount = document.getElementById("cart-amount");
+let customerObject = {};
 
 window.onload = () => {
-  fromLocalStorage();
+  if (fromLocalStorage("cart")) {
+    cart = fromLocalStorage("cart");
+    cartAmount.innerHTML = "" + cart.length;
+    printCart(fromLocalStorage("cart"));
+  }
   cartSummary(cart);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
+  document
+    .getElementById("proceed-purchase")
+    .addEventListener("click", proceedPurchase);
 };
 
 function cartSummary(cart) {
@@ -161,7 +169,7 @@ function addToCart(event) {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
 
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
   cartAmount.innerHTML = itemsInCart();
@@ -252,7 +260,7 @@ function removeitem(event) {
 
   cartAmount.innerHTML = itemsInCart();
 
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
   printCart(cart);
   cartSummary(cart);
 }
@@ -268,7 +276,7 @@ function increaseItem(e) {
 
   cartAmount.innerHTML = itemsInCart();
   printCart(cart);
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
   cartSummary(cart);
 }
 
@@ -287,7 +295,7 @@ function decreaseItem(e) {
   cartAmount.innerHTML = itemsInCart();
   printCart(cart);
   cartSummary(cart);
-  toLocalstorage(cart);
+  toLocalstorage(cart, "cart");
 }
 
 function itemsInCart() {
@@ -305,16 +313,159 @@ function containsObject(obj, list) {
   return false;
 }
 
-function toLocalstorage(thing) {
-  localStorage.setItem("cart", JSON.stringify(thing));
+function toLocalstorage(thing, name) {
+  localStorage.setItem(name, JSON.stringify(thing));
 }
 
-function fromLocalStorage() {
-  const itemJSON = localStorage.getItem("cart");
+function fromLocalStorage(item) {
+  const itemJSON = localStorage.getItem(item);
 
   if (itemJSON) {
-    cart = JSON.parse(itemJSON);
-    cartAmount.innerHTML = itemsInCart();
-    printCart(cart);
+    return JSON.parse(itemJSON);
   }
+}
+
+function proceedPurchase() {
+  let firstname = (document.getElementById("firstName") as HTMLInputElement)
+    .value;
+  let lastname = (document.getElementById("lastName") as HTMLInputElement)
+    .value;
+  let username = (document.getElementById("username") as HTMLInputElement)
+    .value;
+  let email = (document.getElementById("email") as HTMLInputElement).value;
+  let address = (document.getElementById("address") as HTMLInputElement).value;
+  let address2 = (document.getElementById("address2") as HTMLInputElement)
+    .value;
+  let country = (document.getElementById("country") as HTMLInputElement).value;
+
+  let zip = (document.getElementById("zip") as HTMLInputElement).value;
+  let nameOnCard = (document.getElementById("cc-name") as HTMLInputElement)
+    .value;
+  let cardNumber = (document.getElementById("cc-number") as HTMLInputElement)
+    .value;
+  let expiration = (
+    document.getElementById("cc-expiration") as HTMLInputElement
+  ).value;
+  let cvv = (document.getElementById("cc-cvv") as HTMLInputElement).value;
+  customerObject["firstname"] = firstname;
+  customerObject["lastname"] = lastname;
+  customerObject["username"] = username;
+  customerObject["email"] = email;
+  customerObject["address"] = address;
+  customerObject["address2"] = address2;
+  customerObject["country"] = country;
+  customerObject["zip"] = zip;
+  customerObject["nameOnCard"] = nameOnCard;
+  customerObject["cardNumber"] = cardNumber;
+  customerObject["expiration"] = expiration;
+  customerObject["cvv"] = cvv;
+  toLocalstorage(customerObject, "customer");
+  if (fromLocalStorage("customer") && fromLocalStorage("cart")) {
+    displayThankYou();
+  }
+}
+
+(function () {
+  "use strict";
+
+  window.addEventListener(
+    "load",
+    function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName("needs-validation");
+
+      // Loop over them and prevent submission
+      Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener(
+          "submit",
+          function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            } else {
+              event.preventDefault();
+              proceedPurchase();
+            }
+
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      });
+    },
+    false
+  );
+})();
+
+function displayThankYou() {
+  let checkoutContainer = document.getElementById("checkout-container");
+  let banner = document.getElementById("banner");
+  banner.innerHTML = "";
+  banner.innerHTML = `<span class="text-2xl font-light">Purchase was <b
+  <b
+    class="
+      text-transparent
+      bg-clip-text bg-gradient-to-br
+      from-green-400
+      to-green-600
+      font-medium
+    ">Successful</b></span>`;
+  let cart = fromLocalStorage("cart");
+  let customer = fromLocalStorage("customer");
+  let customerContent = `
+    <div class="my-10 text-center">
+      <h2>Thank you for the purchase ${customer.firstname}</h2>
+      <p>Your order will arrive within 3-5 business days.</p>
+    </div>
+    
+    <div class="col-7 mx-auto mb-10 p-4 border border-r border-gray-400 rounded-xl">
+      <div class="flex mb-10">
+        <div class="col">
+          <p><b>Firstname: </b>${customer.firstname}</p>
+          <p><b>Lastname: </b>${customer.lastname}</p>
+          <p><b>Email: </b>${customer.email}</p>
+        </div>
+        <div class="col">
+        <p><b>Address: </b>${customer.address}</p>
+        <p><b>Country: </b>${customer.Country}</p>
+        <p><b>Zip: </b>${customer.zip}</p>
+      </div>
+      </div>
+      <div id="cart-sumup" class="row mb-4">
+        
+      </div>
+    </div>
+    
+    `;
+  checkoutContainer.innerHTML = customerContent;
+  let cartElements = fromLocalStorage("cart");
+  console.log(cartElements);
+
+  let productContainer = document.getElementById("cart-sumup");
+  cartElements.map((item) => {
+    let cartItems = `
+    <div class="row mb-4">
+        <div class="col-3">
+          <img width="100%" src="${item.imgURL}" alt="">
+        </div>
+        <div class="col-6">
+          <p class="my-0">${item.model}</p>
+          <p class="my-0">${item.brand}</p>
+        </div>
+        <div class="col-3 flex flex-col">
+          <p class="text-center">$${item.price}</p>
+        <div>
+      </div>
+    </div>
+  </div>
+      `;
+
+    productContainer.innerHTML += cartItems;
+  });
+  productContainer.innerHTML += `
+    <div class="row px-2">
+      <div class="col">Total</div>
+      <div class="col text-right">$${calculatePrice()}</div>
+    </div>
+  `;
 }
