@@ -479,8 +479,8 @@ window.onload = ()=>{
     document.getElementById("searchbarButton").addEventListener("click", _header.expandSearchbar);
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
-// document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
-// document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+    document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
+    document.getElementById("highToLow").addEventListener("click", sortHighToLow);
 // document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
 // document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
 // document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);

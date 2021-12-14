@@ -24,8 +24,8 @@ window.onload = () => {
     .addEventListener("click", expandSearchbar);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
-  // document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
-  // document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+  document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
+  document.getElementById("highToLow").addEventListener("click", sortHighToLow);
   // document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
   // document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
   // document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
