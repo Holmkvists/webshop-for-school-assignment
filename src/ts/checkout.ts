@@ -4,7 +4,6 @@ import { opencart } from "./header";
 import { closecart } from "./header";
 
 let cart = [];
-let displayProducts = catalog.slice(0);
 let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
@@ -13,6 +12,7 @@ window.onload = () => {
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
 };
+console.log("hello");
 
 function cartSummary(cart) {
   if (cart.length === 0) {

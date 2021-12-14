@@ -475,17 +475,17 @@ window.onload = ()=>{
     fromLocalStorage();
     print_products(_productCatalog.catalog);
     document.getElementById("searchbarContainer").addEventListener("keyup", searchProducts);
-    filterOptions();
+    // filterOptions();
     document.getElementById("searchbarButton").addEventListener("click", _header.expandSearchbar);
     document.getElementById("close").addEventListener("click", _header.closecart);
     document.getElementById("bag").addEventListener("click", _header.opencart);
-    document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
-    document.getElementById("highToLow").addEventListener("click", sortHighToLow);
-    document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
-    document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
-    document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
-    document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
-    document.getElementById("allProducts").addEventListener("click", resetFilter);
+// document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
+// document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+// document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
+// document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
+// document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
+// document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
+// document.getElementById("allProducts").addEventListener("click", resetFilter);
 };
 let container = document.getElementById("product-container");
 function print_products(ProductsObjects) {
@@ -920,14 +920,17 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: "Beige",
+        colors: [
+            "Coconut milk",
+            "Forest green",
+            "Beige"
+        ],
         sex: "Men",
         imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
         instock: true,
-        numberInStock: 10,
-        description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
+        description: "After seeing the original colorways of the classic Nike Blazer return it’s time to bring back the low-tops. Constructed with a white leather upper with black and grey suede overlays, these retro kicks are more than just a throwback for old heads, this breaths sneaker culture."
     },
     {
         artno: "Da8291-001",
@@ -947,8 +950,12 @@ const catalog = [
             "9.5",
             "10"
         ],
-        colors: "Beige",
-        sex: "Women",
+        colors: [
+            "Light Bone",
+            "Beige",
+            "Green"
+        ],
+        sex: "Woman",
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
@@ -963,7 +970,10 @@ const catalog = [
         sizes: [
             "5"
         ],
-        colors: "Multi-color",
+        colors: [
+            "Grey",
+            "Multi color"
+        ],
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
@@ -985,13 +995,16 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: "White",
+        colors: [
+            "crystal white",
+            "chalk white",
+            "core black"
+        ],
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/308942/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
-        instock: true,
-        numberInStock: 8
+        instock: true
     },
     {
         artno: "Da7995-101",
@@ -1007,7 +1020,10 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: "Beige",
+        colors: [
+            "COCONUT MILK",
+            "BRIGHT CRIMSON-HYPER ROYAL"
+        ],
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
@@ -1028,7 +1044,11 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: "Green",
+        colors: [
+            "collegiate green",
+            "ftwr white",
+            "collegiate orange"
+        ],
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
@@ -1049,7 +1069,10 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: "Beige",
+        colors: [
+            "PHANTOM",
+            "BLACK-RATTAN-LIGHT BONE"
+        ],
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
         imgURL2: "",
@@ -1070,7 +1093,11 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: "Green",
+        colors: [
+            "Dill",
+            "Vaporous Gray",
+            "White"
+        ],
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
@@ -1112,34 +1139,34 @@ exports.export = function(dest, destName, get) {
 },{}],"7gBgG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "expandSearchbar", ()=>expandSearchbar
+parcelHelpers.export(exports, "headerFunction", ()=>headerFunction
 );
 parcelHelpers.export(exports, "closecart", ()=>closecart
 );
 parcelHelpers.export(exports, "opencart", ()=>opencart
 );
-function expandSearchbar() {
-    let searchbar = document.getElementById("searchbar");
-    if (searchbar.style.display === "block") searchbar.style.display = "none";
-    else searchbar.style.display = "block";
+function headerFunction() {
+    let searchbarButton = document.getElementById("searchbarButton");
+    searchbarButton.addEventListener("click", expandSearchbar);
+    console.log("hello");
+    function expandSearchbar() {
+        let searchbar = document.getElementById("searchbar");
+        if (searchbar.style.display === "block") searchbar.style.display = "none";
+        else searchbar.style.display = "block";
+    }
 }
 function closecart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
-    window.setTimeout(function() {
-        widget.style.transform = "translate(0px)";
-    }, 0);
+    widget.style.display = "none";
+    widget.style.right = "-420px";
     overlay.style.display = "none";
 }
 function opencart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
     widget.style.display = "block";
-    overlay.classList.add("animate__headShake");
     overlay.style.display = "block";
-    window.setTimeout(function() {
-        overlay.style.transform = "translate(opacity .25s)";
-    }, 0);
     window.setTimeout(function() {
         widget.style.transform = "translate(-420px)";
     }, 0);
