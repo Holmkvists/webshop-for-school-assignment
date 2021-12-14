@@ -39,17 +39,17 @@ function cartSummary(cart) {
         </div>
         <div class="col-3 flex flex-col">
           <p class="text-center">$${item.price}</p>
-          <a class="remove-item" data-value="${item.artno}">Remove</a>
+          <a class="summary-remove-item" data-value="${item.artno}">Remove</a>
         <div>
         <div class="quantity-field" >
         <button 
         data-value="${item.artno}"
-          class="value-button decrease-button" 
+          class="value-button summary-decrease-button" 
           title="Azalt">-</button>
           <div class="number">${item.quantity}</div>
           <button 
             data-value="${item.artno}"
-            class="value-button increase-button" 
+            class="value-button summary-increase-button" 
             title="Arrtır"
           >+
           </button>
@@ -60,17 +60,17 @@ function cartSummary(cart) {
       `;
     productContainer.innerHTML += cartItems;
 
-    document.querySelectorAll(".remove-item").forEach((item) => {
+    document.querySelectorAll(".summary-remove-item").forEach((item) => {
       item.addEventListener("click", (event) => {
         removeitem(event);
       });
     });
-    document.querySelectorAll(".decrease-button").forEach((item) => {
+    document.querySelectorAll(".summary-decrease-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         decreaseItem(event);
       });
     });
-    document.querySelectorAll(".increase-button").forEach((item) => {
+    document.querySelectorAll(".summary-increase-button").forEach((item) => {
       item.addEventListener("click", (event) => {
         increaseItem(event);
       });
@@ -261,21 +261,22 @@ function removeitem(event) {
 function increaseItem(e) {
   const artno = e.target.getAttribute("data-value");
 
-  let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
+  console.log(cart);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
   cartAmount.innerHTML = itemsInCart();
   printCart(cart);
-  cartSummary(cart);
   toLocalstorage(cart);
+  cartSummary(cart);
 }
 
 function decreaseItem(e) {
   const artno = e.target.getAttribute("data-value");
   let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
+  console.log(cart);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
 
@@ -284,7 +285,6 @@ function decreaseItem(e) {
   }
 
   cartAmount.innerHTML = itemsInCart();
-  console.log(cart);
   printCart(cart);
   cartSummary(cart);
   toLocalstorage(cart);
