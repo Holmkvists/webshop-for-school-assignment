@@ -920,17 +920,14 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "Coconut milk",
-            "Forest green",
-            "Beige"
-        ],
+        colors: "Beige",
         sex: "Men",
         imgURL: "https://www.sneakersnstuff.com/images/314995/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
         instock: true,
-        description: "After seeing the original colorways of the classic Nike Blazer return it’s time to bring back the low-tops. Constructed with a white leather upper with black and grey suede overlays, these retro kicks are more than just a throwback for old heads, this breaths sneaker culture."
+        numberInStock: 10,
+        description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
     },
     {
         artno: "Da8291-001",
@@ -950,12 +947,8 @@ const catalog = [
             "9.5",
             "10"
         ],
-        colors: [
-            "Light Bone",
-            "Beige",
-            "Green"
-        ],
-        sex: "Woman",
+        colors: "Beige",
+        sex: "Women",
         imgURL: "https://www.sneakersnstuff.com/images/314976/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/314977/da8291-001-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314975/da8291-001-1.jpg",
@@ -970,10 +963,7 @@ const catalog = [
         sizes: [
             "5"
         ],
-        colors: [
-            "Grey",
-            "Multi color"
-        ],
+        colors: "Multi-color",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/316752/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/316751/02a2531.jpg",
@@ -995,16 +985,13 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "crystal white",
-            "chalk white",
-            "core black"
-        ],
+        colors: "White",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/308942/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
-        instock: true
+        instock: true,
+        numberInStock: 8
     },
     {
         artno: "Da7995-101",
@@ -1020,10 +1007,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "COCONUT MILK",
-            "BRIGHT CRIMSON-HYPER ROYAL"
-        ],
+        colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
@@ -1044,11 +1028,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "collegiate green",
-            "ftwr white",
-            "collegiate orange"
-        ],
+        colors: "Green",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
@@ -1069,10 +1049,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "PHANTOM",
-            "BLACK-RATTAN-LIGHT BONE"
-        ],
+        colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
         imgURL2: "",
@@ -1093,11 +1070,7 @@ const catalog = [
             "10",
             "11"
         ],
-        colors: [
-            "Dill",
-            "Vaporous Gray",
-            "White"
-        ],
+        colors: "Green",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
