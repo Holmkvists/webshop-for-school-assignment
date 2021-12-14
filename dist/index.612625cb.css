@@ -1,18 +1,18 @@
 @charset "UTF-8";
 #searchbarContainer {
-  width: 200px;
+  height: 30px;
 }
 #searchbarContainer #searchbar {
   display: none;
   width: 175px;
   right: 0px;
   height: 30px;
-  border-radius: 30px;
+  border: 0;
+  border-bottom: 1px solid lightgrey;
 }
 #searchbarContainer #searchbarButton {
   z-index: 1;
   border-radius: 30px;
-  border: solid 2px lightgrey;
   background-color: white;
   right: 0;
   width: 30px;
@@ -24,16 +24,8 @@
 }
 
 @media screen and (min-width: 576px) {
-  #searchbarContainer {
-    width: 300px;
-  }
   #searchbarContainer #searchbar {
     width: 300px;
-  }
-}
-@media screen and (min-width: 992px) {
-  #searchbarContainer {
-    width: 400px;
   }
 }
 .quantity-field {
