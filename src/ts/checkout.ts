@@ -1,7 +1,8 @@
-import { catalog } from "./models/product-catalog";
-import { expandSearchbar } from "./header";
 import { opencart } from "./header";
 import { closecart } from "./header";
+import { fromLocalStorage } from "./localStorage";
+import { toLocalstorage } from "./localStorage";
+import { calculatePrice } from "./calcPrice";
 
 let cart = [];
 let cartAmount = document.getElementById("cart-amount");
@@ -85,114 +86,12 @@ function cartSummary(cart) {
     });
   });
   let price = document.createElement("span");
-  price.innerHTML = "Total price is $" + calculatePrice();
+  price.innerHTML = "Total price is $" + calculatePrice(cart);
   productContainer.appendChild(price);
   if (cart.length === 0) {
     document.getElementById("cart-summary").innerHTML =
       "There are no products in your cart. <br>Please browse our products <a href='/'>here</a>";
   }
-}
-
-let container = document.getElementById("product-container");
-
-function productdetail(event) {
-  //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
-  const artno = event.target.getAttribute("data-value");
-
-  //Hämtar elementen container-wrapper och product-container
-  let wrapper = document.getElementById("container-wrapper");
-  let productContainer = document.getElementById("product-container");
-
-  //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
-  let detailsPage = document.createElement("div");
-  detailsPage.innerHTML += `
-
-  <div class="container selected-wrapper"> 
-  <div class="container selected-inner">
-
-  <div class="image-wrapper">
-  <div class="selected-image">
-
-  <h3 class="text-uppercase h3-heading">adidas Originals
-  Stan Smith Vegan</h3>
-  <img src="https://www.sneakersnstuff.com/images/269940/product_large.jpg"/>
-  </div>
-
-  <!--- Här ska produktbeskrivning ligga --->
-
-  <div class="container item-details">
-  <h4 class="item-title">Description</h4>
-  <p class="item-description">
-  Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
-  The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products whatsoever in the creation of the product.</p>
-
-<ul class="list-unstyled detail-list">
-<li class="list-item">- Recycled polyester upper</li>
-<li class="list-item">- Embossed logo</li>
-<li class="list-item">- Rubber outsole</li>
-</ul>
-
-  </div>
-  </div>
-
-  </div>
-  </div> 
-
-  `;
-
-  //Ersätter "productContainer" med den nya divven "detailsPage"
-  wrapper.replaceChild(detailsPage, productContainer);
-
-  /* Det som händer efter användaren har skickats till rätt sida.
-/Produktdatan hämtas & presenteras på skärmen*/
-}
-
-function addToCart(event) {
-  let artno = event.target.getAttribute("data-value");
-  let addbtn = event.target;
-  let added = document.createElement("p");
-  added.classList.add("added");
-  added.innerHTML = "Added <i class='bi bi-check'></i>";
-  added.setAttribute("id", artno);
-  addbtn.replaceWith(added);
-  let item = catalog.find((x) => x.artno === artno);
-  let itemIndex = cart.length;
-
-  // Om produkten finns i varukorg, addera +1 i quantity
-  if (!containsObject(item, cart)) {
-    cart.push(item);
-    cart[itemIndex]["quantity"] = 1;
-  } else {
-    cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
-  }
-
-  toLocalstorage(cart, "cart");
-  cart.reduce((total, obj) => obj.quantity + total, 0);
-
-  cartAmount.innerHTML = itemsInCart();
-
-  document.getElementById("bag").classList.add("animate__headShake");
-  setTimeout(function () {
-    document.getElementById("bag").classList.remove("animate__headShake");
-  }, 800);
-  calculatePrice();
-}
-
-function calculatePrice() {
-  let totalPrice = document.getElementById("totalPrice");
-  let total = 0;
-
-  if (cart.length > 0) {
-    for (let i = 0; i < cart.length; i++) {
-      let price = cart[i].price;
-      total = total + price;
-    }
-  }
-
-  totalPrice.innerHTML = "$" + total.toString();
-  printCart(cart);
-
-  return total;
 }
 
 function printCart(cart) {
@@ -295,29 +194,6 @@ function decreaseItem(e) {
 
 function itemsInCart() {
   return cart.reduce((total, obj) => obj.quantity + total, 0).toString();
-}
-
-function containsObject(obj, list) {
-  var i;
-  for (i = 0; i < list.length; i++) {
-    if (list[i] === obj) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function toLocalstorage(thing, name) {
-  localStorage.setItem(name, JSON.stringify(thing));
-}
-
-function fromLocalStorage(item) {
-  const itemJSON = localStorage.getItem(item);
-
-  if (itemJSON) {
-    return JSON.parse(itemJSON);
-  }
 }
 
 function proceedPurchase() {
@@ -458,7 +334,7 @@ function displayThankYou() {
   productContainer.innerHTML += `
     <div class="row px-2">
       <div class="col">Total</div>
-      <div class="col text-right">$${calculatePrice()}</div>
+      <div class="col text-right">$${calculatePrice(cart)}</div>
     </div>
   `;
 }

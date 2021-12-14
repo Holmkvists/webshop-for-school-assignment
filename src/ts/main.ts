@@ -1,6 +1,9 @@
 import { catalog } from "./models/product-catalog";
 import { opencart } from "./header";
 import { closecart } from "./header";
+import { fromLocalStorage } from "./localStorage";
+import { toLocalstorage } from "./localStorage";
+import { calculatePrice } from "./calcPrice";
 
 let cart = [];
 let displayProducts = catalog.slice(0);
@@ -40,9 +43,6 @@ function print_products(ProductsObjects) {
 
   ProductsObjects.map((item) => {
     let product = `
-
-
-
         <div class="group relative">
             
             <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
@@ -165,30 +165,14 @@ function addToCart(event) {
   toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
-  cartAmount.innerHTML = itemsInCart();
+  cartAmount.innerHTML = itemsInCart(cart);
 
   document.getElementById("bag").classList.add("animate__headShake");
   setTimeout(function () {
     document.getElementById("bag").classList.remove("animate__headShake");
   }, 800);
-  calculatePrice();
-}
-
-function calculatePrice() {
-  let totalPrice = document.getElementById("totalPrice");
-  let total = 0;
-
-  if (cart.length > 0) {
-    for (let i = 0; i < cart.length; i++) {
-      let price = cart[i].price;
-      let quantity = cart[i].quantity;
-      total = total + quantity * price;
-    }
-  }
-
-  totalPrice.innerHTML = "$" + total.toString();
+  calculatePrice(cart);
   printCart(cart);
-  return total;
 }
 
 function notAdded(artno) {
@@ -258,6 +242,8 @@ function printCart(cart) {
         increaseItem(event);
       });
     });
+    document.getElementById("totalPrice").innerHTML =
+      "$" + calculatePrice(cart);
   });
 }
 
@@ -267,10 +253,10 @@ function removeitem(event) {
     return item.artno != artno;
   });
 
-  cartAmount.innerHTML = itemsInCart();
+  cartAmount.innerHTML = itemsInCart(cart);
 
   toLocalstorage(cart, "cart");
-  calculatePrice();
+  calculatePrice(cart);
   printCart(cart);
   notAdded(artno);
 }
@@ -503,12 +489,9 @@ function increaseItem(e) {
 
   let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
-
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
-
-  cartAmount.innerHTML = itemsInCart();
-
-  calculatePrice();
+  cartAmount.innerHTML = itemsInCart(cart);
+  calculatePrice(cart);
   printCart(cart);
   toLocalstorage(cart, "cart");
 }
@@ -524,13 +507,13 @@ function decreaseItem(e) {
     removeitem(e);
   }
 
-  cartAmount.innerHTML = itemsInCart();
-  calculatePrice();
+  cartAmount.innerHTML = itemsInCart(cart);
+  calculatePrice(cart);
   printCart(cart);
   toLocalstorage(cart, "cart");
 }
 
-function itemsInCart() {
+function itemsInCart(cart) {
   return cart.reduce((total, obj) => obj.quantity + total, 0).toString();
 }
 
@@ -543,16 +526,4 @@ function containsObject(obj, list) {
   }
 
   return false;
-}
-
-function toLocalstorage(thing, name) {
-  localStorage.setItem(name, JSON.stringify(thing));
-}
-
-function fromLocalStorage(item) {
-  const itemJSON = localStorage.getItem(item);
-
-  if (itemJSON) {
-    return JSON.parse(itemJSON);
-  }
 }
