@@ -12,6 +12,7 @@ let selectedBrandsFilters = [];
 let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
+let container = document.getElementById("product-container");
 
 window.onload = () => {
   if (fromLocalStorage("cart")) {
@@ -35,8 +36,6 @@ window.onload = () => {
   document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
   document.getElementById("allProducts").addEventListener("click", resetFilter);
 };
-
-let container = document.getElementById("product-container");
 
 function print_products(ProductsObjects) {
   container.innerHTML = "";
@@ -154,7 +153,6 @@ function addToCart(event) {
   let item = catalog.find((x) => x.artno === artno);
   let itemIndex = cart.length;
 
-  // Om produkten finns i varukorg, addera +1 i quantity
   if (!containsObject(item, cart)) {
     cart.push(item);
     cart[itemIndex]["quantity"] = 1;
@@ -476,7 +474,6 @@ function searchProducts(e) {
       (item.brand.toLowerCase() as any).includes(searchFrase)
     );
   });
-  let app = document.getElementById("app");
   if (filteredProducts.length > 0) {
     print_products(filteredProducts);
   } else {
@@ -486,11 +483,11 @@ function searchProducts(e) {
 // Quantity
 function increaseItem(e) {
   const artno = e.target.getAttribute("data-value");
-
-  let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
+
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
   cartAmount.innerHTML = itemsInCart(cart);
+
   calculatePrice(cart);
   printCart(cart);
   toLocalstorage(cart, "cart");
@@ -498,9 +495,7 @@ function increaseItem(e) {
 
 function decreaseItem(e) {
   const artno = e.target.getAttribute("data-value");
-  let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
-
   cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
 
   if (cart[itemIndex].quantity === 0) {
