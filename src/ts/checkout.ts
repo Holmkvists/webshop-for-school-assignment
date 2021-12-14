@@ -143,9 +143,6 @@ function productdetail(event) {
   //Ersätter "productContainer" med den nya divven "detailsPage"
   wrapper.replaceChild(detailsPage, productContainer);
 
-  //Loggar ut artikelnumret - ta bort sen
-  console.log(artno);
-
   /* Det som händer efter användaren har skickats till rätt sida.
 /Produktdatan hämtas & presenteras på skärmen*/
 }
@@ -270,7 +267,6 @@ function increaseItem(e) {
   const artno = e.target.getAttribute("data-value");
 
   let itemIndex = cart.findIndex((x) => x.artno === artno);
-  console.log(cart);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
 
@@ -284,7 +280,6 @@ function decreaseItem(e) {
   const artno = e.target.getAttribute("data-value");
   let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
-  console.log(cart);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
 
@@ -439,7 +434,6 @@ function displayThankYou() {
     `;
   checkoutContainer.innerHTML = customerContent;
   let cartElements = fromLocalStorage("cart");
-  console.log(cartElements);
 
   let productContainer = document.getElementById("cart-sumup");
   cartElements.map((item) => {
