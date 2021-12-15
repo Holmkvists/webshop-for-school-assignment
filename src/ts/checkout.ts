@@ -17,9 +17,6 @@ window.onload = () => {
   cartSummary(cart);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
-  document
-    .getElementById("proceed-purchase")
-    .addEventListener("click", proceedPurchase);
 };
 
 function cartSummary(cart) {
