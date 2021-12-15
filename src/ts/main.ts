@@ -89,28 +89,21 @@ function print_products(ProductsObjects) {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-        productdetails(event);
-        let product = event.target;
+        event.preventDefault();
+        let artno = (event.target as HTMLTextAreaElement).getAttribute(
+        "data-value"
+        );
+        productdetails(artno);
       });
     });
   });
 }
 
-
+function productdetails(artno) {
 let url = window.location.pathname;
-const path = /[^/]*$/.exec(url)[0];
+let path = /[^/]*$/.exec(url)[0];
 
-let product = catalog.filter(product => product.artno === path);  
-
-function getUrl(event) {
- if (!path.length) {
-    return; 
-  } else if (path.length > 0) {
-    productdetails(product);
-  }
-}
-
-function productdetails(event) {
+let product = catalog.filter(product => product.artno === artno);  
   if (product) {
     product.map((item) => {
 
