@@ -1,4 +1,5 @@
 import { catalog } from "./models/product-catalog";
+// import { delayVideoPlay } from "./video";
 import { opencart } from "./header";
 import { closecart } from "./header";
 import { fromLocalStorage } from "./localStorage";
@@ -15,13 +16,13 @@ let cartAmount = document.getElementById("cart-amount");
 let container = document.getElementById("product-container");
 
 window.onload = () => {
+  // delayVideoPlay();
   if (fromLocalStorage("cart")) {
     cart = fromLocalStorage("cart");
     cartAmount.innerHTML = "" + cart.length;
     printCart(fromLocalStorage("cart"));
   }
   print_products(catalog);
-
   document
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
