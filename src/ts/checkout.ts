@@ -220,7 +220,6 @@ function proceedPurchase() {
   customerObject["email"] = email;
   customerObject["address"] = address;
   customerObject["address2"] = address2;
-
   customerObject["zip"] = zip;
   customerObject["nameOnCard"] = nameOnCard;
   customerObject["cardNumber"] = cardNumber;
@@ -288,13 +287,13 @@ function displayThankYou() {
     </div>
     
     <div class="col-7 mx-auto mb-10 p-4 border border-r border-gray-400 rounded-xl">
-      <div class="flex mb-10">
-        <div class="col">
+      <div class="row mb-10">
+        <div class="col-lg-6 col-sm-12">
           <p><b>Firstname: </b>${customer.firstname}</p>
           <p><b>Lastname: </b>${customer.lastname}</p>
           <p><b>Email: </b>${customer.email}</p>
         </div>
-        <div class="col">
+        <div class="col-lg-6 col-sm-12">
         <p><b>Address: </b>${customer.address}</p>
         <p><b>Country: </b>Sweden</p>
         <p><b>Zip: </b>${customer.zip}</p>
