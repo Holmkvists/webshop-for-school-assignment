@@ -87,8 +87,7 @@ function print_products(ProductsObjects) {
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
         productdetails(event);
-        let theProduct = event.target;
-        event.preventDefault();
+        let product = event.target;
       });
     });
   });
@@ -98,10 +97,9 @@ function print_products(ProductsObjects) {
 let url = window.location.pathname;
 const path = /[^/]*$/.exec(url)[0];
 
-
 let product = catalog.filter(product => product.artno === path);  
 
-function getUrl() {
+function getUrl(event) {
  if (!path.length) {
     return; 
   } else if (path.length > 0) {
@@ -182,8 +180,9 @@ function productdetails(event) {
      </div> 
      `
      ;
-    //Ersätter "productContainer" med den nya divven "detailsPage"
      wrapper.replaceChild(detailsPage, productContainer);
+     console.log(item.artno, item.brand);
+     event.preventDefault();
     });
   }
   }
