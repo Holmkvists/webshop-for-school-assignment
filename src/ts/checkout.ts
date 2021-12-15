@@ -17,9 +17,6 @@ window.onload = () => {
   cartSummary(cart);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
-  document
-    .getElementById("proceed-purchase")
-    .addEventListener("click", proceedPurchase);
 };
 
 function cartSummary(cart) {
@@ -249,6 +246,8 @@ function proceedPurchase() {
         form.addEventListener(
           "submit",
           function (event) {
+            console.log(form.checkValidity());
+
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
