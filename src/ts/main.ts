@@ -4,6 +4,7 @@ import { opencart } from "./header";
 import { closecart } from "./header";
 
 let cart = [];
+let newCart = [];
 let displayProducts = catalog.slice(0);
 let sort = { key: "property", asc: true };
 let selectedBrandsFilters = [];
@@ -36,6 +37,10 @@ window.onload = () => {
   document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
   document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
   document.getElementById("allProducts").addEventListener("click", resetFilter);
+
+
+  let addSneakerBtn = document.getElementById("addSneakerBtn")
+  addEventListener("click", getSneakerFromDetails);
 };
 
 let container = document.getElementById("product-container");
@@ -102,15 +107,11 @@ function getUrl(event) {
     return; 
   } else if (path.length > 0) {
     productdetails(product);
-    checkAvailability();
   }
 }
 
-//I den nya funktionen, 
 function productdetails(event) {
-
   if (product) {
-
     product.map((item) => {
 
       let wrapper = document.getElementById("container-wrapper");
@@ -164,9 +165,8 @@ function productdetails(event) {
                </p>
             </div>
  
-
                <div class="row addSneaker mx-auto">
-               <button type="button" class="btn btn-dark addSneakerBtn">Add to cart</button>
+               <button type="button" class="btn btn-dark addSneakerBtn" data-no="${item.artno}">Add to cart</button>
                </div>
              </div>
  
@@ -183,26 +183,10 @@ function productdetails(event) {
      `
      ;
      wrapper.replaceChild(detailsPage, productContainer);
-     console.log(item.artno, item.brand);
      event.preventDefault();
     });
   }
-  }
-
-  function checkAvailability() {
-    let stockItem = document.getElementById("availability");
-
-    catalog.map((item) => {
-      if (item.instock == true)
-      {
-        stockItem.innerText = "In stock";
-      }
-      else {
-        stockItem.innerText = "Out of stock";
-      }
-    });
-  }
-
+  }  
 
 function addToCart(event) {
   let artno = event.target.getAttribute("data-value");
@@ -268,6 +252,30 @@ function notAdded(artno) {
   });
 }
 
+function getSneakerFromDetails(event) {
+  let articlenumber = event.target.getAttribute("data-no");
+  let clickedBtn = event.target;
+  let newItem = catalog.find((sneaker) => sneaker.artno === articlenumber);
+  let itemIndex = cart.length;
+
+    if (newItem && !containsObject(newItem, cart)) {
+      cart.push(newItem);
+      cart[itemIndex]["quantity"] = 1;
+    } else {
+      cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
+    }
+    toLocalstorage(cart, "cart");
+    cart.reduce((total, obj) => obj.quantity + total, 0);
+  
+    cartAmount.innerHTML = itemsInCart();
+    document.getElementById("bag").classList.add("animate__headShake");
+    setTimeout(function () {
+      document.getElementById("bag").classList.remove("animate__headShake");
+    }, 800);
+    calculatePrice();
+    }
+
+
 function printCart(cart) {
   let cartWidget = document.getElementById("cart-widget");
   cartWidget.innerHTML = "";
@@ -327,7 +335,6 @@ function removeitem(event) {
   cart = cart.filter((item) => {
     return item.artno != artno;
   });
-
   cartAmount.innerHTML = itemsInCart();
 
   toLocalstorage(cart, "cart");
