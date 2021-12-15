@@ -1,35 +1,35 @@
-/* Style the list */
+
 ul.product-nav {
   padding: 10px 16px;
   list-style: none;
 }
 
-/* Display list items side by side */
+
 ul.product-nav li {
   display: inline;
-  font-size: 18px;
+  font-size: 0.9rem;
 }
 
-/* Add a slash symbol (/) before/behind each list item */
 ul.product-nav li+li:before {
   padding: 8px;
   color: black;
   content: "/\00a0";
 }
 
-/* Add a color to all links inside the list */
 ul.product-nav li a {
   color: #696969;
   text-decoration: none;
 }
 
-/* Add a color on mouse-over */
+
 ul.product-nav li a:hover {
   color: #000;
   text-decoration: none;
 }
 
-//Mobile
+#container-wrapper {
+  margin-bottom: 20px;
+}
 
 .selected-wrapper {
   width: 100%;
@@ -69,8 +69,23 @@ ul.product-nav li a:hover {
   margin: 10px;
 }
 
+.title-container {
+  margin: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.description-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .item-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin: 5px;
 }
 
@@ -83,8 +98,23 @@ ul.product-nav li a:hover {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.modelname {
+font-size: 1.4rem;
+}
+
+.price {
+color: rgb(145, 145, 145);
+letter-spacing: 0.1em;
+font-weight: 400;
+}
+
 //Tablet
 @media screen and (min-width: 768px) {
+  
+  #container-wrapper {
+    margin-bottom: 50px;
+  }
+
   .selected-wrapper {
     width: 100%;
     display: flex;
@@ -116,9 +146,23 @@ ul.product-nav li a:hover {
     .small-img-col {
         flex-basis: 50%;
     }
+
+    .addSneaker {
+      display: flex;
+      justify-content: center;
+      margin: 10px;
+    }
+    .addSneakerBtn {
+      width: 50%;
+    }
 }
 
 @media screen and (min-width: 992px) {
+  
+  #container-wrapper {
+    margin-bottom: 50px;
+  }
+
   .filtersHeader {
     margin-top: 20px;
     padding: 0.25rem 1.5rem;
@@ -168,21 +212,29 @@ ul.product-nav li a:hover {
   }
   
   .item-title {
-    font-size: 1.3rem;
+    font-size: 1.1trem;
     margin: 5px;
   }
   
   .item-description {
-    margin: 20px;
+    margin: 10px;
+    text-align: center;
   }
   
   .productcard {
     width: 100%;
+    background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   }
   
   //Tablet
   @media screen and (min-width: 768px) {
+
+    #container-wrapper {
+      margin-bottom: 50px;
+    }
+
+
     .selected-wrapper {
       width: 100%;
       display: flex;
@@ -217,6 +269,12 @@ ul.product-nav li a:hover {
   }
   
   @media screen and (min-width: 992px) {
+    
+    #container-wrapper {
+      margin-bottom: 50px;
+    }
+
+
     #sortButton {
       font-size: 12pt;
     }

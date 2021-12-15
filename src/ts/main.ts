@@ -12,8 +12,6 @@ let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 
 window.onload = () => {
-
-
   
   if (fromLocalStorage("cart")) {
     cart = fromLocalStorage("cart");
@@ -104,6 +102,7 @@ function getUrl(event) {
     return; 
   } else if (path.length > 0) {
     productdetails(product);
+    checkAvailability();
   }
 }
 
@@ -142,7 +141,7 @@ function productdetails(event) {
                </div>
              </div>
  
- 
+        
            <div class="col-lg-6 col-md-12 col-12 mb-3">
            <h6>
            <ul class="product-nav">
@@ -152,20 +151,23 @@ function productdetails(event) {
            <li><a href="#">${item.model}</a></li>
            </ul>
            </h6>
+
+           <div class="container title-container">
+            <h4 class="modelname">${item.model}</h3>
+            <h6 class="price">Price: $${item.price}</h6>
+            </div>
  
-           <h4 class="text-uppercase h4-heading">${item.model}</h3>
-             <h6 class="price">Price: $${item.price}</h6>
-       
-           
-             <div class="addbtn">
-             <button type="button" class="btn btn-dark">Add to cart</button>
-             </div>
- 
-             <h5 class="item-title mt-4">Description</h5>
-               <p class="item-description">
+            <div class="container description-container">
+             <h5 class="item-title mt-1">Description</h5>
+               <p class="item-description mb-5">
                ${item.description}
                </p>
+            </div>
  
+
+               <div class="row addSneaker mx-auto">
+               <button type="button" class="btn btn-dark addSneakerBtn">Add to cart</button>
+               </div>
              </div>
  
            </div>
