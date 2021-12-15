@@ -140,11 +140,19 @@ footer .form-group {
   flex-wrap: wrap;
   flex-direction: column;
 }
+footer .email-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
 footer input[type=email] {
   height: 25px;
   padding: 5px;
-  width: 30%;
+  width: 70%;
   font-size: 0.7rem;
+  text-align: center;
 }
 footer label {
   font-weight: 800;
@@ -163,17 +171,12 @@ footer .submit-btn:hover {
 }
 
 @media screen and (min-width: 768px) {
-  footer .form-group {
+  .form-group {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
-  }
-  footer input[type=email] {
-    height: 25px;
-    padding: 5px;
-    width: 50%;
   }
 }
 @media screen and (min-width: 992px) {
@@ -182,26 +185,16 @@ footer .submit-btn:hover {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    flex-direction: row;
-  }
-  footer input[type=email] {
-    height: 25px;
-    padding: 5px;
-    width: 50%;
+    flex-direction: column;
   }
 }
-@media screen and (min-width: 1200px) {
-  footer .form-group {
+@media screen and (min-width: 992px) and (min-width: 1200px) {
+  .form-group {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    flex-direction: column;
-  }
-  footer input[type=email] {
-    height: 25px;
-    padding: 5px;
-    width: 20%;
+    flex-direction: row;
   }
 }
 .image {
