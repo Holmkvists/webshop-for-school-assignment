@@ -15,6 +15,7 @@ let cartAmount = document.getElementById("cart-amount");
 let container = document.getElementById("product-container");
 
 window.onload = () => {
+  
   if (fromLocalStorage("cart")) {
     cart = fromLocalStorage("cart");
     cartAmount.innerHTML = "" + cart.length;
@@ -25,6 +26,7 @@ window.onload = () => {
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
   filterOptions();
+
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
   document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
@@ -34,6 +36,9 @@ window.onload = () => {
   document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
   document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
   document.getElementById("allProducts").addEventListener("click", resetFilter);
+
+
+
 };
 
 function print_products(ProductsObjects) {
@@ -47,9 +52,8 @@ function print_products(ProductsObjects) {
             <img src="${item.imgURL}" alt="${
       item.model + " " + item.brand
     }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
-                <div class="overlay"><button data-value="${
-                  item.artno
-                }" class="view-product">View Product</button></div>
+                <div class="overlay"><a href="${item.artno}" data-value="${
+                  item.artno}" class="view-product">View Product</a></button></div>
 
             </div>
           <div class="mt-4 flex justify-between">
@@ -80,85 +84,127 @@ function print_products(ProductsObjects) {
     });
     document.querySelectorAll(".view-product").forEach((item) => {
       item.addEventListener("click", (event) => {
-        productdetail(event);
+        event.preventDefault();
+        let artno = (event.target as HTMLTextAreaElement).getAttribute(
+        "data-value"
+        );
+        productdetails(artno);
       });
     });
   });
 }
 
-function productdetail(event) {
-  //När man klickar på en bild, hämta artikelnumret och skicka användaren till den URL:en med ?artno...
-  const artno = event.target.getAttribute("data-value");
+function productdetails(artno) {
+let url = window.location.pathname;
+let path = /[^/]*$/.exec(url)[0];
 
-  //Hämtar elementen container-wrapper och product-container
-  let wrapper = document.getElementById("container-wrapper");
-  let productContainer = document.getElementById("product-container");
+let product = catalog.filter(product => product.artno === artno);  
+  if (product) {
+    product.map((item) => {
 
-  //Skapar nya divvar och tillskriver nytt innehåll (länk och bild)
-  let detailsPage = document.createElement("div");
-  detailsPage.innerHTML += `
+      let wrapper = document.getElementById("container-wrapper");
+      let productContainer = document.getElementById("product-container");
 
-  <div class="container selected-wrapper"> 
-  <div class="container selected-inner">
+      let detailsPage = document.createElement("div");
+      detailsPage.innerHTML += `
+   
+     <div class="container selected-wrapper"> 
+     <div class="container selected-inner">
+   
+     <div class="image-wrapper">
+     <div class="selected-image">
+   
+       <section class="container productcard my-3 pt-6">
+         <div class="row my-2 mx-1">
+           <div class="col-lg-5 col-md-12 col-12">
+             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
+             
+               <div class="small-img-group mb-4">
+                 <div class="small-img-col mt-2 mx-1">
+                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
+                 </div>
+ 
+                 <div class="small-img-col mt-2 mx-1">
+                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
+                 </div>
+               </div>
+             </div>
+ 
+        
+           <div class="col-lg-6 col-md-12 col-12 mb-3">
+           <h6>
+           <ul class="product-nav">
+           <li><a href="#">Shop</a></li>
+           <li><a href="#">${item.sex}</a></li>
+           <li><a href="#">${item.brand}</a></li>
+           <li><a href="#">${item.model}</a></li>
+           </ul>
+           </h6>
 
-  <div class="image-wrapper">
-  <div class="selected-image">
+           <div class="container title-container">
+            <h4 class="modelname">${item.model}</h3>
+            <h6 class="price">Price: $${item.price}</h6>
+            </div>
+ 
+            <div class="container description-container">
+             <h5 class="item-title mt-1">Description</h5>
+               <p class="item-description mb-5">
+               ${item.description}
+               </p>
+            </div>
+ 
+               <div class="row addSneaker mx-auto">
+               <button type="button" class="btn btn-dark addSneakerBtn add-to-cart" data-value="${item.artno}">Add to cart</button>
+               </div>
+             </div>
+ 
+           </div>
+ 
+         </div>
+       </section>
+ 
+     </div>
+     </div>
+   
+     </div>
+     </div> 
+     `
+     ;
+     wrapper.replaceChild(detailsPage, productContainer);
+     document.querySelectorAll(".addSneakerBtn").forEach((item) => {
+       item.addEventListener("click", (event) => {
+         addToCart(event);
+         
+       });
+     });
+     event.preventDefault();
+    });
+  }
+  }  
 
-  <h3 class="text-uppercase h3-heading">adidas Originals
-  Stan Smith Vegan</h3>
-  <img src="https://www.sneakersnstuff.com/images/269940/product_large.jpg"/>
-  </div>
 
-  <!--- Här ska produktbeskrivning ligga --->
-
-  <div class="container item-details">
-  <h4 class="item-title">Description</h4>
-  <p class="item-description">
-  Anticipated by a lot of people, vegan classics, like this adidas Stan Smith as a vegan alternative.
-  The iconic retro tennis shoe from adidas is crafted with a recycled polyester upper, using no animal products whatsoever in the creation of the product.</p>
-
-<ul class="list-unstyled detail-list">
-<li class="list-item">- Recycled polyester upper</li>
-<li class="list-item">- Embossed logo</li>
-<li class="list-item">- Rubber outsole</li>
-</ul>
-
-  </div>
-  </div>
-
-  </div>
-  </div> 
-
-  `;
-
-  //Ersätter "productContainer" med den nya divven "detailsPage"
-  wrapper.replaceChild(detailsPage, productContainer);
-
-  //Loggar ut artikelnumret - ta bort sen
-  console.log(artno);
-
-  /* Det som händer efter användaren har skickats till rätt sida.
-/Produktdatan hämtas & presenteras på skärmen*/
-}
 
 function addToCart(event) {
+  
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
   let added = document.createElement("p");
   added.classList.add("added");
+  added.classList.add("add-to-cart");
   added.innerHTML = "Added <i class='bi bi-check'></i>";
   added.setAttribute("id", artno);
   addbtn.replaceWith(added);
   let item = catalog.find((x) => x.artno === artno);
   let itemIndex = cart.length;
-
   if (!containsObject(item, cart)) {
     cart.push(item);
+    console.log(cart);
     cart[itemIndex]["quantity"] = 1;
   } else {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
-
+  
+    
   toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
@@ -187,6 +233,30 @@ function notAdded(artno) {
     addToCart(event);
   });
 }
+
+function getSneakerFromDetails(event) {
+  let articlenumber = event.target.getAttribute("data-no");
+  let clickedBtn = event.target;
+  let newItem = catalog.find((sneaker) => sneaker.artno === articlenumber);
+  let itemIndex = cart.length;
+
+    if (newItem && !containsObject(newItem, cart)) {
+      cart.push(newItem);
+      cart[itemIndex]["quantity"] = 1;
+    } else {
+      cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
+    }
+    toLocalstorage(cart, "cart");
+    cart.reduce((total, obj) => obj.quantity + total, 0);
+  
+    cartAmount.innerHTML = itemsInCart(cart);
+    document.getElementById("bag").classList.add("animate__headShake");
+    setTimeout(function () {
+      document.getElementById("bag").classList.remove("animate__headShake");
+    }, 800);
+    calculatePrice(cart);
+    }
+
 
 function printCart(cart) {
   let cartWidget = document.getElementById("cart-widget");
