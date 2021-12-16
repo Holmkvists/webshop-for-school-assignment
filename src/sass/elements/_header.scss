@@ -1,3 +1,13 @@
+.brandname {
+text-decoration: none;
+color: #000;
+
+&:hover, &:visited {
+  text-decoration: none;
+  color: #000;
+  }
+}
+
 #hamburgerButton {
   right: 70px;
 }

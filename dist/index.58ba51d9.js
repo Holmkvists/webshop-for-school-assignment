@@ -530,12 +530,12 @@ function print_products(ProductsObjects) {
             item.addEventListener("click", (event)=>{
                 event.preventDefault();
                 let artno = event.target.getAttribute("data-value");
-                productdetails(artno);
+                displayProductdetails(artno);
             });
         });
     });
 }
-function productdetails(artno) {
+function displayProductdetails(artno) {
     let url = window.location.pathname;
     let path = /[^/]*$/.exec(url)[0];
     let product1 = _productCatalog.catalog.filter((product)=>product.artno === artno
@@ -567,7 +567,7 @@ function productdetails(artno) {
                  </div>
                </div>
              </div>
- 
+
         
            <div class="col-lg-6 col-md-12 col-12 mb-3">
            <h6>
@@ -657,7 +657,7 @@ function notAdded(artno) {
         addToCart(event);
     });
 }
-function getSneakerFromDetails(event) {
+function addSneakerToCart(event) {
     let articlenumber = event.target.getAttribute("data-no");
     let clickedBtn = event.target;
     let newItem = _productCatalog.catalog.find((sneaker)=>sneaker.artno === articlenumber
@@ -961,7 +961,6 @@ const catalog = [
         imgURL2: "https://www.sneakersnstuff.com/images/314994/dm7582-100-2.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/314996/dm7582-100-1.jpg",
         instock: true,
-        numberInStock: 10,
         description: "An unusual combination of materials and a vintage look define the Nike Blazer range. The Nike Blazer's are available as low-top's and high-top's and in a variety of different colourways and patterns."
     },
     {
@@ -1026,7 +1025,7 @@ const catalog = [
         imgURL2: "https://www.sneakersnstuff.com/images/308941/product_medium.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/308943/product_medium.jpg",
         instock: true,
-        numberInStock: 8
+        description: "The adidas Futurecraft 4D returns after its original release in 2018. Dressed in Core White, the futuristic cutting-edge adidas sneaker comes with a 4D midsole and a digitally engineered construction, the low-top lightweight adidas shoe comes with a Primeknit upper for a locked-in feel and touch."
     },
     {
         artno: "Da7995-101",
@@ -1047,7 +1046,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/304586/da7995-101-5.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304588/product_small.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/304590/product_small.jpg",
-        instock: true
+        instock: true,
+        description: "The Nike Waffle One delivers vibrant colors and the soft materials draw inspiration in the vibes from your favorites among influencers on social media. The speckled shoelaces give the right discreet feel and the right kind of Swoosh style."
     },
     {
         artno: "Q46439",
@@ -1068,7 +1068,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/304856/product_medium.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/304851/product_small.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/304854/product_small.jpg",
-        instock: true
+        instock: true,
+        description: "When the adidas Ultraboost debuted in 2015, it quickly gained ground far beyond the world of running. With this version, adidas has redesigned their design with a 3D-printed midsole. The denser parts of the grid provide support and the more open parts feel more shock-absorbing. This shoe does not just look like the future. It feels that way too."
     },
     {
         artno: "Dc5331-001",
@@ -1087,9 +1088,10 @@ const catalog = [
         colors: "Beige",
         sex: "Unisex",
         imgURL: "https://www.sneakersnstuff.com/images/303686/product_medium.jpg",
-        imgURL2: "",
-        imgURL3: "",
-        instock: true
+        imgURL2: "https://www.sneakersnstuff.com/images/303691/dc5331-001-6.jpg",
+        imgURL3: "https://www.sneakersnstuff.com/images/303692/dc5331-001-7.jpg",
+        instock: true,
+        description: "The Nike Air Max Pre Day LX takes classic details of heritage Nike running into a new realm, this brings you a fast-paced look that's ready for today's world. Made with at least 20% recycled materials by weight, this wardrobe staple combines the retro track aesthetic you know best with a new Air window to help energize the look and feel. The updated rubber Waffle sole adds heritage styling, traction, and durability, inspired by heritage running shoes, the upper features a large retro Swoosh, stitched overlays with throwback looks, and a mix of materials."
     },
     {
         artno: "374921-15",
@@ -1110,7 +1112,8 @@ const catalog = [
         imgURL: "https://www.sneakersnstuff.com/images/318646/shoes-puma-1.jpg",
         imgURL2: "https://www.sneakersnstuff.com/images/317584/product_xsmall.jpg",
         imgURL3: "https://www.sneakersnstuff.com/images/317583/product_xsmall.jpg",
-        instock: true
+        instock: true,
+        description: "You might have seen the Puma Suede a bunch of times, but did it get as close as possible to the original version like this Puma Suede VTG? Introduced in 1968, this rendition comes with a lower panel, like the OG silhouette back in the days. Equipped with a red upper and white overlays, the Puma Suede is finished off by metallic gold branding."
     }, 
 ];
 
