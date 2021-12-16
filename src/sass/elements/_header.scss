@@ -1,33 +1,9 @@
-#searchbar {
-  display: none;
-  width: 175px;
-  right: 0px;
-  height: 30px;
-  border: 0;
-  border-bottom: 1px solid lightgray;
-}
-
-#searchbarButton {
-  z-index: 1;
-  background-color: white;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  border-bottom: 1px solid lightgray;
-}
-
 #hamburgerButton {
   right: 70px;
 }
 
 #hamburgerButton:focus {
   outline: none;
-}
-
-@media screen and (min-width: 576px) {
-  #searchbar {
-    width: 300px;
-  }
 }
 
 .quantity-field {
