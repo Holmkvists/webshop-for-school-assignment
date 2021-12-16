@@ -15,7 +15,6 @@ let cartAmount = document.getElementById("cart-amount");
 let container = document.getElementById("product-container");
 
 window.onload = () => {
-  
   if (fromLocalStorage("cart")) {
     cart = fromLocalStorage("cart");
     cartAmount.innerHTML = "" + cart.length;
@@ -26,7 +25,6 @@ window.onload = () => {
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
   filterOptions();
-
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
   document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
@@ -36,9 +34,6 @@ window.onload = () => {
   document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
   document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
   document.getElementById("allProducts").addEventListener("click", resetFilter);
-
-
-
 };
 
 function print_products(ProductsObjects) {
@@ -53,7 +48,8 @@ function print_products(ProductsObjects) {
       item.model + " " + item.brand
     }" class="product-img w-full h-full object-center object-cover lg:w-full lg:h-full">   
                 <div class="overlay"><a href="${item.artno}" data-value="${
-                  item.artno}" class="view-product">View Product</a></button></div>
+      item.artno
+    }" class="view-product">View Product</a></button></div>
 
             </div>
           <div class="mt-4 flex justify-between">
@@ -86,7 +82,7 @@ function print_products(ProductsObjects) {
       item.addEventListener("click", (event) => {
         event.preventDefault();
         let artno = (event.target as HTMLTextAreaElement).getAttribute(
-        "data-value"
+          "data-value"
         );
         productdetails(artno);
       });
@@ -95,13 +91,12 @@ function print_products(ProductsObjects) {
 }
 
 function productdetails(artno) {
-let url = window.location.pathname;
-let path = /[^/]*$/.exec(url)[0];
+  let url = window.location.pathname;
+  let path = /[^/]*$/.exec(url)[0];
 
-let product = catalog.filter(product => product.artno === artno);  
+  let product = catalog.filter((product) => product.artno === artno);
   if (product) {
     product.map((item) => {
-
       let wrapper = document.getElementById("container-wrapper");
       let productContainer = document.getElementById("product-container");
 
@@ -117,15 +112,21 @@ let product = catalog.filter(product => product.artno === artno);
        <section class="container productcard my-3 pt-6">
          <div class="row my-2 mx-1">
            <div class="col-lg-5 col-md-12 col-12">
-             <img class="img-fluid w-100" src="${item.imgURL}" alt="${item.model + " " + item.brand}"/>
+             <img class="img-fluid w-100" src="${item.imgURL}" alt="${
+        item.model + " " + item.brand
+      }"/>
              
                <div class="small-img-group mb-4">
                  <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL2}" alt="${item.model + " " + item.brand}"/>
+                   <img class="small-img" width="100%" src="${
+                     item.imgURL2
+                   }" alt="${item.model + " " + item.brand}"/>
                  </div>
  
                  <div class="small-img-col mt-2 mx-1">
-                   <img class="small-img" width="100%" src="${item.imgURL3}" alt="${item.model + " " + item.brand}"/>
+                   <img class="small-img" width="100%" src="${
+                     item.imgURL3
+                   }" alt="${item.model + " " + item.brand}"/>
                  </div>
                </div>
              </div>
@@ -154,7 +155,9 @@ let product = catalog.filter(product => product.artno === artno);
             </div>
  
                <div class="row addSneaker mx-auto">
-               <button type="button" class="btn btn-dark addSneakerBtn add-to-cart" data-value="${item.artno}">Add to cart</button>
+               <button type="button" class="btn btn-dark addSneakerBtn add-to-cart" data-value="${
+                 item.artno
+               }">Add to cart</button>
                </div>
              </div>
  
@@ -168,24 +171,19 @@ let product = catalog.filter(product => product.artno === artno);
    
      </div>
      </div> 
-     `
-     ;
-     wrapper.replaceChild(detailsPage, productContainer);
-     document.querySelectorAll(".addSneakerBtn").forEach((item) => {
-       item.addEventListener("click", (event) => {
-         addToCart(event);
-         
-       });
-     });
-     event.preventDefault();
+     `;
+      wrapper.replaceChild(detailsPage, productContainer);
+      document.querySelectorAll(".addSneakerBtn").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          addToCart(event);
+        });
+      });
+      event.preventDefault();
     });
   }
-  }  
-
-
+}
 
 function addToCart(event) {
-  
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
   let added = document.createElement("p");
@@ -203,8 +201,7 @@ function addToCart(event) {
   } else {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
-  
-    
+
   toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
@@ -240,23 +237,22 @@ function getSneakerFromDetails(event) {
   let newItem = catalog.find((sneaker) => sneaker.artno === articlenumber);
   let itemIndex = cart.length;
 
-    if (newItem && !containsObject(newItem, cart)) {
-      cart.push(newItem);
-      cart[itemIndex]["quantity"] = 1;
-    } else {
-      cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
-    }
-    toLocalstorage(cart, "cart");
-    cart.reduce((total, obj) => obj.quantity + total, 0);
-  
-    cartAmount.innerHTML = itemsInCart(cart);
-    document.getElementById("bag").classList.add("animate__headShake");
-    setTimeout(function () {
-      document.getElementById("bag").classList.remove("animate__headShake");
-    }, 800);
-    calculatePrice(cart);
-    }
+  if (newItem && !containsObject(newItem, cart)) {
+    cart.push(newItem);
+    cart[itemIndex]["quantity"] = 1;
+  } else {
+    cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
+  }
+  toLocalstorage(cart, "cart");
+  cart.reduce((total, obj) => obj.quantity + total, 0);
 
+  cartAmount.innerHTML = itemsInCart(cart);
+  document.getElementById("bag").classList.add("animate__headShake");
+  setTimeout(function () {
+    document.getElementById("bag").classList.remove("animate__headShake");
+  }, 800);
+  calculatePrice(cart);
+}
 
 function printCart(cart) {
   let cartWidget = document.getElementById("cart-widget");

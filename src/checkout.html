@@ -44,37 +44,14 @@
     <div id="overlay"></div>
     <nav
       class="
-        navbar navbar-expand-lg navbar-light
+        navbar navbar-expand-md navbar-light
         bg-white
         justify-content-between
+        mt-2
       "
     >
       <!-- Logo -->
-      <span class="navbar-brand m-0 h1">Webshop</span>
-      <!-- Search bar -->
-      <form
-        class="
-          form-inline
-          ml-auto ml-md-0 ml-lg-0
-          flex-nowrap
-          position-relative
-        "
-        id="searchbarContainer"
-        action="post_purchase.html"
-        method="post"
-      >
-        <input
-          class="form-control mr-sm-2 d-md-block position-absolute"
-          id="searchbar"
-          type="search"
-          role="button"
-          placeholder="Search products"
-          aria-label="Search"
-        />
-        <button class="position-absolute" type="button" id="searchbarButton">
-          <i class="bi bi-search"></i>
-        </button>
-      </form>
+      <span class="navbar-brand m-0 h1 pl-lg-5">Webshop</span>
       <!-- Hamburger menu -->
       <button
         class="navbar-toggler border-0"
@@ -89,8 +66,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Menu items -->
-      <div class="collapse navbar-collapse flex-lg-grow-0" id="toggleHamburger">
-        <ul class="navbar-nav text-right mr-3">
+      <div
+        class="collapse navbar-collapse flex-md-grow-0 mr-3"
+        id="toggleHamburger"
+      >
+        <ul class="navbar-nav text-right">
           <li>
             <a class="nav-link" href="#">Men</a>
           </li>
@@ -101,51 +81,51 @@
             <a class="nav-link" href="#">Unisex</a>
           </li>
           <li>
-            <a class="nav-link" href="#">Kids</a>
+            <a class="nav-link" href="#">About</a>
           </li>
           <li>
-            <a id="bag" class="nav-link animate__animated">
+            <a id="bag" class="nav-link animate__animated d-none">
               <i class="bi bi-cart4"></i><span id="cart-amount">0</span></a
             >
           </li>
         </ul>
+        <div id="cart" class="text-sm">
+          <div class="container my-3">
+            <div class="flex justify-between mb-5">
+              <div class="flex-initial">Bag</div>
+              <div class="flex-initial">
+                <button id="close" class="underline">Close</button>
+              </div>
+            </div>
+            <div id="cart-widget"></div>
+            <div class="flex justify-between">
+              <div class="flex-initial">
+                <p>Total</p>
+              </div>
+              <div class="flex-initial">
+                <p id="totalPrice">Price</p>
+              </div>
+            </div>
+            <div class="flex justify-center">
+              <a
+                href="checkout.html"
+                id="proceed-checkout"
+                class="
+                  bg-gray-900
+                  hover:bg-gray-700
+                  text-white
+                  font-bold
+                  py-2
+                  px-4
+                  rounded
+                "
+                >Go to checkout</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
-    <div id="cart" class="text-sm">
-      <div class="container my-3">
-        <div class="flex justify-between mb-5">
-          <div class="flex-initial">Bag</div>
-          <div class="flex-initial">
-            <button id="close" class="underline">Close</button>
-          </div>
-        </div>
-        <div id="cart-widget"></div>
-        <div class="flex justify-between">
-          <div class="flex-initial">
-            <p>Total</p>
-          </div>
-          <div class="flex-initial">
-            <p id="totalPrice">Price</p>
-          </div>
-        </div>
-        <div class="flex justify-center">
-          <a
-            href="checkout.html"
-            id="proceed-checkout"
-            class="
-              bg-gray-900
-              hover:bg-gray-700
-              text-white
-              font-bold
-              py-2
-              px-4
-              rounded
-            "
-            >Go to checkout</a
-          >
-        </div>
-      </div>
-    </div>
 
     <main>
       <div id="banner" class="bg-gray-900 text-white py-8 text-center">
