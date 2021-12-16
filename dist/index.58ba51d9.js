@@ -535,6 +535,7 @@ function print_products(ProductsObjects) {
         });
     });
 }
+//Prints out targeted product
 function displayProductdetails(artno) {
     let url = window.location.pathname;
     let path = /[^/]*$/.exec(url)[0];
@@ -657,6 +658,7 @@ function notAdded(artno) {
         addToCart(event);
     });
 }
+//Function to add to cart from the product details page
 function addSneakerToCart(event) {
     let articlenumber = event.target.getAttribute("data-no");
     let clickedBtn = event.target;
