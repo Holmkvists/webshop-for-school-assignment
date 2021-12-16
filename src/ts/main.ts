@@ -13,6 +13,7 @@ let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
 let container = document.getElementById("product-container");
+let totalPrice = document.getElementById("totalPrice");
 
 window.onload = () => {
   if (fromLocalStorage("cart")) {
@@ -309,8 +310,7 @@ function printCart(cart) {
         increaseItem(event);
       });
     });
-    document.getElementById("totalPrice").innerHTML =
-      "$" + calculatePrice(cart);
+    totalPrice.innerHTML = "$" + calculatePrice(cart);
   });
 }
 
@@ -319,6 +319,10 @@ function removeitem(event) {
   cart = cart.filter((item) => {
     return item.artno != artno;
   });
+
+  if (cart.length === 0) {
+    totalPrice.innerHTML = "$0";
+  }
 
   cartAmount.innerHTML = itemsInCart(cart);
 
@@ -569,6 +573,7 @@ function decreaseItem(e) {
 
   if (cart[itemIndex].quantity === 0) {
     removeitem(e);
+    totalPrice.innerHTML = "$0";
   }
 
   cartAmount.innerHTML = itemsInCart(cart);
