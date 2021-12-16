@@ -84,17 +84,19 @@ function print_products(ProductsObjects) {
         let artno = (event.target as HTMLTextAreaElement).getAttribute(
           "data-value"
         );
-        productdetails(artno);
+        displayProductdetails(artno);
       });
     });
   });
 }
 
-function productdetails(artno) {
+//Prints out targeted product
+function displayProductdetails(artno) {
   let url = window.location.pathname;
   let path = /[^/]*$/.exec(url)[0];
 
   let product = catalog.filter((product) => product.artno === artno);
+
   if (product) {
     product.map((item) => {
       let wrapper = document.getElementById("container-wrapper");
@@ -130,7 +132,7 @@ function productdetails(artno) {
                  </div>
                </div>
              </div>
- 
+
         
            <div class="col-lg-6 col-md-12 col-12 mb-3">
            <h6>
@@ -231,7 +233,9 @@ function notAdded(artno) {
   });
 }
 
-function getSneakerFromDetails(event) {
+
+//Function to add to cart from the product details page
+function addSneakerToCart(event) {
   let articlenumber = event.target.getAttribute("data-no");
   let clickedBtn = event.target;
   let newItem = catalog.find((sneaker) => sneaker.artno === articlenumber);
