@@ -178,17 +178,19 @@ font-weight: 400;
     font-size: 18pt;
   }
 
-  .dropdown-item[data-selected="true"] {
-    background-color: rgb(235, 235, 235);
+  .small-img-col {
+    flex-basis: 50%;
   }
+}
 
+@media screen and (min-width: 992px) {
   .selected-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  
+
   .image-wrapper {
     width: 90%;
     display: flex;
@@ -196,39 +198,39 @@ font-weight: 400;
     flex-direction: column;
     align-items: center;
   }
-  
+
   .selected-image {
     width: 100%;
     margin: 20px 0px 0px 0px;
   }
-  
+
   .item-details {
     width: 90%;
     margin: 10px;
   }
-  
+
   .h3-heading {
     font-size: 1.3rem;
     font-weight: 600;
     margin: 10px;
   }
-  
+
   .item-title {
     font-size: 1.1trem;
     margin: 5px;
   }
-  
+
   .item-description {
     margin: 10px;
     text-align: center;
   }
-  
+
   .productcard {
     width: 100%;
     background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   }
-  
+
   //Tablet
   @media screen and (min-width: 768px) {
 
@@ -243,22 +245,22 @@ font-weight: 400;
       justify-content: center;
       align-items: center;
     }
-  
+
     .item-details {
       width: 50%;
     }
-  
+
     .image-wrapper {
       width: 90%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
     }
-  
+
     .selected-image {
       width: 100%;
     }
-  
+
     .small-img-group {
       display: flex;
       justify-content: space-evenly;
@@ -280,29 +282,31 @@ font-weight: 400;
     #sortButton {
       font-size: 12pt;
     }
-  
-    #filterButton {
-      font-size: 12pt;
+
+    .small-img-col {
+      flex-basis: 50%;
     }
-  
+  }
+
+  @media screen and (min-width: 992px) {
     .selected-wrapper {
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-  
+
     .image-wrapper {
       width: 90%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
     }
-  
+
     .selected-image {
       width: 100%;
     }
-  
+
     .item-details {
       width: 70%;
     }

@@ -16,9 +16,9 @@
 }
 #bag {
   cursor: pointer !important;
-  background-color: orangered;
   border-radius: 20px;
-  color: white;
+  color: black;
+  padding: 0;
 }
 #cart {
   position: fixed;
@@ -99,6 +99,18 @@
 .quantity-field .number::selection {
   background: none;
 }
+
+// @media screen and (min-width: 576px) {
+//   #cart {
+//     width: 60%;
+//   }
+// }
+
+// @media screen and (min-width: 768px) {
+//   #cart {
+//     width: 420px;
+//   }
+// }
 
 /*
 input[type=number]::-webkit-inner-spin-button,

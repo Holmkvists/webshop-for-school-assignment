@@ -1,16 +1,18 @@
 import { catalog } from "./models/product-catalog";
-import { expandSearchbar } from "./header";
 import { opencart } from "./header";
 import { closecart } from "./header";
+import { fromLocalStorage } from "./localStorage";
+import { toLocalstorage } from "./localStorage";
+import { calculatePrice } from "./calcPrice";
 
 let cart = [];
-let newCart = [];
 let displayProducts = catalog.slice(0);
 let sort = { key: "property", asc: true };
 let selectedBrandsFilters = [];
 let selectedColorsFilters = [];
 let selectedCategoriesFilters = [];
 let cartAmount = document.getElementById("cart-amount");
+let container = document.getElementById("product-container");
 
 window.onload = () => {
   
@@ -24,10 +26,11 @@ window.onload = () => {
   document
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
-  //filterOptions();
+
   document
     .getElementById("searchbarButton")
     .addEventListener("click", expandSearchbar);
+  filterOptions();
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
   // document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
@@ -43,14 +46,11 @@ window.onload = () => {
   addEventListener("click", getSneakerFromDetails);
 };
 
-let container = document.getElementById("product-container");
-
 function print_products(ProductsObjects) {
   container.innerHTML = "";
 
   ProductsObjects.map((item) => {
     let product = `
-
         <div class="group relative">
             
             <div class="image relative w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
@@ -192,7 +192,6 @@ function addToCart(event) {
   let item = catalog.find((x) => x.artno === artno);
   let itemIndex = cart.length;
 
-  // Om produkten finns i varukorg, addera +1 i quantity
   if (!containsObject(item, cart)) {
     cart.push(item);
     cart[itemIndex]["quantity"] = 1;
@@ -203,30 +202,14 @@ function addToCart(event) {
   toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
-  cartAmount.innerHTML = itemsInCart();
+  cartAmount.innerHTML = itemsInCart(cart);
 
   document.getElementById("bag").classList.add("animate__headShake");
   setTimeout(function () {
     document.getElementById("bag").classList.remove("animate__headShake");
   }, 800);
-  calculatePrice();
-}
-
-function calculatePrice() {
-  let totalPrice = document.getElementById("totalPrice");
-  let total = 0;
-
-  if (cart.length > 0) {
-    for (let i = 0; i < cart.length; i++) {
-      let price = cart[i].price;
-      let quantity = cart[i].quantity;
-      total = total + quantity * price;
-    }
-  }
-
-  totalPrice.innerHTML = "$" + total.toString();
+  calculatePrice(cart);
   printCart(cart);
-  return total;
 }
 
 function notAdded(artno) {
@@ -320,6 +303,8 @@ function printCart(cart) {
         increaseItem(event);
       });
     });
+    document.getElementById("totalPrice").innerHTML =
+      "$" + calculatePrice(cart);
   });
 }
 
@@ -328,10 +313,11 @@ function removeitem(event) {
   cart = cart.filter((item) => {
     return item.artno != artno;
   });
-  cartAmount.innerHTML = itemsInCart();
+
+  cartAmount.innerHTML = itemsInCart(cart);
 
   toLocalstorage(cart, "cart");
-  calculatePrice();
+  calculatePrice(cart);
   printCart(cart);
   notAdded(artno);
 }
@@ -551,7 +537,6 @@ function searchProducts(e) {
       (item.brand.toLowerCase() as any).includes(searchFrase)
     );
   });
-  let app = document.getElementById("app");
   if (filteredProducts.length > 0) {
     print_products(filteredProducts);
   } else {
@@ -561,37 +546,32 @@ function searchProducts(e) {
 // Quantity
 function increaseItem(e) {
   const artno = e.target.getAttribute("data-value");
-
-  let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
 
   cart[itemIndex].quantity = cart[itemIndex].quantity + 1;
+  cartAmount.innerHTML = itemsInCart(cart);
 
-  cartAmount.innerHTML = itemsInCart();
-
-  calculatePrice();
+  calculatePrice(cart);
   printCart(cart);
   toLocalstorage(cart, "cart");
 }
 
 function decreaseItem(e) {
   const artno = e.target.getAttribute("data-value");
-  let item = cart.find((x) => x.artno === artno);
   let itemIndex = cart.findIndex((x) => x.artno === artno);
-
   cart[itemIndex].quantity = cart[itemIndex].quantity - 1;
 
   if (cart[itemIndex].quantity === 0) {
     removeitem(e);
   }
 
-  cartAmount.innerHTML = itemsInCart();
-  calculatePrice();
+  cartAmount.innerHTML = itemsInCart(cart);
+  calculatePrice(cart);
   printCart(cart);
   toLocalstorage(cart, "cart");
 }
 
-function itemsInCart() {
+function itemsInCart(cart) {
   return cart.reduce((total, obj) => obj.quantity + total, 0).toString();
 }
 

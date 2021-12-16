@@ -1,23 +1,23 @@
-#searchbarContainer {
-  width: 200px;
+#searchbar {
+  display: none;
+  width: 175px;
+  right: 0px;
+  height: 30px;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+}
 
-  #searchbar {
-    display: none;
-    width: 175px;
-    right: 0px;
-    height: 30px;
-    border-radius: 30px;
-  }
+#searchbarButton {
+  z-index: 1;
+  background-color: white;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-bottom: 1px solid lightgray;
+}
 
-  #searchbarButton {
-    z-index: 1;
-    border-radius: 30px;
-    border: solid 2px lightgrey;
-    background-color: white;
-    right: 0;
-    width: 30px;
-    height: 30px;
-  }
+#hamburgerButton {
+  right: 70px;
 }
 
 #hamburgerButton:focus {
@@ -25,18 +25,8 @@
 }
 
 @media screen and (min-width: 576px) {
-  #searchbarContainer {
+  #searchbar {
     width: 300px;
-
-    #searchbar {
-      width: 300px;
-    }
-  }
-}
-
-@media screen and (min-width: 992px) {
-  #searchbarContainer {
-    width: 400px;
   }
 }
 
