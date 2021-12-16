@@ -27,9 +27,9 @@ window.onload = () => {
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
 
-  document
-    .getElementById("searchbarButton")
-    .addEventListener("click", expandSearchbar);
+  // document
+  //   .getElementById("searchbarButton")
+  //   .addEventListener("click", expandSearchbar);
   filterOptions();
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
