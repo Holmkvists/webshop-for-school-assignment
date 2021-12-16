@@ -24,23 +24,22 @@ window.onload = () => {
   document
     .getElementById("searchbarContainer")
     .addEventListener("keyup", searchProducts);
-  //filterOptions();
+  filterOptions();
   document
     .getElementById("searchbarButton")
     .addEventListener("click", expandSearchbar);
   document.getElementById("close").addEventListener("click", closecart);
   document.getElementById("bag").addEventListener("click", opencart);
-  // document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
-  // document.getElementById("highToLow").addEventListener("click", sortHighToLow);
-  // document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
-  // document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
-  // document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
-  // document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
-  // document.getElementById("allProducts").addEventListener("click", resetFilter);
+  document.getElementById("lowToHigh").addEventListener("click", sortLowToHigh);
+  document.getElementById("highToLow").addEventListener("click", sortHighToLow);
+  document.getElementById("brandsAZ").addEventListener("click", sortBrandsAZ);
+  document.getElementById("brandsZA").addEventListener("click", sortBrandsZA);
+  document.getElementById("modelsAZ").addEventListener("click", sortModelsAZ);
+  document.getElementById("modelsZA").addEventListener("click", sortModelsZA);
+  document.getElementById("allProducts").addEventListener("click", resetFilter);
 
 
-  let addSneakerBtn = document.getElementById("addSneakerBtn")
-  addEventListener("click", getSneakerFromDetails);
+
 };
 
 let container = document.getElementById("product-container");
@@ -159,7 +158,7 @@ let product = catalog.filter(product => product.artno === artno);
             </div>
  
                <div class="row addSneaker mx-auto">
-               <button type="button" class="btn btn-dark addSneakerBtn" data-no="${item.artno}">Add to cart</button>
+               <button type="button" class="btn btn-dark addSneakerBtn add-to-cart" data-value="${item.artno}">Add to cart</button>
                </div>
              </div>
  
@@ -176,30 +175,44 @@ let product = catalog.filter(product => product.artno === artno);
      `
      ;
      wrapper.replaceChild(detailsPage, productContainer);
+     document.querySelectorAll(".addSneakerBtn").forEach((item) => {
+       item.addEventListener("click", (event) => {
+         addToCart(event);
+         
+       });
+     });
      event.preventDefault();
     });
   }
   }  
 
+
+
 function addToCart(event) {
+  
   let artno = event.target.getAttribute("data-value");
   let addbtn = event.target;
   let added = document.createElement("p");
   added.classList.add("added");
+  added.classList.add("add-to-cart");
   added.innerHTML = "Added <i class='bi bi-check'></i>";
   added.setAttribute("id", artno);
   addbtn.replaceWith(added);
   let item = catalog.find((x) => x.artno === artno);
   let itemIndex = cart.length;
-
+  
   // Om produkten finns i varukorg, addera +1 i quantity
+  
+  
   if (!containsObject(item, cart)) {
     cart.push(item);
+    console.log(cart);
     cart[itemIndex]["quantity"] = 1;
   } else {
     cart[itemIndex]["quantity"] = cart[itemIndex]["quantity"] + 1;
   }
-
+  
+    
   toLocalstorage(cart, "cart");
   cart.reduce((total, obj) => obj.quantity + total, 0);
 
