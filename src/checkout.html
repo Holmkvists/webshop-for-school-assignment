@@ -44,14 +44,13 @@
     <div id="overlay"></div>
     <nav
       class="
-        navbar navbar-expand-md navbar-light
+        navbar navbar-expand-lg navbar-light
         bg-white
         justify-content-between
-        mt-2
       "
     >
       <!-- Logo -->
-      <span class="navbar-brand m-0 h1 pl-lg-5">Webshop</span>
+      <span class="navbar-brand m-0 h1">Webshop</span>
       <!-- Hamburger menu -->
       <button
         class="navbar-toggler border-0"
@@ -66,11 +65,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Menu items -->
-      <div
-        class="collapse navbar-collapse flex-md-grow-0 mr-3"
-        id="toggleHamburger"
-      >
-        <ul class="navbar-nav text-right">
+      <div class="collapse navbar-collapse flex-lg-grow-0" id="toggleHamburger">
+        <ul class="navbar-nav text-right mr-3">
           <li>
             <a class="nav-link" href="#">Men</a>
           </li>
@@ -89,43 +85,43 @@
             >
           </li>
         </ul>
-        <div id="cart" class="text-sm">
-          <div class="container my-3">
-            <div class="flex justify-between mb-5">
-              <div class="flex-initial">Bag</div>
-              <div class="flex-initial">
-                <button id="close" class="underline">Close</button>
-              </div>
-            </div>
-            <div id="cart-widget"></div>
-            <div class="flex justify-between">
-              <div class="flex-initial">
-                <p>Total</p>
-              </div>
-              <div class="flex-initial">
-                <p id="totalPrice">Price</p>
-              </div>
-            </div>
-            <div class="flex justify-center">
-              <a
-                href="checkout.html"
-                id="proceed-checkout"
-                class="
-                  bg-gray-900
-                  hover:bg-gray-700
-                  text-white
-                  font-bold
-                  py-2
-                  px-4
-                  rounded
-                "
-                >Go to checkout</a
-              >
-            </div>
-          </div>
-        </div>
       </div>
     </nav>
+    <div id="cart" class="text-sm">
+      <div class="container my-3">
+        <div class="flex justify-between mb-5">
+          <div class="flex-initial">Bag</div>
+          <div class="flex-initial">
+            <button id="close" class="underline">Close</button>
+          </div>
+        </div>
+        <div id="cart-widget"></div>
+        <div class="flex justify-between">
+          <div class="flex-initial">
+            <p>Total</p>
+          </div>
+          <div class="flex-initial">
+            <p id="totalPrice">Price</p>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <a
+            href="checkout.html"
+            id="proceed-checkout"
+            class="
+              bg-gray-900
+              hover:bg-gray-700
+              text-white
+              font-bold
+              py-2
+              px-4
+              rounded
+            "
+            >Go to checkout</a
+          >
+        </div>
+      </div>
+    </div>
 
     <main>
       <div id="banner" class="bg-gray-900 text-white py-8 text-center">
@@ -159,7 +155,7 @@
 
         <div id="checkout-container" class="container mt-auto">
           <div class="row">
-            <div class="col-lg-6 col-sm-12">
+            <div class="col-6">
               <h4 class="mb-3 mt-5 mx-auto">Billing address</h4>
               <form id="checkout-form" class="needs-validation" novalidate="">
                 <div class="row">
@@ -413,7 +409,7 @@
             </div>
             <!-- Cart Summary -->
 
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-6">
               <h4 class="mt-5 px-3">Order Summary</h4>
               <div id="cart-summary" class="mb-3 p-2 mt-2"></div>
             </div>
