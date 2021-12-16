@@ -40,11 +40,21 @@ footer {
     flex-direction: column;
 }
 
+.email-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+}
+
 input[type="email"] {
     height: 25px;
     padding: 5px;
-    width: 30%;
+    width: 70%;
     font-size: 0.7rem;
+    text-align: center;
     }
 
     label {
@@ -66,12 +76,8 @@ input[type="email"] {
 }  
 }
 
-
-
-
 //Tablet
 @media screen and (min-width: 768px) { 
-footer {
     .form-group {
         display: flex;
         justify-content: center;
@@ -79,13 +85,6 @@ footer {
         flex-wrap: wrap;
         flex-direction: row;
     }
-
-    input[type="email"] {
-        height: 25px;
-        padding: 5px;
-        width: 50%;
-    }
-}
 }
 
 //Large Desktop
@@ -96,32 +95,19 @@ footer {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    flex-direction: row;
-    }
-        
-    input[type="email"] {
-    height: 25px;
-    padding: 5px;
-    width: 50%;
+    flex-direction: column;
     }
 }  
-}
 
 //XL Desktop
 @media screen and (min-width: 1200px) { 
-    footer {
+
         .form-group {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        flex-direction: column;
-    }
-
-    input[type="email"] {
-        height: 25px;
-        padding: 5px;
-        width: 20%;
+        flex-direction: row;
         }
-}
+    }
 }
