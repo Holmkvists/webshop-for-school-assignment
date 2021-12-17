@@ -1157,25 +1157,10 @@ exports.export = function(dest, destName, get) {
 },{}],"7gBgG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "expandSearchbar", ()=>expandSearchbar
+parcelHelpers.export(exports, "opencart", ()=>opencart
 );
 parcelHelpers.export(exports, "closecart", ()=>closecart
 );
-parcelHelpers.export(exports, "opencart", ()=>opencart
-);
-function expandSearchbar() {
-    let searchbar = document.getElementById("searchbar");
-    if (searchbar.style.display === "block") searchbar.style.display = "none";
-    else searchbar.style.display = "block";
-}
-function closecart() {
-    let overlay = document.getElementById("overlay");
-    let widget = document.getElementById("cart");
-    window.setTimeout(function() {
-        widget.style.transform = "translate(0px)";
-    }, 0);
-    overlay.style.display = "none";
-}
 function opencart() {
     let overlay = document.getElementById("overlay");
     let widget = document.getElementById("cart");
@@ -1189,6 +1174,14 @@ function opencart() {
         widget.style.transform = "translate(-420px)";
     }, 0);
     overlay.addEventListener("click", closecart);
+}
+function closecart() {
+    let overlay = document.getElementById("overlay");
+    let widget = document.getElementById("cart");
+    window.setTimeout(function() {
+        widget.style.transform = "translate(0px)";
+    }, 0);
+    overlay.style.display = "none";
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"btSVi":[function(require,module,exports) {
