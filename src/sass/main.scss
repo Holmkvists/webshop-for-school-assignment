@@ -1,7 +1,11 @@
-@import "./fonts";
-@import "./mixins";
 @import "./variables";
 
 // Components
 @import "./elements/header";
+@import "./elements/video";
+@import "./elements/sort&filter";
+@import "./elements/searchbar";
+@import "./elements/cart";
 @import "./elements/footer";
+@import "./elements/product-catalog";
+@import "./elements/productdetails";

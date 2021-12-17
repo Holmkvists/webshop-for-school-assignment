@@ -1,0 +1,16 @@
+#filterButton i {
+  font-size: 18pt;
+}
+
+#allProducts {
+  padding: 4px 39px;
+}
+
+.filtersHeader {
+  margin-top: 8px;
+  padding: 0.25rem 1.5rem;
+}
+
+.dropdown-item[data-selected="true"] {
+  background-color: rgb(235, 235, 235);
+}

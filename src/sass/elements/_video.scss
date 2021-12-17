@@ -1,0 +1,32 @@
+#showcase {
+  height: auto;
+}
+
+#videoTextContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: text-exchange 20s infinite;
+  background-color: rgba(255, 255, 255, 0.089);
+}
+
+@keyframes text-exchange {
+  1% {
+    background-image: none;
+    background-color: transparent;
+  }
+  25% {
+    background-image: url(/assets/design-street-sports.png);
+    background-size: contain;
+  }
+  50% {
+    background-image: none;
+    background-color: transparent;
+  }
+  75% {
+    background-image: url(/assets/spring-summer-drop.png);
+    background-size: contain;
+  }
+}
