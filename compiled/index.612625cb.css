@@ -89,7 +89,7 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: transparent;
   }
   25% {
-    background-image: url(../assets/design-street-sports.png);
+    background-image: url(./assets/design-street-sports.png);
     background-size: contain;
   }
   50% {
@@ -97,7 +97,7 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: transparent;
   }
   75% {
-    background-image: url(../assets/spring-summer-drop.png);
+    background-image: url(./assets/spring-summer-drop.png);
     background-size: contain;
   }
 }
